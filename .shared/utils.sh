@@ -6,13 +6,40 @@ ARTIFACTORY_URL='http://localhost:8081/artifactory'
 ARTIFACTORY_USERNAME="admin"
 ARTIFACTORY_PASSWORD="password"
 
-REPO_NAME="artifactory_katas-$USERNAME"
+LOGFILE=$(pwd)/$(dirname $BASH_SOURCE)"/log.txt"
+
+GRADLE_REPO1="$USERNAME-generic-gradle-1"
+GRADLE_REPO2="$USERNAME-generic-gradle-2"
+
+CUSTOM_REPO1="$USERNAME-custom-layout-repo"
+
+VIRTUAL_REPO1="$USERNAME-virtual-1"
+VIRTUAL_REPO2="$USERNAME-virtual-2"
+
 BASE64=$(echo -n "$ARTIFACTORY_USERNAME:$ARTIFACTORY_PASSWORD" | base64)
 AUTH_HEADER="Authorization: Basic $BASE64"
-echo $AUTH_HEADER
-
 DUCK_PATH=$(pwd)/$(dirname $BASH_SOURCE)"/Duck.jpg"
-echo $DUCK_PATH
+FOX_PATH=$(pwd)/$(dirname $BASH_SOURCE)"/Fox.jpg"
+FROG_PATH=$(pwd)/$(dirname $BASH_SOURCE)"/Frog.jpg"
+MOOSE_PATH=$(pwd)/$(dirname $BASH_SOURCE)"/Moose.jpg"
+SQUIRREL_PATH=$(pwd)/$(dirname $BASH_SOURCE)"/Squirrel.jpg"
+
+initkata() {
+    echo "[KATA] Cleaning up old exercise folder..."
+    rm -rf exercise/
+
+    echo "[KATA] Cleaning up old repositories on Artifactory..."
+    rest_delete_repository $GRADLE_REPO1 &>> $LOGFILE
+    rest_delete_repository $GRADLE_REPO2 &>> $LOGFILE
+    rest_delete_repository $CUSTOM_REPO1 &>> $LOGFILE
+    rest_delete_repository $VIRTUAL_REPO1 &>> $LOGFILE
+    rest_delete_repository $VIRTUAL_REPO2 &>> $LOGFILE
+
+    echo "[KATA] Initializing new exercise folder..."
+    mkdir exercise
+    cd exercise
+
+}
 
 #Runs a generic POST query
 #$1 URI (example: "/api/search/aql")

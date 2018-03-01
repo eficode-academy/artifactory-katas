@@ -1,0 +1,143 @@
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100    90    0    90    0     0     90      0 --:--:-- --:--:-- --:--:--   149
+HTTP/1.1 200 OK
+Server: Artifactory/5.8.4
+X-Artifactory-Id: f2b3ec40e01d4e9a:61463952:161e0ce5e82:-8000
+Content-Type: text/plain
+Transfer-Encoding: chunked
+Date: Thu, 01 Mar 2018 09:07:02 GMT
+
+Repository katas-mim-generic-gradle-1 and all its content have been removed successfully.
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100    90    0    90    0     0     90      0 --:--:-- --:--:-- --:--:--   443100    90    0    90    0     0     90      0 --:--:-- --:--:-- --:--:--   441
+HTTP/1.1 200 OK
+Server: Artifactory/5.8.4
+X-Artifactory-Id: f2b3ec40e01d4e9a:61463952:161e0ce5e82:-8000
+Content-Type: text/plain
+Transfer-Encoding: chunked
+Date: Thu, 01 Mar 2018 09:07:02 GMT
+
+Repository katas-mim-generic-gradle-2 and all its content have been removed successfully.
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100   113    0   113    0     0    113      0 --:--:-- --:--:-- --:--:--  9416
+HTTP/1.1 404 Not Found
+Server: Artifactory/5.8.4
+X-Artifactory-Id: f2b3ec40e01d4e9a:61463952:161e0ce5e82:-8000
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Thu, 01 Mar 2018 09:07:02 GMT
+
+{
+  "errors" : [ {
+    "status" : 404,
+    "message" : "Repository katas-mim-custom-layoutdoes not exist"
+  } ]
+}  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100   109    0   109    0     0    109      0 --:--:-- --:--:-- --:--:-- 13625
+HTTP/1.1 404 Not Found
+Server: Artifactory/5.8.4
+X-Artifactory-Id: f2b3ec40e01d4e9a:61463952:161e0ce5e82:-8000
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Thu, 01 Mar 2018 09:07:02 GMT
+
+{
+  "errors" : [ {
+    "status" : 404,
+    "message" : "Repository katas-mim-virtual-1does not exist"
+  } ]
+}  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100   109    0   109    0     0    109      0 --:--:-- --:--:-- --:--:--  9083
+HTTP/1.1 404 Not Found
+Server: Artifactory/5.8.4
+X-Artifactory-Id: f2b3ec40e01d4e9a:61463952:161e0ce5e82:-8000
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Thu, 01 Mar 2018 09:07:02 GMT
+
+{
+  "errors" : [ {
+    "status" : 404,
+    "message" : "Repository katas-mim-virtual-2does not exist"
+  } ]
+}  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100   116    0   116    0     0    116      0 --:--:-- --:--:-- --:--:--  1966
+HTTP/1.1 404 Not Found
+Server: Artifactory/5.8.4
+X-Artifactory-Id: f2b3ec40e01d4e9a:61463952:161e0ce5e82:-8000
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Thu, 01 Mar 2018 11:16:03 GMT
+
+{
+  "errors" : [ {
+    "status" : 404,
+    "message" : "Repository katas-mim-generic-gradle-1does not exist"
+  } ]
+}  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100   116    0   116    0     0    116      0 --:--:-- --:--:-- --:--:-- 38666
+HTTP/1.1 404 Not Found
+Server: Artifactory/5.8.4
+X-Artifactory-Id: f2b3ec40e01d4e9a:61463952:161e0ce5e82:-8000
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Thu, 01 Mar 2018 11:16:03 GMT
+
+{
+  "errors" : [ {
+    "status" : 404,
+    "message" : "Repository katas-mim-generic-gradle-2does not exist"
+  } ]
+}  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100   118    0   118    0     0    118      0 --:--:-- --:--:-- --:--:-- 23600
+HTTP/1.1 404 Not Found
+Server: Artifactory/5.8.4
+X-Artifactory-Id: f2b3ec40e01d4e9a:61463952:161e0ce5e82:-8000
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Thu, 01 Mar 2018 11:16:03 GMT
+
+{
+  "errors" : [ {
+    "status" : 404,
+    "message" : "Repository katas-mim-custom-layout-repodoes not exist"
+  } ]
+}  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100   109    0   109    0     0    109      0 --:--:-- --:--:-- --:--:-- 13625
+HTTP/1.1 404 Not Found
+Server: Artifactory/5.8.4
+X-Artifactory-Id: f2b3ec40e01d4e9a:61463952:161e0ce5e82:-8000
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Thu, 01 Mar 2018 11:16:03 GMT
+
+{
+  "errors" : [ {
+    "status" : 404,
+    "message" : "Repository katas-mim-virtual-1does not exist"
+  } ]
+}  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100   109    0   109    0     0    109      0 --:--:-- --:--:-- --:--:-- 36333
+HTTP/1.1 404 Not Found
+Server: Artifactory/5.8.4
+X-Artifactory-Id: f2b3ec40e01d4e9a:61463952:161e0ce5e82:-8000
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Thu, 01 Mar 2018 11:16:03 GMT
+
+{
+  "errors" : [ {
+    "status" : 404,
+    "message" : "Repository katas-mim-virtual-2does not exist"
+  } ]
+}
