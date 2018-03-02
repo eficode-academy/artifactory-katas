@@ -70,3 +70,5 @@ services:
       - 8080:8080
     links:
       - nginx
+    volumes:
+      - /data/jenkins_artifactory:/var/jenkins_home
