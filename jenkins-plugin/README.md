@@ -2,6 +2,13 @@
 ## Creating an Artifactory Server Instance
  Manage | Configure System.
 
+* Build
+* Spec
+    * Upload
+    * Download
+    * properties
+* Promotion
+
 ```groovy
 node {
      def buildInfo = Artifactory.newBuildInfo()
