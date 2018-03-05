@@ -22,6 +22,9 @@ node {
     stage('Upload') {
         //Upload the artifact to Artifactory
     }
+    stage('Download') {
+    deleteDir() //Deletes the entire workspace, so we rely 100% on artifactory
+    }
 
     stage ('promote'){
         // Promote the build to the next level
@@ -41,7 +44,7 @@ File Specs can be used to specify the details of files you want to upload or dow
 
 > Hint: The filespec has a lot of options you can work with. For more in depth information, consult the [web docs](https://www.jfrog.com/confluence/display/RTF/Using+File+Specs).
 
-```
+```json
 def uploadSpec = """{
   "files": [
     {
@@ -74,6 +77,37 @@ In order for us to upload a file, we need to define two things; `pattern` and `t
 
 ### Download the artifact
 
+If we need to download artifacts, we can use File Specs again:
+
+```json
+{
+  "files": [
+    {
+      "pattern" or "aql": "[Mandatory]",
+      "target": "[Optional, Default: ./]",
+      "props": "[Optional]",
+      "recursive": "[Optional, Default: true]",
+      "flat": "[Optional, Default: false]",
+      "build": "[Optional]",
+      "explode": "[Optional, Default: false]",
+      "excludePatterns": ["[Optional]"]
+    }
+  ]
+}
+```
+
+There are two key differences to notice
+
+* You can use `aql` to search for artifacts as well as the normal pattern based search.
+* The `props` attribute is no longer setting properties, but only downloading the ones where the given property is set.
+
+**tasks:**
+
+* download the file you just made
+* make a `sh : "ls"` command in the pipeline to see that a folder is made
+* use the `flat` property to download the file to the root of the workspace, ignoring the repository folder structure.
+
+>hint: you can both make a search on the specific layout, or use the `@` notation to search for build number and name 
 
 ### Promotion
 
@@ -87,10 +121,9 @@ In order for us to upload a file, we need to define two things; `pattern` and `t
 ### Resulting pipeline
 ```groovy
 node {
-    cleanWs()
-    def buildInfo = Artifactory.newBuildInfo()
-    buildInfo.env.capture = true
-    def server = Artifactory.newServer url: 'http://nginx/artifactory', username: 'admin', password: 'lkvmxxcv'
+     def buildInfo = Artifactory.newBuildInfo()
+     buildInfo.env.capture = true
+     def server = Artifactory.newServer url: 'http://ec2-18-197-159-60.eu-central-1.compute.amazonaws.com:8081/artifactory', username: 'admin', password: 'orange'
     stage('Preparation') { // for display purposes
         // Get some code from a GitHub repository
     }
@@ -124,7 +157,7 @@ node {
             }
         ]
     }"""
-    server.download spec: downloadSpec, buildInfo: buildInfo
+server.download spec: downloadSpec, buildInfo: buildInfo
     }
 
     stage ('promote'){
