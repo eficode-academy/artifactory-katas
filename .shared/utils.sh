@@ -1,23 +1,8 @@
 #!/bin/bash
 
-#Stuff for user to fill out
-USERNAME="mim"
-ARTIFACTORY_URL='http://localhost:8081/artifactory'
-ARTIFACTORY_USERNAME="admin"
-ARTIFACTORY_PASSWORD="password"
-
+CONFIG=$(pwd)/$(dirname $BASH_SOURCE)"/config.txt"
 LOGFILE=$(pwd)/$(dirname $BASH_SOURCE)"/log.txt"
 
-GRADLE_REPO1="$USERNAME-generic-gradle-1"
-GRADLE_REPO2="$USERNAME-generic-gradle-2"
-
-CUSTOM_REPO1="$USERNAME-custom-layout-repo"
-
-VIRTUAL_REPO1="$USERNAME-virtual-1"
-VIRTUAL_REPO2="$USERNAME-virtual-2"
-
-BASE64=$(echo -n "$ARTIFACTORY_USERNAME:$ARTIFACTORY_PASSWORD" | base64)
-AUTH_HEADER="Authorization: Basic $BASE64"
 DUCK_PATH=$(pwd)/$(dirname $BASH_SOURCE)"/Duck.jpg"
 FOX_PATH=$(pwd)/$(dirname $BASH_SOURCE)"/Fox.jpg"
 FROG_PATH=$(pwd)/$(dirname $BASH_SOURCE)"/Frog.jpg"
@@ -25,6 +10,23 @@ MOOSE_PATH=$(pwd)/$(dirname $BASH_SOURCE)"/Moose.jpg"
 SQUIRREL_PATH=$(pwd)/$(dirname $BASH_SOURCE)"/Squirrel.jpg"
 
 initkata() {
+    source $CONFIG
+    if [ -z "$KATA_USERNAME" ] || [ -z "$ARTIFACTORY_URL" ] || [ -z "$ARTIFACTORY_USERNAME" ] || [ -z "$ARTIFACTORY_PASSWORD" ]; then
+        echo "Configuration not found. Creating new config file..."
+        echo ""
+        create_config
+        source $CONFIG
+    fi
+
+    GRADLE_REPO1="$KATA_USERNAME-generic-gradle-1"
+    GRADLE_REPO2="$KATA_USERNAME-generic-gradle-2"
+    CUSTOM_REPO1="$KATA_USERNAME-custom-layout-repo"
+    VIRTUAL_REPO1="$KATA_USERNAME-virtual-1"
+    VIRTUAL_REPO2="$KATA_USERNAME-virtual-2"
+
+    BASE64=$(echo -n "$ARTIFACTORY_USERNAME:$ARTIFACTORY_PASSWORD" | base64)
+    AUTH_HEADER="Authorization: Basic $BASE64"
+
     echo "[KATA] Cleaning up old exercise folder..."
     rm -rf exercise/
 
@@ -38,7 +40,31 @@ initkata() {
     echo "[KATA] Initializing new exercise folder..."
     mkdir exercise
     cd exercise
+}
 
+create_config() {
+    rm -f $CONFIG
+
+    echo "Please enter your Artifactory URL: "
+    read INPUT_ARTIFACTORY_URL
+    echo ""
+
+    echo "Please enter your Artifactory username (for authentication): "
+    read INPUT_ARTIFACTORY_USERNAME
+    echo ""
+
+    echo "Please enter your Artifactory password (for authentication): "
+    read -s INPUT_ARTIFACTORY_PASSWORD
+    echo ""
+
+    echo "Please enter your unique kata username (used for naming your repositories): "
+    read INPUT_KATA_USERNAME
+    echo ""
+
+    echo "ARTIFACTORY_URL=$INPUT_ARTIFACTORY_URL" >> $CONFIG
+    echo "ARTIFACTORY_USERNAME=$INPUT_ARTIFACTORY_USERNAME" >> $CONFIG
+    echo "ARTIFACTORY_PASSWORD=$INPUT_ARTIFACTORY_PASSWORD" >> $CONFIG
+    echo "KATA_USERNAME=$INPUT_KATA_USERNAME" >> $CONFIG
 }
 
 #Runs a generic POST query
