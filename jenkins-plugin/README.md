@@ -127,12 +127,38 @@ There are two key differences to notice:
 
 ### Promotion
 
+As your build progresses through the pipeline, it 
+
+```groovy
+def promotionConfig = [
+    // Mandatory parameters
+    'buildName'          : buildInfo.name,
+    'buildNumber'        : buildInfo.number,
+    'targetRepo'         : 'libs-prod-ready-local',
+ 
+    // Optional parameters
+    'comment'            : 'this is the promotion comment',
+    'sourceRepo'         : 'libs-staging-local',
+    'status'             : 'Released',
+    'includeDependencies': true,
+    'copy'               : true,
+    // 'failFast' is true by default.
+    // Set it to false, if you don't want the promotion to abort upon receiving the first error.
+    'failFast'           : true
+] 
+// Promote build
+server.promote promotionConfig
+```
 * Promotion
 * downloads, test and upload.
 
 ### Properties
 
 * properties
+
+### Best practices
+
+* I have multiple stages that I upload things from, but I can only
 
 ### Resulting pipeline
 ```groovy
