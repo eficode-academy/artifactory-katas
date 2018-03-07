@@ -1,14 +1,18 @@
 # Create Artifactory repositories and upload files
 Run `setup.sh` and note the names of the repositories. These are the names you should use in the next step
+# **The names of your repositories are given when you run `setup.sh`**. Do not invent your own names.
 
 ## Create repositories through the UI
 
 ### Generic gradle
-1. Make two generic gradle repositories, calling them ``
+1. Make two generic gradle repositories. These should have the Package Type `Gradle` and Repository Layout `gradle-default`.
 
 ### Custom layout
-1. Make a custom layout. It can be based on the default gradle layout `[org]/[module]/[baseRev](-[folderItegRev])/[module]-[baseRev](-[fileItegRev])(-[classifier]).[ext]` with some minor changes, like moving the version number to the end of the filename.
-1. Make a custom gradle repository using the layout you just created.
+1. Make a custom layout.
+It can be based on the default gradle layout `[org]/[module]/[baseRev](-[folderItegRev])/[module]-[baseRev](-[fileItegRev])(-[classifier]).[ext]` with some minor changes, like moving the version number to the end of the filename.
+For Folder Integration Revision RegExp, you can use the Maven default of `SNAPSHOT`.
+For File Integration Revision RegExp, you can use the Maven default of `SNAPSHOT|(?:(?:[0-9]{8}.[0-9]{6})-(?:[0-9]+))`
+1. Make a custom gradle repository using the layout you just created. The Package Type should be `Gradle` and the Repository Layout should be your custom layout
 
 ### Virtual repositories
 1. Make a virtual repository that covers the 2 generic gradle repositories
