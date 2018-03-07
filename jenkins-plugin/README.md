@@ -14,6 +14,7 @@ node {
      def server = Artifactory.newServer url: 'http://nginx/artifactory', username: 'admin', password: 'lkvmxxcv'
     stage('Preparation') { // for display purposes
         // Get some code from a GitHub repository
+                // Step 1 goes here.....
     }
     stage('Build') {
         // "build" some software
@@ -35,17 +36,18 @@ node {
 
 This is our baseline.
 
-> Hint: we set the credentials and url of the Artifactory server directly in the jenkins file here which are not considered best practice. Consult the [web docs](https://www.jfrog.com/confluence/display/RTF/Working+With+Pipeline+Jobs+in+Jenkins) for better ways of creating the artifactory connection.
+> Note: we set the credentials and url of the Artifactory server directly in the jenkins file here which are not considered best practice. Consult the [web docs](https://www.jfrog.com/confluence/display/RTF/Working+With+Pipeline+Jobs+in+Jenkins) for better ways of creating the artifactory connection.
 
 
 ### Upload the artifact
 
-File Specs can be used to specify the details of files you want to upload or download to or from Artifactory.
+File Specs are JSON objects that are used to specify the details of files you want to upload or download to or from Artifactory. They consist of a `pattern` and a `target`, and a number of optional properties can be added to them.
 
-> Hint: The filespec has a lot of options you can work with. For more in depth information, consult the [web docs](https://www.jfrog.com/confluence/display/RTF/Using+File+Specs).
+> Note: The filespec has a lot of options you can work with. For more in depth information, consult the [web docs](https://www.jfrog.com/confluence/display/RTF/Using+File+Specs).
 
+This is the basic structure of an upload spec:
 ```json
-def uploadSpec = """{
+{
   "files": [
     {
       "pattern": "[Mandatory]",
@@ -58,14 +60,28 @@ def uploadSpec = """{
       "excludePatterns": ["[Optional]"]
     }
   ]
-}"""
+}
 ```
 
-You upload the specified files with a `server.upload spec: uploadSpec, buildInfo: buildInfo`
+In a Jenkins pipeline, you can define an upload spec as a multi-line string:
+```groovy
+def uploadSpec = """{
+  "files": [
+    {
+      "pattern": "yourPatternGoesHere",
+      "target": "yourTargetGoesHere"
+    }
+  ]
+}"""
+```
+Once you have your upload spec, you can trigger the upload within the pipeline:
+```groovy
+server.upload spec: uploadSpec, buildInfo: buildInfo
+```
 
 In order for us to upload a file, we need to define two things; `pattern` and `target`
 
-* `pattern` Specifies the local file system path to artifacts which should be uploaded to Artifactory. You can specify multiple artifacts by using wildcards or a regular expression as designated by the regexp property. If you use a regexp, you need to escape any reserved characters (such as ".", "?", etc.) used in the expression using a backslash "\".
+* `pattern` Specifies the local file system path to artifacts which should be uploaded to Artifactory. You can specify multiple artifacts by using wildcards or a regular expression as designated by the regexp property. If you use a regexp, you need to escape any reserved characters (such as ".", "?", etc.) used in the expression using a backslash "\\".
 * `target` Specifies the target path in Artifactory in the following format: [repository_name]/[repository_path]
 
 **tasks:**
@@ -96,18 +112,18 @@ If we need to download artifacts, we can use File Specs again:
 }
 ```
 
-There are two key differences to notice
+There are two key differences to notice:
 
 * You can use `aql` to search for artifacts as well as the normal pattern based search.
-* The `props` attribute is no longer setting properties, but only downloading the ones where the given property is set.
+* The `props` attribute is no longer used for setting properties, but as a filter for only downloading the ones where the given property is set.
 
 **tasks:**
 
-* download the file you just made
-* make a `sh : "ls"` command in the pipeline to see that a folder is made
+* Modify your pipeline so it downloads the file you just uploaded
+* check within the pipeline that a folder is made. You could for instance use `sh : "ls"`
 * use the `flat` property to download the file to the root of the workspace, ignoring the repository folder structure.
 
->hint: you can both make a search on the specific layout, or use the `@` notation to search for build number and name 
+>hint: you can both make a search on the specific layout, or use the `@` notation to search for build number and name (details can be found [here](https://www.jfrog.com/confluence/display/RTF/Artifactory+Query+Language#ArtifactoryQueryLanguage-ConstructingSearchCriteria))
 
 ### Promotion
 
