@@ -20,6 +20,7 @@ initkata() {
 
     GRADLE_REPO1="$KATA_USERNAME-generic-gradle-1"
     GRADLE_REPO2="$KATA_USERNAME-generic-gradle-2"
+    GRADLE_REPO3="$KATA_USERNAME-generic-gradle-3"
     CUSTOM_REPO1="$KATA_USERNAME-custom-layout-repo"
     VIRTUAL_REPO1="$KATA_USERNAME-virtual-1"
     VIRTUAL_REPO2="$KATA_USERNAME-virtual-2"
@@ -33,6 +34,7 @@ initkata() {
     echo "[KATA] Cleaning up old repositories on Artifactory..."
     rest_delete_repository $GRADLE_REPO1 &>> $LOGFILE
     rest_delete_repository $GRADLE_REPO2 &>> $LOGFILE
+    rest_delete_repository $GRADLE_REPO3 &>> $LOGFILE
     rest_delete_repository $CUSTOM_REPO1 &>> $LOGFILE
     rest_delete_repository $VIRTUAL_REPO1 &>> $LOGFILE
     rest_delete_repository $VIRTUAL_REPO2 &>> $LOGFILE
