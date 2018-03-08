@@ -25,6 +25,7 @@ node {
     }
     stage('Download') {
     deleteDir() //Deletes the entire workspace, so we rely 100% on artifactory
+    //Insert filespec for downloading the artifact from Artifactory again
     }
 
     stage ('promote'){
@@ -37,7 +38,6 @@ node {
 This is our baseline.
 
 > Note: we set the credentials and url of the Artifactory server directly in the jenkins file here which are not considered best practice. Consult the [web docs](https://www.jfrog.com/confluence/display/RTF/Working+With+Pipeline+Jobs+in+Jenkins) for better ways of creating the artifactory connection.
-
 
 ### Upload the artifact
 
@@ -52,7 +52,7 @@ This is the basic structure of an upload spec:
     {
       "pattern": "[Mandatory]",
       "target": "[Mandatory]",
-      "props": "[Optional]",
+      "props": "[Optional]", // Properties that will be set to all artifacts uploaded to artifactory
       "recursive": "[Optional, Default: 'true']",
       "flat" : "[Optional, Default: 'true']",
       "regexp": "[Optional, Default: 'false']",
@@ -74,7 +74,9 @@ def uploadSpec = """{
   ]
 }"""
 ```
+
 Once you have your upload spec, you can trigger the upload within the pipeline:
+
 ```groovy
 server.upload spec: uploadSpec, buildInfo: buildInfo
 ```
@@ -127,21 +129,23 @@ There are two key differences to notice:
 
 ### Promotion
 
-As your build progresses through the pipeline, it 
+As your build progresses through the pipeline, your artifacts gets promoted to a higher maturity repository.
+
+Promotion has a different JSON structure than uploading and downloading. Here you can see an example of a promotion structure:
 
 ```groovy
 def promotionConfig = [
     // Mandatory parameters
     'buildName'          : buildInfo.name,
     'buildNumber'        : buildInfo.number,
-    'targetRepo'         : 'libs-prod-ready-local',
- 
+    'targetRepo'         : '', //name of the repo to promote the artifacts to
+
     // Optional parameters
-    'comment'            : 'this is the promotion comment',
-    'sourceRepo'         : 'libs-staging-local',
-    'status'             : 'Released',
-    'includeDependencies': true,
-    'copy'               : true,
+    'comment'            : '', //Comment that will be seen on the build entity
+    'sourceRepo'         : '', //name of the repo to promote the artifacts from
+    'status'             : '', //Denotion of maturity level for the build.
+    'includeDependencies': true, // If your artifact has any dependencies, should they be promoted as well?
+    'copy'               : true, // Should the artifacts be moved or copied when promoting from one repo to another.
     // 'failFast' is true by default.
     // Set it to false, if you don't want the promotion to abort upon receiving the first error.
     'failFast'           : true
@@ -149,8 +153,17 @@ def promotionConfig = [
 // Promote build
 server.promote promotionConfig
 ```
-* Promotion
-* downloads, test and upload.
+
+**tasks:**
+
+* In the `promote` stage, make a promotion config that copies the artifacts from `-generic-gradle-1` to `-generic-gradle-2`.
+* Execute the pipeline to check that the artifacts gets copied over.
+* Make a new stage `interactive promote` 
+* In that stage make a promotionConfig that promotes the artifacts from `-generic-gradle-2` to `-generic-gradle-3`.
+* Instead of making an automated promotion replace `server.promote promotionConfig` with `Artifactory.addInteractivePromotion server: server, promotionConfig: promotionConfig` to make an interactive promotion.
+* Observe in Artifactory that `-generic-gradle-2` has the artifact, and `-generic-gradle-3` does not yet
+* Go back into the jenkins Ui and click "promote" to promote the artifact.
+* Observe in Artifactory that `-generic-gradle-3` has the artifact now as well.
 
 ### Properties
 
@@ -159,13 +172,16 @@ server.promote promotionConfig
 ### Best practices
 
 * I have multiple stages that I upload things from, but I can only
+* Should I move or copy my artifacts when i promote?
 
 ### Resulting pipeline
+
 ```groovy
 node {
      def buildInfo = Artifactory.newBuildInfo()
      buildInfo.env.capture = true
-     def server = Artifactory.newServer url: 'http://ec2-18-197-159-60.eu-central-1.compute.amazonaws.com:8081/artifactory', username: 'admin', password: 'orange'
+     buildInfo.retention maxBuilds: 2, deleteBuildArtifacts: true
+     def server = Artifactory.newServer url: 'http://ec2-18-197-71-5.eu-central-1.compute.amazonaws.com:8081/artifactory', username: 'admin', password: 'orange'
     stage('Preparation') { // for display purposes
         // Get some code from a GitHub repository
     }
@@ -182,6 +198,8 @@ node {
             {
            "pattern": "build.txt",
             "target": "sal-generic-gradle-1/org/module/1.${buildNumber}/module-1.${buildNumber}.txt"
+            
+                , "props": "hej=hej"
             }
             ]
             }"""
@@ -193,13 +211,21 @@ node {
     stage('Download') {
     deleteDir() //Deletes the entire workspace, so we rely 100% on artifactory
     def downloadSpec= """{
-        "files": [
-            {
-            "pattern":"sal-generic-gradle-1/org/module/*/*.txt"
-            }
-        ]
-    }"""
+  "files": [
+    {
+     "aql": {
+        "items.find":{
+                "repo": "sal-generic-gradle-1",
+                "@build.name":"jenkins-artifactory-plugin",
+                "@build.number":"13"
+                }
+    },
+    "flat":"true"
+   }
+  ]
+}"""
 server.download spec: downloadSpec, buildInfo: buildInfo
+sh 'ls'
     }
 
     stage ('promote'){
@@ -219,7 +245,30 @@ server.download spec: downloadSpec, buildInfo: buildInfo
 
     // Promote build
 server.promote promotionConfig
+//Artifactory.addInteractivePromotion server: server, promotionConfig: promotionConfig, displayName: "Promote me please"
     }
+      stage ('promote again'){
+        def promotionConfig = [
+        //Mandatory parameters
+        'buildName'          : buildInfo.name,
+        'buildNumber'        : buildInfo.number,
+        'targetRepo'         : 'sal-generic-gradle-3',
+
+        //Optional parameters
+        'comment'            : 'this is the promotion comment',
+        'sourceRepo'         : 'sal-generic-gradle-2',
+        'status'             : 'Released',
+        'includeDependencies': true,
+        'failFast'           : true,
+        'copy'               : true
+    ]
+
+    // Promote build
+Artifactory.addInteractivePromotion server: server, promotionConfig: promotionConfig
+    }
+        stage ('dance'){
+            echo 'hep hey'
+        }
 
 }
 ```
