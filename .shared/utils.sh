@@ -10,23 +10,10 @@ MOOSE_PATH=$(pwd)/$(dirname $BASH_SOURCE)"/Moose.jpg"
 SQUIRREL_PATH=$(pwd)/$(dirname $BASH_SOURCE)"/Squirrel.jpg"
 
 initkata() {
-    source $CONFIG
-    if [ -z "$KATA_USERNAME" ] || [ -z "$ARTIFACTORY_URL" ] || [ -z "$ARTIFACTORY_USERNAME" ] || [ -z "$ARTIFACTORY_PASSWORD" ]; then
-        echo "Configuration not found. Creating new config file..."
-        echo ""
-        create_config
-        source $CONFIG
-    fi
-
-    GRADLE_REPO1="$KATA_USERNAME-generic-gradle-1"
-    GRADLE_REPO2="$KATA_USERNAME-generic-gradle-2"
-    GRADLE_REPO3="$KATA_USERNAME-generic-gradle-3"
-    CUSTOM_REPO1="$KATA_USERNAME-custom-layout-repo"
-    VIRTUAL_REPO1="$KATA_USERNAME-virtual-1"
-    VIRTUAL_REPO2="$KATA_USERNAME-virtual-2"
-
-    BASE64=$(echo -n "$ARTIFACTORY_USERNAME:$ARTIFACTORY_PASSWORD" | base64)
-    AUTH_HEADER="Authorization: Basic $BASE64"
+    echo "[KATA] Reading config file..."
+    read_config_variables
+    echo "[KATA] Pinging Artifactory..."
+    ping_artifactory
 
     echo "[KATA] Cleaning up old exercise folder..."
     rm -rf exercise/
@@ -44,22 +31,62 @@ initkata() {
     cd exercise
 }
 
+#Sources config file, reads variables, calls create_config if something is missing 
+read_config_variables() {
+    source $CONFIG
+    if [ -z "$KATA_USERNAME" ] || [ -z "$ARTIFACTORY_URL" ] || [ -z "$ARTIFACTORY_USERNAME" ] || [ -z "$ARTIFACTORY_PASSWORD" ]; then
+        echo "[KATA] Configuration not found. Creating new config file..."
+        echo ""
+        create_config
+        source $CONFIG
+    fi
+
+    GRADLE_REPO1="$KATA_USERNAME-generic-gradle-1"
+    GRADLE_REPO2="$KATA_USERNAME-generic-gradle-2"
+    GRADLE_REPO3="$KATA_USERNAME-generic-gradle-3"
+    CUSTOM_REPO1="$KATA_USERNAME-custom-layout-repo"
+    VIRTUAL_REPO1="$KATA_USERNAME-virtual-1"
+    VIRTUAL_REPO2="$KATA_USERNAME-virtual-2"
+
+    BASE64=$(echo -n "$ARTIFACTORY_USERNAME:$ARTIFACTORY_PASSWORD" | base64)
+    AUTH_HEADER="Authorization: Basic $BASE64"
+}
+
+#Checks that artifactory URL and credentials are correct by requesting the application.wadl file. If something isn't right, calls create_config.
+ping_artifactory() {
+    PING_RESULT=$(curl -s --max-time 10 -o /dev/null -w "%{http_code}" -X GET -H "$AUTH_HEADER" "$ARTIFACTORY_URL/api/application.wadl")
+    if [ "$PING_RESULT" -eq "000" ]; then
+        echo "[KATA] HTTP 000: Failed to connect to $ARTIFACTORY_URL. Redirecting to new config file creation..."
+        create_config
+    elif [ "$PING_RESULT" -eq "401" ]; then
+        echo "[KATA] HTTP 401: Connection successful but credentials are invalid. Redirecting to new config file creation..."
+        create_config
+    elif [ "$PING_RESULT" -eq "404" ]; then
+        echo "[KATA] HTTP 404: Page not found. Most likely you have put an '/' at the end of your URL. Your URL should look like 'http://serverAddress.com/artifactory'"
+        create_config
+    elif [ "$PING_RESULT" -ne "200" ]; then
+        echo "[KATA] Unexpected result when pinging Artifactory. Redoing the command in terminal so someone can debug what is going on..."
+        curl -i --max-time 5 -X GET -H "$AUTH_HEADER" "$ARTIFACTORY_URL/api/application.wadl"
+    fi
+}
+
 create_config() {
     rm -f $CONFIG
 
-    echo "Please enter your Artifactory URL: "
+    echo "[KATA] Your Artifactory URL should look like 'http://serverAddress.com/artifactory' - note that there is no trailing '/' at the end."
+    echo "[KATA] Please enter your Artifactory URL: "
     read INPUT_ARTIFACTORY_URL
     echo ""
 
-    echo "Please enter your Artifactory username (for authentication): "
+    echo "[KATA] Please enter your Artifactory username (for authentication): "
     read INPUT_ARTIFACTORY_USERNAME
     echo ""
 
-    echo "Please enter your Artifactory password (for authentication): "
+    echo "[KATA] Please enter your Artifactory password (for authentication): "
     read -s INPUT_ARTIFACTORY_PASSWORD
     echo ""
 
-    echo "Please enter your unique kata username (used for naming your repositories): "
+    echo "[KATA] Please enter your unique kata username (used for naming your repositories): "
     read INPUT_KATA_USERNAME
     echo ""
 
@@ -67,6 +94,9 @@ create_config() {
     echo "ARTIFACTORY_USERNAME=$INPUT_ARTIFACTORY_USERNAME" >> $CONFIG
     echo "ARTIFACTORY_PASSWORD=$INPUT_ARTIFACTORY_PASSWORD" >> $CONFIG
     echo "KATA_USERNAME=$INPUT_KATA_USERNAME" >> $CONFIG
+
+    read_config_variables
+    ping_artifactory
 }
 
 #Runs a generic POST query
