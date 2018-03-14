@@ -105,12 +105,14 @@ create_config() {
 #$1 array of variable names
 echo_variable_array() {
     echo "[KATA] Paste this into your terminal for easy access to the variables:"
+    echo "-------------------------------------------------------------------------------"
     array=("$@")
     for i in "${array[@]}"
     do
         VAR_CONTENTS=$(eval "echo "\$$i"")
-        echo "export $i=$VAR_CONTENTS"
+        echo "export $i=\"$VAR_CONTENTS\""
     done
+    echo "-------------------------------------------------------------------------------"
 }
 
 #Runs a generic POST query
