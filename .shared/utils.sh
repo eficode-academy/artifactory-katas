@@ -29,6 +29,8 @@ initkata() {
     echo "[KATA] Initializing new exercise folder..."
     mkdir exercise
     cd exercise
+    
+    echo " "
 }
 
 #Sources config file, reads variables, calls create_config if something is missing 
@@ -97,6 +99,18 @@ create_config() {
 
     read_config_variables
     ping_artifactory
+}
+
+#Echoes a copy-pastable blob of text to export variables to user terminal
+#$1 array of variable names
+echo_variable_array() {
+    echo "[KATA] Paste this into your terminal for easy access to the variables:"
+    array=("$@")
+    for i in "${array[@]}"
+    do
+        VAR_CONTENTS=$(eval "echo "\$$i"")
+        echo "export $i=$VAR_CONTENTS"
+    done
 }
 
 #Runs a generic POST query
