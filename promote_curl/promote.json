@@ -1,0 +1,14 @@
+{
+    "sourceRepo": "sal-generic-gradle-3",
+    "properties": {
+        "components2": [
+            "c1",
+            "c3",
+            "c14",
+            "hej igen"
+        ],
+        "release-name2": [
+            "fb3-ga"
+        ]
+    }
+}
