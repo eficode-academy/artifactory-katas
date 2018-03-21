@@ -1,0 +1,11 @@
+{
+    "files": [
+          {
+           "aql": {
+              "items.find":{
+                      "type": "file"
+                      }
+          }
+         }
+        ]
+    }
