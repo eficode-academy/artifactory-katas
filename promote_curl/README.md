@@ -15,7 +15,7 @@ curl -i -X GET "$ARTIFACTORY_URL"/api/build/
 curl -i -X GET -H "$AUTH_HEADER" "$ARTIFACTORY_URL"/api/build/jenkins-artifactory-plugin/22
 
 
-```JSON
+```
 {
  "status": "staged",                            // new build status (any string)
  "comment" : "Tested on all target platforms.", // An optional comment describing the reason for promotion. Default: ""
