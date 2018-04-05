@@ -86,7 +86,7 @@ In order for us to upload a file, we need to define two things; `pattern` and `t
 * `pattern` Specifies the local file system path to artifacts which should be uploaded to Artifactory. You can specify multiple artifacts by using wildcards or a regular expression as designated by the regexp property. If you use a regexp, you need to escape any reserved characters (such as ".", "?", etc.) used in the expression using a backslash "\\".
 * `target` Specifies the target path in Artifactory in the following format: [repository_name]/[repository_path]
 
-**tasks:**
+## **Tasks:**
 
 * in the `upload` step of your jenkins file, make an upload spec that takes the `build.txt` and uploads it to the `*-generic-gradle-1` repo under `com/acme/1.${currentBuild.number}/build-1.${currentBuild.number}.txt`
 * go into artifactory UI and look at the corresponding file being uploaded into the correct repository and directory.
@@ -119,19 +119,19 @@ There are two key differences to notice:
 * You can use `aql` to search for artifacts as well as the normal pattern based search.
 * The `props` attribute is no longer used for setting properties, but as a filter for only downloading the ones where the given property is set.
 
-**tasks:**
+## **Tasks:**
 
-* Modify your pipeline so it downloads the file you just uploaded
-* check within the pipeline that a folder is made. You could for instance use `sh : "ls"`
-* use the `flat` property to download the file to the root of the workspace, ignoring the repository folder structure.
+* Modify your pipeline so it downloads the file you just uploaded.
+* Check within the pipeline that a folder is made. You could for instance use `sh : "ls"` and look at the console output of the Jenkins job.
+* Use the `flat` property to download the file to the root of the workspace, ignoring the repository folder structure.
 
->hint: you can both make a search on the specific layout, or use the `@` notation to search for build number and name (details can be found [here](https://www.jfrog.com/confluence/display/RTF/Artifactory+Query+Language#ArtifactoryQueryLanguage-ConstructingSearchCriteria))
+>Hint: you can either make a search on the specific layout, or use the `@` notation to search for build number and name (details can be found [here](https://www.jfrog.com/confluence/display/RTF/Artifactory+Query+Language#ArtifactoryQueryLanguage-ConstructingSearchCriteria))
 
 ### Promotion
 
-As your build progresses through the pipeline, your artifacts gets promoted to a higher maturity repository.
+As your build progresses through the pipeline, your artifacts get promoted to a higher maturity repository.
 
-Promotion has a different JSON structure than uploading and downloading. Here you can see an example of a promotion structure:
+Promotion has a different JSON structure than uploading and downloading. Here you can see an example of a promotion structure, defined as a map in a Jenkins pipeline:
 
 ```groovy
 def promotionConfig = [
@@ -154,13 +154,13 @@ def promotionConfig = [
 server.promote promotionConfig
 ```
 
-**tasks:**
+## **Tasks:**
 
-* In the `promote` stage, make a promotion config that copies the artifacts from `-generic-gradle-1` to `-generic-gradle-2`.
+* In the `promote` stage of your pipeline, make a promotion config that copies the artifacts from `-generic-gradle-1` to `-generic-gradle-2`.
 * Execute the pipeline to check that the artifacts gets copied over.
-* Make a new stage `interactive promote` 
+* Make a new stage `interactive promote`
 * In that stage make a promotionConfig that promotes the artifacts from `-generic-gradle-2` to `-generic-gradle-3`.
-* Instead of making an automated promotion replace `server.promote promotionConfig` with `Artifactory.addInteractivePromotion server: server, promotionConfig: promotionConfig` to make an interactive promotion.
+* Instead of making an automated promotion, replace `server.promote promotionConfig` with `Artifactory.addInteractivePromotion server: server, promotionConfig: promotionConfig` to make an interactive promotion.
 * Observe in Artifactory that `-generic-gradle-2` has the artifact, and `-generic-gradle-3` does not yet
 * Go back into the jenkins Ui and click "promote" to promote the artifact.
 * Observe in Artifactory that `-generic-gradle-3` has the artifact now as well.

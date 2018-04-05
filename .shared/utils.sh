@@ -4,6 +4,7 @@ CONFIG=$(pwd)/$(dirname $BASH_SOURCE)"/config.txt"
 LOGFILE=$(pwd)/$(dirname $BASH_SOURCE)"/log.txt"
 
 DUCK_PATH=$(pwd)/$(dirname $BASH_SOURCE)"/Duck.jpg"
+DUCK2_path=$(pwd)/$(dirname $BASH_SOURCE)"/Duck2.jpg"
 FOX_PATH=$(pwd)/$(dirname $BASH_SOURCE)"/Fox.jpg"
 FROG_PATH=$(pwd)/$(dirname $BASH_SOURCE)"/Frog.jpg"
 MOOSE_PATH=$(pwd)/$(dirname $BASH_SOURCE)"/Moose.jpg"
@@ -130,6 +131,7 @@ rest_post() {
 
 #Creates a repository
 #$1 repository name
+#$2 packageType (generic, gradle, something else)
 rest_create_repository() {
     curl -i -X PUT \
         -H "Content-Type:application/json" \
@@ -137,7 +139,7 @@ rest_create_repository() {
         -d \
     "{ \
     \"rclass\": \"local\", \
-    \"packageType\" : \"generic\"
+    \"packageType\" : \"$2\"
     }" \
     "$ARTIFACTORY_URL/api/repositories/$1"
 }

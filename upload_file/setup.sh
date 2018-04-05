@@ -1,7 +1,7 @@
 #!/bin/bash
 
 source ../.shared/utils.sh
+initkata
 
-rest_delete_repository $REPO_NAME
-rest_create_repository $REPO_NAME
-rest_deploy_artifact "/$REPO_NAME/duck.jpg" "$DUCK_PATH"
+rest_create_repository $GRADLE_REPO1 "generic"
+rest_deploy_artifact "/$GRADLE_REPO1/duck.jpg" "$DUCK_PATH"
