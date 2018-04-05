@@ -159,3 +159,36 @@ rest_deploy_artifact() {
         -T "$2" \
     "$ARTIFACTORY_URL$1"
 }
+
+#Downloads an artifact X times
+#$1 is the number of times it should be downloaded
+#$2 is the url path of the file
+download_artifact(){
+
+COUNTER=0
+while [  $COUNTER -lt $1 ]; do
+    curl $ARTIFACTORY_URL/$2 > /dev/null 2>&1
+    let COUNTER=COUNTER+1 
+done
+}
+
+#Uploads all the files in the three different repos, and makes some fake downloads to simulate usage
+populate_repos(){
+
+array=("1.0.0" "1.4.0" "2.0.1" "3.5.6")
+
+for i in "${array[@]}"
+do
+    DUCK_URL="/$GRADLE_REPO1/acme/duck/$i/duck-$i.jpg"
+    rest_deploy_artifact "$DUCK_URL" "$DUCK_PATH"
+    if (( RANDOM % 2 )); 
+    then
+        echo "simulating download of artifacts $DUCK_URL" 
+        download_artifact $((RANDOM%10)) "$DUCK_URL" &
+    fi
+done
+
+DUCK_URL=acme/duck/1.0.0/duck-1.0.0.jpg
+rest_deploy_artifact "/$GRADLE_REPO1/$DUCK_URL" "$DUCK_PATH"
+download_artifact 10 "$GRADLE_REPO1/$DUCK_URL"
+}
