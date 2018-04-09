@@ -28,3 +28,8 @@ For File Integration Revision RegExp, you can use the Maven default of `SNAPSHOT
 
 ## Spot the difference
 
+
+
+## Native browser
+
+!!!FILL THIS SECTION OUT!!! this is a good way of accessing artifactory like an old ftp/http site for non-human browsing and consumption.
