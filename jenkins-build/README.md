@@ -11,7 +11,7 @@
 node {
      def buildInfo = Artifactory.newBuildInfo()
      buildInfo.env.capture = true
-     def server = Artifactory.newServer url: 'http://nginx/artifactory', username: 'admin', password: 'lkvmxxcv'
+     def server = Artifactory.newServer url: 'http://nginx/artifactory', username: 'admin', password: 'verySecretPassword'
     stage('Preparation') { // for display purposes
         // Get some code from a GitHub repository
                 // Step 1 goes here.....
