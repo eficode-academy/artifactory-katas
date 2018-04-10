@@ -69,5 +69,5 @@ apply plugin: "java"
 
 ```
 
-* Execute `gradlew `
+* Execute `gradlew copyDeps`
 * Look into the `output` folder to see that the artifacts have been downloaded as they should.
