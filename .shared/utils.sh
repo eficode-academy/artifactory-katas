@@ -16,6 +16,9 @@ initkata() {
     echo "[KATA] Pinging Artifactory..."
     ping_artifactory
 
+    echo "[KATA] Stopping any running gradle daemons..."
+    gradle --stop #Stopping any gradle daemons to avoid Windows acting crazy when removing directory
+    
     echo "[KATA] Cleaning up old exercise folder..."
     rm -rf exercise/
 

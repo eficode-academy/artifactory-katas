@@ -10,23 +10,30 @@ A repository has been set up for you. The name is printed in your terminal when 
 **Exercise**
 1. Visit Artifactory and find the file. Modify your `build.gradle` so that the file is added as a dependency.
 
-    **Hint:** If you visit your artifact in the Gradle UI, have a look at the `General` tab, under `Dependency Declaration`. Artifactory has already made the dependency declaration for you, ready to paste into your build script.
+    **Hint:** If you visit your artifact in the Artifactory UI, have a look at the `General` tab, under `Dependency Declaration`. Artifactory has already made the dependency declaration for you, ready to paste into your build script.
 1. Run `gradle dependencies` and make sure that the file resolves.
 
-## Create remote repo 
+## Create remote repo and apply the Artifactory Gradle plugin
+Before we continue to the logical next step, uploading, we need to get access to the Artifactory Plugin for Gradle. Since this plugin is accessible on the internet via jcenter, this is a perfect opportunity to create a remote repository in Artifactory to proxy jcenter.
 
+1. Create a remote repository with the Artifactory UI. Name it `jcenter-remote-repo-$USERNAME` so it's unique to you and can be deleted afterwards. It should be of package type `Gradle` and should proxy `https://jcenter.bintray.com`
+1. Add the plugin declaration as shown in the documentation for the [Artifactory plugin](), but replace `jcenter()` with your own remote repo.
 
-## Add the Artifactory Gradle plugin
-Before we can upload anything to Artifactory through Gradle, we need to install the [Artifactory plugin](https://www.jfrog.com/confluence/display/RTF/Gradle+Artifactory+Plugin)
+    **Hint:** This is how the top of your `build.gradle` file should look:
 
-1. Add the following to your `build.gradle` file:
-    ```groovy
-    plugins {
-      id "com.jfrog.artifactory" version "latest.release"
+    ```gradle
+    buildscript {
+        repositories {
+            maven { url "http://ec2-18-197-71-5.eu-central-1.compute.amazonaws.com:8081/artifactory/jcenter-remote-repo-$USERNAME" }
+        }
+        dependencies {
+            classpath "org.jfrog.buildinfo:build-info-extractor-gradle:latest.release"
+        }
     }
+    apply plugin: "com.jfrog.artifactory"´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´
+    [...]
     ```
-
-
+1. Run `gradle dependencies` to verify that everything still resolves as it should. 
 
 ## Uploading to a Gradle repository
 Now that we can succesfully resolve our dependency, and have the Artifactory plugin set up, let's produce something that can be uploaded to Artifactory. 
