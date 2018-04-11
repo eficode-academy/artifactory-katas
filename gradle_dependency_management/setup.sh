@@ -12,12 +12,9 @@ rest_deploy_artifact "/$GRADLE_REPO1/DuckCorp/Duck/1.0.0/Duck-1.0.0.jpg" "$DUCK_
 
 read -d '' CONTENTS << EOF
 apply plugin: 'maven-publish'
-repositories {
-    maven { url "$ARTIFACTORY_URL/$GRADLE_REPO1" }
-}
-configurations {
-    compile
-}
+
+configurations { compile }
+
 dependencies {
     compile (group: 'ArtifactGroup', name: 'ArtifactName', version: 'ArtifactVersiono') //Replace this with your artifact info
 }
@@ -30,6 +27,15 @@ task('productZip', type: Zip) {
         configurations.compile
     }
     archiveName "Duck.zip"
+}
+
+publishing.publications {
+    duckPublication(MavenPublication) {
+        artifact    tasks.getByName('productZip')
+        groupId     'DuckCorp'
+        artifactId  'DuckZip'
+        version     '1.0.0'
+    }
 }
 EOF
 
