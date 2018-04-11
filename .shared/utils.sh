@@ -168,6 +168,15 @@ rest_deploy_artifact() {
         -T "$2" \
     "$ARTIFACTORY_URL$1"
 }
+#Appends properties to a given artifact. 
+#For more info look at: https://www.jfrog.com/confluence/display/RTF/Artifactory+REST+API#ArtifactoryRESTAPI-ItemProperties
+#$1 artifact path (repository/path/you/want/file.txt)
+#$2 the properties, e.g: os=win,linux;qa=finnished;junit test=success
+rest_add_artifact_properties(){
+    curl -i -X PUT \
+        -H "$AUTH_HEADER" \
+    "$ARTIFACTORY_URL/api/storage/$1?properties=$2"
+}
 
 #Downloads an artifact X times
 #$1 is the number of times it should be downloaded
