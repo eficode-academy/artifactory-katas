@@ -29,6 +29,10 @@ initkata() {
     rest_delete_repository $CUSTOM_REPO1 &>> $LOGFILE
     rest_delete_repository $VIRTUAL_REPO1 &>> $LOGFILE
     rest_delete_repository $VIRTUAL_REPO2 &>> $LOGFILE
+    rest_delete_repository $MATURITY_1_REPO &>> $LOGFILE
+    rest_delete_repository $MATURITY_2_REPO &>> $LOGFILE
+    rest_delete_repository $MATURITY_3_REPO &>> $LOGFILE
+    rest_delete_repository $MATURITY_4_REPO &>> $LOGFILE
 
     echo "[KATA] Initializing new exercise folder..."
     mkdir exercise
@@ -212,4 +216,28 @@ do
     done
 done
 echo "population done"
+}
+
+populate_maturity_repos(){
+# deploy the artifacts
+rest_deploy_artifact "/$MATURITY_1_REPO/acme/duck/1.0.0/duck-1.0.0.jpg" "$DUCK_PATH" &>> $LOGFILE
+rest_deploy_artifact "/$MATURITY_3_REPO/acme/duck/1.3.0/duck-1.3.0.jpg" "$DUCK_PATH" &>> $LOGFILE
+rest_deploy_artifact "/$MATURITY_2_REPO/acme/fox/2.3.0/fox-2.3.0.jpg" "$FOX_PATH"  &>> $LOGFILE
+rest_deploy_artifact "/$MATURITY_4_REPO/acme/fox/1.5.3/fox-1.5.3.jpg" "$FOX_PATH"  &>> $LOGFILE
+rest_deploy_artifact "/$MATURITY_2_REPO/acme/frog/1.5.3/frog-1.5.3.jpg" "$FROG_PATH"  &>> $LOGFILE
+rest_deploy_artifact "/$MATURITY_1_REPO/acme/frog/2.0.0/frog-2.0.0.jpg" "$FROG_PATH"  &>> $LOGFILE
+# download artifacts
+download_artifact $((RANDOM%10)) "/$MATURITY_1_REPO/acme/duck/1.0.0/duck-1.0.0.jpg" &>> $LOGFILE
+download_artifact $((RANDOM%10)) "/$MATURITY_3_REPO/acme/duck/1.3.0/duck-1.3.0.jpg" &>> $LOGFILE
+download_artifact $((RANDOM%10)) "/$MATURITY_2_REPO/acme/fox/2.3.0/fox-2.3.0.jpg" &>> $LOGFILE
+download_artifact $((RANDOM%10)) "/$MATURITY_4_REPO/acme/fox/1.5.3/fox-1.5.3.jpg" &>> $LOGFILE
+download_artifact $((RANDOM%10)) "/$MATURITY_2_REPO/acme/frog/1.5.3/frog-1.5.3.jpg" &>> $LOGFILE
+download_artifact $((RANDOM%10)) "/$MATURITY_1_REPO/acme/frog/2.0.0/frog-2.0.0.jpg" &>> $LOGFILE
+
+#set some properties on the files
+rest_add_artifact_properties "/$MATURITY_1_REPO/acme/duck/1.0.0/duck-1.0.0.jpg" "os=linux" &>> $LOGFILE
+rest_add_artifact_properties "/$MATURITY_3_REPO/acme/duck/1.3.0/duck-1.3.0.jpg" "os=linux;unit_test=sucess;integration_test=success" &>> $LOGFILE
+rest_add_artifact_properties "/$MATURITY_2_REPO/acme/fox/2.3.0/fox-2.3.0.jpg" "os=windows;unit_test=sucess" &>> $LOGFILE
+#rest_add_artifact_properties
+#rest_add_artifact_properties
 }
