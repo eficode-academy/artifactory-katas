@@ -4,7 +4,7 @@ CONFIG=$(pwd)/$(dirname $BASH_SOURCE)"/config.txt"
 LOGFILE=$(pwd)/$(dirname $BASH_SOURCE)"/log.txt"
 
 DUCK_PATH=$(pwd)/$(dirname $BASH_SOURCE)"/Duck.jpg"
-DUCK2_path=$(pwd)/$(dirname $BASH_SOURCE)"/Duck2.jpg"
+DUCK2_PATH=$(pwd)/$(dirname $BASH_SOURCE)"/Duck2.jpg"
 FOX_PATH=$(pwd)/$(dirname $BASH_SOURCE)"/Fox.jpg"
 FROG_PATH=$(pwd)/$(dirname $BASH_SOURCE)"/Frog.jpg"
 MOOSE_PATH=$(pwd)/$(dirname $BASH_SOURCE)"/Moose.jpg"
