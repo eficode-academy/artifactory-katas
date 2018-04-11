@@ -1,6 +1,10 @@
 # AQL searches
 
-> Hint: In order to use these exercises, you either need the jfrog CLI, or use the REST api. All examples here utilizes the CLI. It can be downloaded [here](https://jfrog.com/getcli/)
+Keeping track on a tens of thousands of artifacts is not easy, and even if you got some different search functionalities in the UI, you will need to search programmatically as well.
+
+For that, JFrog provides their Artifactory Query Language, AQL.
+
+> Hint: In order to use these exercises, you either need the jfrog CLI, or use the REST API. All examples here utilizes the REST API. It can be downloaded [here](https://jfrog.com/getcli/)
 
 > Hint: link to JFrogs own AQL documentation can be found [here](https://www.jfrog.com/confluence/display/RTF/Artifactory+Query+Language#ArtifactoryQueryLanguage-Usage)
 
@@ -8,15 +12,32 @@
 
 The AQL domain model is comprised of several entry entities in green, and their corresponding relational entities.
 
-![](./AQLDomains.png)
+![Aql domain model](./AQLDomains.png)
 
 So e.g. if you want to query a specific property of an item, you have to go through `item` and then `property` to find it.
 
-## Using AQL
-When using the AQL from the CLI, it needs to be wrapped in a filespec
+> **Note:** Users without admin privileges can only issue searches through **item** and must have the following fields included in the search: `name`,`repo`, and `path`.
 
-``` ./jfrog rt s --spec=findallfilesnotdownloaded.json ```
-
-When using AQL from curl, the 
+When using AQL from curl, the query itself is best stored in a plaintext document on the side and used like the command below:
 
 ```curl -i -X POST -H "$AUTH_HEADER"  -H "Content-Type:text/plain" "$ARTIFACTORY_URL"/api/search/aql -T payload.json```
+
+After executing the setup script, you will see four local repositories, each with different maturity denoted:
+
+* USERNAME-gradle-sandbox-local
+* USERNAME-gradle-dev-local
+* USERNAME-gradle-v3-local
+* USERNAME-gradle-release-local
+
+
+## High level task
+
+Make queries that does the following:
+
+* Get all files
+
+For the next
+
+* Get all files in a specific repository
+* Get all files that have been downloaded more than 3 times
+* Get all files where the property `os` has the value `linux`
