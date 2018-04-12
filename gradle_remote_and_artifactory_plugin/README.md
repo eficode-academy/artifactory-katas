@@ -12,13 +12,13 @@ The goal of the exercise is to configure the Artifactory Plugin for Gradle to re
 
     **Hint:** Artifactory can generate most of the configuration for you. In the UI, visit your repository and click `Set Me Up` in the upper right corner. Type your password to insert your credentials, and then hit `Generate Gradle Settings`. You don't have to change any of the default values.
 
-    - Once you've pasted in the configuration, be sure to change `jcenter()` to your own remote repo:
+    - Once you've pasted in the configuration, be sure to change `jcenter()` under `buildscripts`->`repositories` to your own remote repo:
 
         ```groovy
-         maven { url "http:/${artifactory_contextUrl}/$USERNAME-jcenter-remote-repo" }
+         maven { url "http:/${artifactory_contextUrl}/$USERNAME-jcenter-remote" }
         ```
 
-    - In the Artifactory configuration, change the `resolve` repository from `gradle-dev` to your own repository, `$USERNAME-generic-gradle-1`
+    - In the Artifactory configuration, change the `repoKey` under both `resolve` -> `repository` and `resolve` -> `repository` to your own repository, `$USERNAME-generic-gradle-1`
 
     - In `build.gradle`, under `artifactory -> publish`, add the following default, telling the plugin to use the predefined `duckPublication` method:
 
@@ -34,4 +34,4 @@ The goal of the exercise is to configure the Artifactory Plugin for Gradle to re
     **Hint:** If you visit the artifact in the Artifactory UI, have a look at the `General` tab, under `Dependency Declaration`. Artifactory has already made the dependency declaration, ready to paste into the build script.
 1. Run `gradle dependencies` to verify that everything resolves as it should. 
 1. Run `gradle productZip`. As you can see from `build.gradle` this task downloads our dependency and zips it up. Verify that `Duck.zip` is created.
-1. Run `gradle artifactoryPublish` and check that your artifact was uploaded.
+1. Run `gradle artifactoryPublish` and check that your zipped artifact `DuckZip-1.0.0.zip` was uploaded in your own repository.
