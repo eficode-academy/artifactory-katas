@@ -33,6 +33,7 @@ initkata() {
     rest_delete_repository $MATURITY_2_REPO &>> $LOGFILE
     rest_delete_repository $MATURITY_3_REPO &>> $LOGFILE
     rest_delete_repository $MATURITY_4_REPO &>> $LOGFILE
+    rest_delete_repository $REMOTE_REPO &>> $LOGFILE
 
     echo "[KATA] Initializing new exercise folder..."
     mkdir exercise
@@ -61,6 +62,7 @@ read_config_variables() {
     CUSTOM_REPO1="$KATA_USERNAME-custom-layout-repo"
     VIRTUAL_REPO1="$KATA_USERNAME-virtual-1"
     VIRTUAL_REPO2="$KATA_USERNAME-virtual-2"
+    REMOTE_REPO="$KATA_USERNAME-jcenter-remote"
 
     BASE64=$(echo -n "$ARTIFACTORY_USERNAME:$ARTIFACTORY_PASSWORD" | base64)
     AUTH_HEADER="Authorization: Basic $BASE64"
