@@ -16,7 +16,7 @@ apply plugin: 'maven-publish'
 configurations { compile }
 
 dependencies {
-    compile (group: 'ArtifactGroup', name: 'ArtifactName', version: 'ArtifactVersiono') //Replace this with your artifact info
+    compile(group: 'DuckCorp', name: 'Duck', version: '1.0.0', ext: 'jpg') // This is the already uploaded file
 }
 
 task('productZip', type: Zip) {
@@ -47,3 +47,5 @@ echo "URL for your artifactory server is:"
 echo "$ARTIFACTORY_URL/webapp"
 echo "artifactory_contextUrl is: $ARTIFACTORY_URL/$REMOTE_REPO"
 echo ""
+
+cd "execises"

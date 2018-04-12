@@ -29,9 +29,9 @@ The goal of the exercise is to configure the Artifactory Plugin for Gradle to re
         ```
 
     - Remember to also create `gradle.properties` for saving your login credentials. It can be downloaded from the `Set Me Up` page, by clicking `Download gradle.properties`
-1. Visit Artifactory and find `Duck.jpg` in your repository. Modify `build.gradle` so that the file is added as a dependency.
 
-    **Hint:** If you visit the artifact in the Artifactory UI, have a look at the `General` tab, under `Dependency Declaration`. Artifactory has already made the dependency declaration, ready to paste into the build script.
+The setup script have already inserted our `Duck-1.0.0.jpg` dependency in `build.gradle`, so the next exercises have something to handle:
+
 1. Run `gradle dependencies` to verify that everything resolves as it should. 
 1. Run `gradle productZip`. As you can see from `build.gradle` this task downloads our dependency and zips it up. Verify that `Duck.zip` is created.
 1. Run `gradle artifactoryPublish` and check that your zipped artifact `DuckZip-1.0.0.zip` was uploaded in your own repository.
