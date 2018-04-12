@@ -41,19 +41,8 @@ EOF
 
 echo "$CONTENTS" >> build.gradle
 
-echo ""
-echo "This is the Gradle repository that has been set up:"
-echo "$GRADLE_REPO1"
-echo "Visit it in the UI:"
-echo "$ARTIFACTORY_URL/webapp/#/artifacts/browse/tree/General/$GRADLE_REPO1"
-echo ""
-
-echo ""
-echo "This is the name you should use when you set up your remote repository:"
-echo "$GRADLE_REPO2"
-echo ""
-
-echo ""
-echo "This is the name you should use when you set up your own Gradle repository:"
-echo "$GRADLE_REPO2"
+echo "Setup complete."
+echo "Follow the instructions in the readme file."
+echo "URL for your artifactory server is:"
+echo "$ARTIFACTORY_URL/webapp"
 echo ""

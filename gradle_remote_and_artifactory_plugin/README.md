@@ -7,7 +7,7 @@ The goal of the exercise is to configure the Artifactory Plugin for Gradle to re
 
 ## Exercise
 
-1. Create a remote repository with the Artifactory UI. Name it `$USERNAME-jcenter-remote-repo` so it's unique to you and can be deleted afterwards. It should be of package type `Gradle` and should proxy `https://jcenter.bintray.com`
+1. Create a remote repository with the Artifactory UI. Name it `$USERNAME-jcenter-remote` so it's unique to you and can be deleted afterwards. It should be of package type `Gradle` and should proxy `https://jcenter.bintray.com`
 1. Add the plugin declaration and Artifactory configuration to `build.gradle`
 
     **Hint:** Artifactory can generate most of the configuration for you. In the UI, visit your repository and click `Set Me Up` in the upper right corner. Type your password to insert your credentials, and then hit `Generate Gradle Settings`. You don't have to change any of the default values.
