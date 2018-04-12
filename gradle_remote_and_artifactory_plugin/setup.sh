@@ -47,5 +47,3 @@ echo "URL for your artifactory server is:"
 echo "$ARTIFACTORY_URL/webapp"
 echo "artifactory_contextUrl is: $ARTIFACTORY_URL/$REMOTE_REPO"
 echo ""
-
-cd "execises"
