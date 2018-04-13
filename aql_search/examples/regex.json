@@ -1,0 +1,6 @@
+items.find(
+    {   
+        "type":"file",
+        "repo":{"$match":"sal-*"}
+    }
+)

@@ -29,15 +29,28 @@ After executing the setup script, you will see four local repositories, each wit
 * USERNAME-gradle-v3-local
 * USERNAME-gradle-release-local
 
-
-## High level task
+## Task
 
 Make queries that does the following:
 
-* Get all files
+* Get all artifacts in the Artifactory instance
 
-For the next
+For the next exercises, we need to limit our searches to your own repositories. You can do that in two ways:
 
-* Get all files in a specific repository
+1. By using the `$match` keyword to enable wildcards: `"repo":{"$match":"$KATA_USERNAME-*"}`
+1. By listing all the repositories that needs to be searched with the `$or` keyword:
+
+```Json
+"$or":[
+    {"repo":"$KATA_USERNAME-gradle-sandbox-local"},
+    {"repo":"$KATA_USERNAME-gradle-dev-local"}
+]
+```
+
+### tasks continued
+
+* Get all files in your repositories
 * Get all files that have been downloaded more than 3 times
 * Get all files where the property `os` has the value `linux`
+* Get all files that are over 1 megabyte large.
+* 

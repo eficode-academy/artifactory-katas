@@ -1,0 +1,10 @@
+items.find(
+    {   
+        "type":"file",
+        "$or":[
+        {"repo":"sal-gradle-sandbox-local"},
+        {"repo":"sal-gradle-dev-local"}                
+            ]
+    }
+    
+)
