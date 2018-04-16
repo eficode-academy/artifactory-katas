@@ -44,9 +44,14 @@ initkata() {
 
 #Sources config file, reads variables, calls create_config if something is missing 
 read_config_variables() {
+    if [ ! -f $CONFIG ]; then
+        echo "[KATA] Configuration not found. Creating new config file..."
+        echo ""
+        create_config
+    fi
     source $CONFIG
     if [ -z "$KATA_USERNAME" ] || [ -z "$ARTIFACTORY_URL" ] || [ -z "$ARTIFACTORY_USERNAME" ] || [ -z "$ARTIFACTORY_PASSWORD" ]; then
-        echo "[KATA] Configuration not found. Creating new config file..."
+        echo "[KATA] Configuration corrupt. Creating new config file..."
         echo ""
         create_config
         source $CONFIG
@@ -153,6 +158,25 @@ rest_create_repository() {
     "{ \
     \"rclass\": \"local\", \
     \"packageType\" : \"$2\"
+    }" \
+    "$ARTIFACTORY_URL/api/repositories/$1"
+}
+
+#Creates a remote repo
+#$1 repository name
+#$2 package type (maven, gradle, etc)
+#$3 repo layout (maven-2-default)
+#$4 remote url (https://jcenter.bintray.com)
+rest_create_remote_repository() {
+    curl -i -X PUT \
+        -H "Content-Type:application/json" \
+        -H "$AUTH_HEADER" \
+        -d \
+    "{ \
+    \"rclass\": \"remote\", \
+    \"packageType\": \"$2\", \
+    \"url\": \"$4\", \
+    \"repoLayoutRef\": \"$3\" \
     }" \
     "$ARTIFACTORY_URL/api/repositories/$1"
 }
