@@ -53,4 +53,4 @@ For the next exercises, we need to limit our searches to your own repositories. 
 * Get all files that have been downloaded more than 3 times
 * Get all files where the property `os` has the value `linux`
 * Get all files that are over 1 megabyte large.
-* 
+* Get instances of an artifact that is uploaded later than X days.
