@@ -1,19 +1,24 @@
 
-## Creating an Artifactory Server Instance
- Manage | Configure System.
+# Artifactory builds in Jenkins
 
-### setup
+We want to enable the automatic promotion of artifacts through the maturity repositories. As Jenkins is our defacto build server, we will use the provided Artifactory plugin to interact with the artifact manager.
 
-* Go in and make a new pipeline job in Jenkins called `jenkins-artifactory-plugin`.
+Our goal in this exercise is to simulate a normal workflow in your production environment, but leave out all the nitty gritty details that makes learning hard.
+
+The end result should be a fully functioning pipeline that takes advantage of Artifactory to store and promote your artifacts all throughout your application development lifecycle.
+
+## Initial setup
+
+* Go in and make a new pipeline job in Jenkins called `$KATA_USERNAME-pipeline`.
 * Go into the job and paste the following skeleton into the pipeline part.
 
 ```groovy
 node {
      def buildInfo = Artifactory.newBuildInfo()
      buildInfo.env.capture = true
-     def server = Artifactory.newServer url: 'http://nginx/artifactory', username: 'admin', password: 'verySecretPassword'
+     def server = Artifactory.newServer url: 'http://artifactory_url', username: 'admin', password: 'verySecretPassword'
     stage('Preparation') { // for display purposes
-        // Get some code from a GitHub repository
+        // Get some code from a git repository
                 // Step 1 goes here.....
     }
     stage('Build') {
@@ -46,7 +51,8 @@ File Specs are JSON objects that are used to specify the details of files you wa
 > Note: The filespec has a lot of options you can work with. For more in depth information, consult the [web docs](https://www.jfrog.com/confluence/display/RTF/Using+File+Specs).
 
 This is the basic structure of an upload spec:
-```json
+
+```misc
 {
   "files": [
     {
@@ -64,6 +70,7 @@ This is the basic structure of an upload spec:
 ```
 
 In a Jenkins pipeline, you can define an upload spec as a multi-line string:
+
 ```groovy
 def uploadSpec = """{
   "files": [
@@ -75,7 +82,7 @@ def uploadSpec = """{
 }"""
 ```
 
-Once you have your upload spec, you can trigger the upload within the pipeline:
+Once you have your upload spec, you can trigger the upload within the pipeline with the following line:
 
 ```groovy
 server.upload spec: uploadSpec, buildInfo: buildInfo
@@ -88,7 +95,7 @@ In order for us to upload a file, we need to define two things; `pattern` and `t
 
 ## **Tasks:**
 
-* in the `upload` step of your jenkins file, make an upload spec that takes the `build.txt` and uploads it to the `*-generic-gradle-1` repo under `com/acme/1.${currentBuild.number}/build-1.${currentBuild.number}.txt`
+* in the `upload` step of your jenkins file, make an upload spec that takes the `build.txt` and uploads it to the `Maturity level 1` repo under `com/acme/1.${currentBuild.number}/build-1.${currentBuild.number}.txt`
 * go into artifactory UI and look at the corresponding file being uploaded into the correct repository and directory.
 
 > hint: the `${currentBuild.number}` is a Jenkins variable for accessing the build number.
@@ -125,7 +132,7 @@ There are two key differences to notice:
 * Check within the pipeline that a folder is made. You could for instance use `sh : "ls"` and look at the console output of the Jenkins job.
 * Use the `flat` property to download the file to the root of the workspace, ignoring the repository folder structure.
 
->Hint: you can either make a search on the specific layout, or use the `@` notation to search for build number and name (details can be found [here](https://www.jfrog.com/confluence/display/RTF/Artifactory+Query+Language#ArtifactoryQueryLanguage-ConstructingSearchCriteria))
+> Hint: you can either make a search on the specific layout, or use the `@` notation to search for build number and name (details can be found [here](https://www.jfrog.com/confluence/display/RTF/Artifactory+Query+Language#ArtifactoryQueryLanguage-ConstructingSearchCriteria))
 
 ### Promotion
 
@@ -154,16 +161,16 @@ def promotionConfig = [
 server.promote promotionConfig
 ```
 
-## **Tasks:**
+## Tasks
 
-* In the `promote` stage of your pipeline, make a promotion config that copies the artifacts from `-generic-gradle-1` to `-generic-gradle-2`.
+* In the `promote` stage of your pipeline, make a promotion config that copies the artifacts from `Maturity level 1` to `Maturity level 2` repository.
 * Execute the pipeline to check that the artifacts gets copied over.
 * Make a new stage `interactive promote`
-* In that stage make a promotionConfig that promotes the artifacts from `-generic-gradle-2` to `-generic-gradle-3`.
+* In that stage make a promotionConfig that promotes the artifacts from `Maturity level 2` to `Maturity level 3` repository.
 * Instead of making an automated promotion, replace `server.promote promotionConfig` with `Artifactory.addInteractivePromotion server: server, promotionConfig: promotionConfig` to make an interactive promotion.
-* Observe in Artifactory that `-generic-gradle-2` has the artifact, and `-generic-gradle-3` does not yet
+* Observe in Artifactory that `Maturity level 2` has the artifact, and `Maturity level 3` does not yet have them.
 * Go back into the jenkins Ui and click "promote" to promote the artifact.
-* Observe in Artifactory that `-generic-gradle-3` has the artifact now as well.
+* Observe in Artifactory that `Maturity level 3` has the artifact now as well.
 
 ### Properties
 
@@ -183,7 +190,7 @@ node {
      buildInfo.retention maxBuilds: 2, deleteBuildArtifacts: true
      def server = Artifactory.newServer url: 'http://ec2-18-197-71-5.eu-central-1.compute.amazonaws.com:8081/artifactory', username: 'admin', password: 'orange'
     stage('Preparation') { // for display purposes
-        // Get some code from a GitHub repository
+        // Get some code from a git repository
     }
     stage('Build') {
         // Run the maven build
@@ -198,7 +205,6 @@ node {
             {
            "pattern": "build.txt",
             "target": "sal-generic-gradle-1/org/module/1.${buildNumber}/module-1.${buildNumber}.txt"
-            
                 , "props": "hej=hej"
             }
             ]
