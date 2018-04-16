@@ -18,25 +18,22 @@ node {
      buildInfo.env.capture = true
      def server = Artifactory.newServer url: 'http://artifactory_url', username: 'admin', password: 'verySecretPassword'
     stage('Preparation') { // for display purposes
-        // Get some code from a git repository
-                // Step 1 goes here.....
+        // This is where you normally checkout your source repository
     }
     stage('Build') {
         // "build" some software
         sh "echo 'this is our "binary"'>build.txt"
     }
     stage('Upload') {
-        //Upload the artifact to Artifactory
+        // PART 1 - Add upload spec here and upload "build.txt" to Artifactory
     }
     stage('Download') {
-    deleteDir() //Deletes the entire workspace, so we rely 100% on artifactory
-    //Insert filespec for downloading the artifact from Artifactory again
+        deleteDir() //Deletes the entire workspace, so we rely 100% on Artifactory
+        // PART 2 - Add download spec here and download "build.txt" from Artifactory
     }
-
-    stage ('promote'){
-        // Promote the build to the next level
+    stage ('Promote'){
+        // PART 3 - Promote the build to the next level
     }
-
 }
 ```
 
