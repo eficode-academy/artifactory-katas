@@ -15,35 +15,55 @@ In order to do the exercises, you need to setup a job in Jenkins.
 
 > Hint: The goal of this exercise is not to learn Jenkins pipeline syntax, nor groovy, but understanding the options you get in Jenkins. If you get stuck, please refer to the [reference pipeline](./complete_pipeline.md) for help.
 
-## Initial setup
+## Initial setup of Artifactory
+* Go to your bash command line
+* `cd jenkins-build`
+* `./setup.sh`
 
-* Go in and make a new pipeline job in Jenkins called `$KATA_USERNAME-pipeline`, by clicking `New Item` --> *Enter the job name* --> `Pipeline` --> `OK` 
+## Initial setup of Jenkins
+* Go in and make a new pipeline job in Jenkins. `New Item` --> Name: `$KATA_USERNAME-pipeline` --> Type: `Pipeline` --> `OK`
 * Go into the job and paste the following skeleton into the `pipeline` section
 
 ```groovy
+def artifactory_url="<your-artifactory-server>:8081/artifactory"
+def username="<your_user_name"
+def encrypted_password="<your-encrypted-password>" // generate it from your Artifactory profile
+
 node {
-     def buildInfo = Artifactory.newBuildInfo()
-     buildInfo.env.capture = true
-     def server = Artifactory.newServer url: 'http://artifactory_url', username: 'admin', password: 'verySecretPassword'
+    def server = Artifactory.newServer url: artifactory_url, username: username, password: encrypted_password
+    def buildInfo = Artifactory.newBuildInfo()
+    buildInfo.env.capture = true
     stage('Preparation') { // for display purposes
         // This is where you normally checkout your source repository
+        deleteDir() //Deletes the entire workspace content
     }
     stage('Build') {
         // "build" some software
-        sh "echo 'this is our "binary"'>build.txt"
+        writeFile file: 'acme.txt', text: "this is our artifact from 1.${currentBuild.number}"
+        sh "tar -zcvf acme.tgz acme.txt"
+        sh "ls -la"
+        archiveArtifacts '**/*.*'
     }
     stage('Upload') {
         // PART 1 - Add upload spec here and upload "build.txt" to Artifactory
     }
     stage('Download') {
         deleteDir() //Deletes the entire workspace, so we rely 100% on Artifactory
-        // PART 2 - Add download spec here and download "build.txt" from Artifactory
+        // PART 2 - Add download spec here and download "acme.txt" and "acme.tgz" from Artifactory
+
+        archiveArtifacts '**/*.*'
     }
-    stage ('Promote'){
+    stage ('Automatic Promote'){
         // PART 3 - Promote the build to the next level
+    }
+    stage ('Interactive Promote'){
+        // PART 4 - Interactively promote the build to the next level
     }
 }
 ```
+* Change the server name `<your-artifactory-server>` accordingly
+* Retrieve your "encrypted" password from your profile in Artifactory
+* update the `username` and `encrypted_password` accordingly
 
 This is our baseline.
 
@@ -51,7 +71,7 @@ This is our baseline.
 
 ## Part 1: Upload the artifact
 
-In order for you to upload things through the plugin, you need to specify a `File Spec`.
+In order for you to upload/download artifacts through the plugin, you need to specify a `File Spec`.
 File Specs are JSON objects that are used to specify the details of the files you want to upload or download. 
 
 They consist of a `pattern` and a `target`, and a number of optional properties can be added to them.
@@ -77,36 +97,40 @@ This is the basic structure of an upload spec:
 }
 ```
 
-In a Jenkins pipeline, you can define an upload spec as a multi-line string:
+In a Jenkins pipeline, you can define an upload `File Spec` as a multi-line string:
 
 ```groovy
 def uploadSpec = """{
   "files": [
     {
-      "pattern": "yourPatternGoesHere",
-      "target": "yourTargetGoesHere"
+      "pattern": "putYourPatternHere",
+      "target": "putYourTargetHere"
     }
   ]
 }"""
 ```
 
+In order for us to upload files, we need to define two things; `pattern` and `target`. There can be more files in the defined array.
+
+* `pattern` Specifies the local file system path to artifacts which should be uploaded to Artifactory. You can specify multiple artifacts by using wildcards or a regular expression as designated by the regexp property. If you use a regexp, you need to escape any reserved characters (such as ".", "?", etc.) used in the expression using a backslash "\\".
+* `target` Specifies the target path in Artifactory in the following format: [repository_name]/[org]/[module]/[revision]/[module]-[revision].[ext]
+* `buildInfo` object is being _filled_ with information several times during the pipeline execution (env.capture, upload and download), but it must be published to Artifactory explicitly. It can also _only_ be called ones during a Jenkins build which means it should be called after the last `upload`/`download` call.
+
 Once you have your upload spec, you can trigger the upload within the pipeline with the following line:
 
 ```groovy
 server.upload spec: uploadSpec, buildInfo: buildInfo
+server.publishBuildInfo buildInfo
 ```
-
-In order for us to upload a file, we need to define two things; `pattern` and `target`
-
-* `pattern` Specifies the local file system path to artifacts which should be uploaded to Artifactory. You can specify multiple artifacts by using wildcards or a regular expression as designated by the regexp property. If you use a regexp, you need to escape any reserved characters (such as ".", "?", etc.) used in the expression using a backslash "\\".
-* `target` Specifies the target path in Artifactory in the following format: [repository_name]/[repository_path]
 
 ### Tasks
 
-* in the `upload` step of your jenkins file, make an upload spec that takes the `build.txt` and uploads it to the `Maturity level 1` repo under `com/acme/1.${currentBuild.number}/build-1.${currentBuild.number}.txt`
+* in the `upload` step of your jenkins file, make an upload spec that takes the `acme.txt` and uploads it to the `${KATA_USERNAME}-gradle-sandbox-local` repo under `com/acme/1.${currentBuild.number}/acme-1.${currentBuild.number}.txt`
+* go into artifactory UI and look at the corresponding file being uploaded into the correct repository and directory.
+* Add the `acme.tgz` in the `uploadSpec` in the `upload` step of your jenkins file, make an upload spec that takes the `acme.txt` and uploads it to the `${KATA_USERNAME}-gradle-sandbox-local` repo under `com/acme/1.${currentBuild.number}/acme-1.${currentBuild.number}.txt`
 * go into artifactory UI and look at the corresponding file being uploaded into the correct repository and directory.
 
-> hint: the `${currentBuild.number}` is a Jenkins variable for accessing the build number.
+> Note 1: Be aware of the the `${currentBuild.number}` is a Jenkins variable for accessing the build number.
 
 ## Part 2: Download the artifact
 
@@ -131,7 +155,24 @@ When we need to download artifacts, we can use File Specs again:
 
 There are two key differences to notice:
 
-* You can use `aql` to search for artifacts as well as the normal pattern based search.
+* You can use `aql` to search for artifacts which have usages. Snip:
+```
+...
+   "aql": {
+        "items.find": {
+            "@build.name": { "\$eq":"${JOB_NAME}" },
+            "@build.number": { "\$eq":"${currentBuild.number}" }
+        }
+...
+```
+* You can use `pattern` which target files using <br>
+Hint:
+```
+...
+      "pattern": "<repo>/<module>/<revision>/*.*"
+...
+```
+
 * The `props` attribute is no longer used for setting properties, but as a filter for only downloading the ones where the given property is set.
 
 ### Tasks
@@ -171,14 +212,18 @@ server.promote promotionConfig
 
 ### Tasks
 
-* In the `promote` stage of your pipeline, make a promotion config that copies the artifacts from `Maturity level 1` to `Maturity level 2` repository.
+* In the `Automatic Promote` stage of your pipeline, make a promotion config that copies the artifacts from `Maturity level 1 (${KATA_USERNAME}-gradle-sandbox-local)` to `Maturity level 2 ${KATA_USERNAME}-gradle-dev-local)` repository.
 * Execute the pipeline to check that the artifacts gets copied over.
-* Make a new stage `interactive promote`
-* In that stage make a promotionConfig that promotes the artifacts from `Maturity level 2` to `Maturity level 3` repository.
-* Instead of making an automated promotion, replace `server.promote promotionConfig` with `Artifactory.addInteractivePromotion server: server, promotionConfig: promotionConfig` to make an interactive promotion.
-* Observe in Artifactory that `Maturity level 2` has the artifact, and `Maturity level 3` does not yet have them.
+
+### Part 4: Interactive promotion
+As we saw in part 3, we can promote artifacts automatically during the build execution. It is also possible to make a decision later and do the promotion interactively - even when the build has completed.
+
+### Tasks
+* In that stage `Interactive promote` make a promotionConfig that promotes the artifacts from `Maturity level 2 (${KATA_USERNAME}-gradle-dev-local)` to `Maturity level 3 (${KATA_USERNAME}-gradle-v3-local)` repository.
+* Instead of making an automated promotion using `server.promote promotionConfig`, we now want use `Artifactory.addInteractivePromotion server: server, promotionConfig: promotionConfig` to make an interactive promotion.
+* Observe in Artifactory that `Maturity level 2 (${KATA_USERNAME}-gradle-dev-local)` has the artifact, and `Maturity level 3 (${KATA_USERNAME}-gradle-v3-local)` does not yet have them.
 * Go back into the jenkins Ui and click "promote" to promote the artifact.
-* Observe in Artifactory that `Maturity level 3` has the artifact now as well.
+* Observe in Artifactory that `Maturity level 3 (${KATA_USERNAME}-gradle-v3-local)` has the artifact now as well.
 
 ## FAQ
 
