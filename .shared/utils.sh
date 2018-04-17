@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 CONFIG=$(pwd)/$(dirname $BASH_SOURCE)"/config.txt"
 LOGFILE=$(pwd)/$(dirname $BASH_SOURCE)"/log.txt"
 
@@ -15,6 +17,9 @@ initkata() {
     read_config_variables
     echo "[KATA] Pinging Artifactory..."
     ping_artifactory
+
+    echo "[KATA] Which gradle are you using:"
+    which gradle
 
     echo "[KATA] Stopping any running gradle daemons..."
     gradle --stop #Stopping any gradle daemons to avoid Windows acting crazy when removing directory
