@@ -258,12 +258,12 @@ rest_deploy_artifact "/$MATURITY_4_REPO/acme/fox/1.5.3/fox-1.5.3.jpg" "$FOX_PATH
 rest_deploy_artifact "/$MATURITY_2_REPO/acme/frog/1.5.3/frog-1.5.3.jpg" "$FROG_PATH"  &>> $LOGFILE
 rest_deploy_artifact "/$MATURITY_1_REPO/acme/frog/2.0.0/frog-2.0.0.jpg" "$FROG_PATH"  &>> $LOGFILE
 # download artifacts
-download_artifact $((RANDOM%10)) "/$MATURITY_1_REPO/acme/duck/1.0.0/duck-1.0.0.jpg" &>> $LOGFILE
-download_artifact $((RANDOM%10)) "/$MATURITY_3_REPO/acme/duck/1.3.0/duck-1.3.0.jpg" &>> $LOGFILE
-download_artifact $((RANDOM%10)) "/$MATURITY_2_REPO/acme/fox/2.3.0/fox-2.3.0.jpg" &>> $LOGFILE
-download_artifact $((RANDOM%10)) "/$MATURITY_4_REPO/acme/fox/1.5.3/fox-1.5.3.jpg" &>> $LOGFILE
-download_artifact $((RANDOM%10)) "/$MATURITY_2_REPO/acme/frog/1.5.3/frog-1.5.3.jpg" &>> $LOGFILE
-download_artifact $((RANDOM%10)) "/$MATURITY_1_REPO/acme/frog/2.0.0/frog-2.0.0.jpg" &>> $LOGFILE
+download_artifact 2 "/$MATURITY_1_REPO/acme/duck/1.0.0/duck-1.0.0.jpg" &>> $LOGFILE
+download_artifact 3 "/$MATURITY_3_REPO/acme/duck/1.3.0/duck-1.3.0.jpg" &>> $LOGFILE
+download_artifact 4 "/$MATURITY_2_REPO/acme/fox/2.3.0/fox-2.3.0.jpg" &>> $LOGFILE
+download_artifact 5 "/$MATURITY_4_REPO/acme/fox/1.5.3/fox-1.5.3.jpg" &>> $LOGFILE
+download_artifact 6 "/$MATURITY_2_REPO/acme/frog/1.5.3/frog-1.5.3.jpg" &>> $LOGFILE
+download_artifact 9 "/$MATURITY_1_REPO/acme/frog/2.0.0/frog-2.0.0.jpg" &>> $LOGFILE
 
 #set some properties on the files
 rest_add_artifact_properties "/$MATURITY_1_REPO/acme/duck/1.0.0/duck-1.0.0.jpg" "os=linux" &>> $LOGFILE
