@@ -21,7 +21,7 @@ echo "$CONTENTS_GRADLE_PROPERTIES" >> gradle.properties
 read -d '' CONTENTS << EOF
 buildscript {
     repositories {
-        maven { url "\${artifactory_contextUrl}/$KATA_USERNAME-jcenter-remote-repo" }
+        maven { url "\${artifactory_contextUrl}/$REMOTE_REPO" }
         
     }
     dependencies {
