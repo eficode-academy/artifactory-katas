@@ -21,9 +21,11 @@ initkata() {
     echo "[KATA] Which gradle are you using:"
     which gradle
 
-    echo "[KATA] Stopping any running gradle daemons..."
-    gradle --stop #Stopping any gradle daemons to avoid Windows acting crazy when removing directory
-    
+    if [ -d "$(pwd)/exercise" ]; then
+        echo "[KATA] Stopping any running gradle daemons..."
+        gradle --stop #Stopping any gradle daemons to avoid Windows acting crazy when removing directory
+    fi
+
     echo "[KATA] Cleaning up old exercise folder..."
     rm -rf exercise/
 
