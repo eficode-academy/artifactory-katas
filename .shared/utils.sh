@@ -1,7 +1,5 @@
 #!/bin/bash
 
-set -e
-
 CONFIG=$(pwd)/$(dirname $BASH_SOURCE)"/config.txt"
 LOGFILE=$(pwd)/$(dirname $BASH_SOURCE)"/log.txt"
 
