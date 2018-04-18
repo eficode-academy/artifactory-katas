@@ -4,9 +4,50 @@ Keeping track on a tens of thousands of artifacts is not easy, and even if you g
 
 For that, JFrog provides their Artifactory Query Language, AQL.
 
-> Hint: In order to use these exercises, you either need the jfrog CLI, or use the REST API. All examples here utilizes the REST API. It can be downloaded [here](https://jfrog.com/getcli/)
+In order to use these exercises, you either need the jfrog CLI, or use the REST API. All examples here utilizes the REST API.
 
-> Hint: link to JFrogs own AQL documentation can be found [here](https://www.jfrog.com/confluence/display/RTF/Artifactory+Query+Language#ArtifactoryQueryLanguage-Usage)
+## Resources
+
+### `curl` and https://www.jfrog.com/confluence/display/RTF/Artifactory+REST+API
+`curl` is available as part of the `bash` installation, so no further actions needed.
+
+### `jfrog.exe` tool (optional and not part of the exercises)
+* Download: It can be download from [here](https://jfrog.com/getcli/)
+* Help: `jfrog.exe help` or https://www.jfrog.com/confluence/display/CLI/JFrog+CLI and https://www.jfrog.com/confluence/display/CLI/CLI+for+JFrog+Artifactory -> "Searching Files"
+* NOTE: There is a difference between `jfrog.exe` and `REST API(curl)` in the way items are queried and different abilities in output etc.
+
+### AQL reference
+Link to JFrogs own AQL documentation can be found [here](https://www.jfrog.com/confluence/display/RTF/Artifactory+Query+Language#ArtifactoryQueryLanguage-Usage)
+
+### File Spec reference
+https://www.jfrog.com/confluence/display/CLI/CLI+for+JFrog+Artifactory#CLIforJFrogArtifactory-UsingFileSpecs
+
+These are the two models that can be used:<br>
+1. Full JSON (both `REST API(curl)` and `jfrog.exe`):<br>
+```
+{
+  "files": [
+    {
+      "aql": {
+        "items.find": {
+                "repo": "<my_repo>"
+        }
+      }
+    }
+  ]
+}
+```
+2. AQL with json (_only_ `REST API(curl)`)
+```
+items.find(
+    {
+        "repo": "<my_repo>"
+    }
+)
+```
+3. Search path (_only_ `jfrog.exe`)
+It is a search option for `jfrog.exe` tool. Example: `jfrog rt s "frog-repo/rabbit/*.zip"`. For details
+https://www.jfrog.com/confluence/display/CLI/CLI+for+JFrog+Artifactory#CLIforJFrogArtifactory-SearchingFiles
 
 ## Domain model
 
@@ -20,14 +61,14 @@ So e.g. if you want to query a specific property of an item, you have to go thro
 
 When using AQL from curl, the query itself is best stored in a plaintext document on the side and used like the command below:
 
-```curl -i -X POST -H "$AUTH_HEADER"  -H "Content-Type:text/plain" "$ARTIFACTORY_URL"/api/search/aql -T payload.json```
+```curl -i -X POST -H "$AUTH_HEADER"  -H "Content-Type:text/plain" $ARTIFACTORY_URL/api/search/aql -T payload.json```
 
 After executing the setup script, you will see four local repositories, each with different maturity denoted:
 
-* USERNAME-gradle-sandbox-local
-* USERNAME-gradle-dev-local
-* USERNAME-gradle-v3-local
-* USERNAME-gradle-release-local
+* `${KATA_USERNAME}-gradle-sandbox-local`
+* `${KATA_USERNAME}-gradle-dev-local`
+* `${KATA_USERNAME}-gradle-v3-local`
+* `${KATA_USERNAME}-gradle-release-local`
 
 ## Task
 
@@ -37,17 +78,17 @@ Make queries that does the following:
 
 For the next exercises, we need to limit our searches to your own repositories. You can do that in two ways:
 
-1. By using the `$match` keyword to enable wildcards: `"repo":{"$match":"$KATA_USERNAME-*"}`
+1. By using the `$match` keyword to enable wildcards: `"repo":{"$match":"<KATA_USERNAME>-*"}`
 1. By listing all the repositories that needs to be searched with the `$or` keyword:
 
 ```Json
 "$or":[
-    {"repo":"$KATA_USERNAME-gradle-sandbox-local"},
-    {"repo":"$KATA_USERNAME-gradle-dev-local"}
+    {"repo":"<KATA_USERNAME>-gradle-sandbox-local"},
+    {"repo":"<KATA_USERNAME>-gradle-dev-local"}
 ]
 ```
 
-### tasks continued
+### Tasks continued
 
 * Get all files in your repositories
 * Get all files that have been downloaded more than 3 times
