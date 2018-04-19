@@ -16,7 +16,6 @@ artifactory_user=$ARTIFACTORY_USERNAME
 artifactory_password=$ARTIFACTORY_PASSWORD
 artifactory_contextUrl=$ARTIFACTORY_URL
 EOF
-
 echo "$CONTENTS_GRADLE_PROPERTIES" >> gradle.properties
 
 read -d '' CONTENTS << EOF
@@ -36,6 +35,7 @@ allprojects {
 
 artifactory {
     contextUrl = "\${artifactory_contextUrl}"   //The base Artifactory URL if not overridden by the publisher/resolver
+    clientConfig.setIncludeEnvVars(true)
     publish {
         repository {
             repoKey = '$MATURITY_2_REPO'

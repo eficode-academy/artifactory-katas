@@ -1,6 +1,6 @@
 # Custom layout
 
-After you have executed the setup script, you have one gradle repository.
+After you have executed the setup script, you have one gradle repository, `$KATA_USERNAME-generic-gradle-1`.
 The standard layout for such a repository is the following:
 
 ```
@@ -15,8 +15,8 @@ You have a team that wants to have all ducks and fox artifacts with the same ver
 .
 └── acme
    └── 1.0.0
-       ├── Duck-1.0.0.jpg
-       └── Fox-1.0.0.jpg
+       ├── duck-1.0.0.jpg
+       └── fox-1.0.0.jpg
 
 ```
 
@@ -38,12 +38,12 @@ You have a team that wants to have all ducks and fox artifacts with the same ver
 * First we will need to create a layout. In Artifactory, got to [Admin] —> [Repositories] —> [Layout], then click on "Duplicate" from the gradle layout.
 * Give a name to "Layout Name", in our case it will be called something with your initials.
 * In the "Artifact Path Pattern", delete the first `/[module]` that represents a folder structure.
-* Test that the layout works as intended. In "Test Artifacts Path Resolution", fill in the following: `acme/1.0.0/Fox-1.0.0.jpg`
+* Test that the layout works as intended. In "Test Artifacts Path Resolution", fill in the following: `acme/1.0.0/fox-1.0.0.jpg`
 * Click the `Test` button and check that you get the following resolution:
 
 ```
 Organization:acme
-Module:Fox
+Module:fox
 Base Revision: 1.0.0
 Folder Integration Revision:
 File Integration Revision:
@@ -60,34 +60,17 @@ Type:
 
 **Upload the files**
 
-* Click on the repository and click deploy
-* Upload both duck and fox images with the "deploy according to layout" option.
+* Go to the repository browser, click on the repository and click deploy
+* Upload both duck and fox images with the "deploy according to layout" option. You will have to upload them 1 at a time to deploy according to layout.
+
+    Fill in the info: `org: Acme, baseRev: 1.0.0, module: duck or fox`
 * Check that they get the `Dependency Declaration` section in the UI when selecting them.
 
 **Add the dependencies**
 
 * Go into your `build.gradle` and change your repository to the URL of the new repository.
 
-```Groovy
-apply plugin: "java"
-  repositories {
-    maven {
-        url "your_artifactory_repo_url"
-    }
-}
-  configurations {
-    deps
-}
-  dependencies {
-    deps "fox dependency declaration goes here"
-    deps "duck dependency declaration goes here"
-}
-  task copyDeps(type: Copy) {
-    from configurations.deps
-    into "$buildDir/output"
-}
+    **Info:** When you paste your repository name into `build.gradle`, notice the `ivy` section. This is normally something you would have to write yourself when resolving custom repositories, as Artifactory cannot automatically translate the default maven paths that Gradle automatically uses. This workaround allows Gradle to search the custom layout.
 
-```
-
-* Execute `gradlew copyDeps`
+* Execute `gradle copyDeps`
 * Look into the `output` folder to see that the artifacts have been downloaded as they should.

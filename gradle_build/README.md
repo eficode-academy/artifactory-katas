@@ -16,7 +16,7 @@ Everything in this exercise is well documented on [the Gradle Artifactory Plugin
 
     **Hint:** Properties for all artifacts are added in `build.gradle` under `artifactory -> publish -> defaults`, and is formatted like this: 
     ```groovy
-    properties = ['qa.level': 'basic', 'q.os': 'win32, deb, osx']
+    properties = ['status': 'released', 'isWaterproof': 'inconclusive']
     ```
 - Run `gradle artifactoryPublish` and check that your newly published artifacts have the new property.
 - Add a property `'animal':'duck'` to all items in `duckPublication`, and `'animal':'moose'` to all items in `moosePublication`
