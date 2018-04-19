@@ -263,6 +263,7 @@ echo "population done"
 
 populate_maturity_repos(){
 # deploy the artifacts
+echo "[KATA] Deploying artifacts to Artifactory ...."
 rest_deploy_artifact "/$MATURITY_1_REPO/acme/duck/1.0.0/duck-1.0.0.jpg" "$DUCK_PATH" &>> $LOGFILE
 rest_deploy_artifact "/$MATURITY_3_REPO/acme/duck/1.3.0/duck-1.3.0.jpg" "$DUCK_PATH" &>> $LOGFILE
 rest_deploy_artifact "/$MATURITY_2_REPO/acme/fox/2.3.0/fox-2.3.0.jpg" "$FOX_PATH"  &>> $LOGFILE
@@ -270,6 +271,7 @@ rest_deploy_artifact "/$MATURITY_4_REPO/acme/fox/1.5.3/fox-1.5.3.jpg" "$FOX_PATH
 rest_deploy_artifact "/$MATURITY_2_REPO/acme/frog/1.5.3/frog-1.5.3.jpg" "$FROG_PATH"  &>> $LOGFILE
 rest_deploy_artifact "/$MATURITY_1_REPO/acme/frog/2.0.0/frog-2.0.0.jpg" "$FROG_PATH"  &>> $LOGFILE
 # download artifacts
+echo "[KATA] Simulating download of the artifacts, please wait ....."
 download_artifact 2 "/$MATURITY_1_REPO/acme/duck/1.0.0/duck-1.0.0.jpg" &>> $LOGFILE
 download_artifact 3 "/$MATURITY_3_REPO/acme/duck/1.3.0/duck-1.3.0.jpg" &>> $LOGFILE
 download_artifact 4 "/$MATURITY_2_REPO/acme/fox/2.3.0/fox-2.3.0.jpg" &>> $LOGFILE
@@ -281,6 +283,6 @@ download_artifact 9 "/$MATURITY_1_REPO/acme/frog/2.0.0/frog-2.0.0.jpg" &>> $LOGF
 rest_add_artifact_properties "/$MATURITY_1_REPO/acme/duck/1.0.0/duck-1.0.0.jpg" "os=linux" &>> $LOGFILE
 rest_add_artifact_properties "/$MATURITY_3_REPO/acme/duck/1.3.0/duck-1.3.0.jpg" "os=linux;unit_test=sucess;integration_test=success" &>> $LOGFILE
 rest_add_artifact_properties "/$MATURITY_2_REPO/acme/fox/2.3.0/fox-2.3.0.jpg" "os=windows;unit_test=sucess" &>> $LOGFILE
-#rest_add_artifact_properties
+rest_add_artifact_properties "/$MATURITY_1_REPO/acme/frog/2.0.0/frog-2.0.0.jpg" "keep=true" &>> $LOGFILE
 #rest_add_artifact_properties
 }
