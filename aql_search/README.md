@@ -11,11 +11,6 @@ In order to use these exercises, you either need the jfrog CLI, or use the REST 
 ### `curl` and https://www.jfrog.com/confluence/display/RTF/Artifactory+REST+API
 `curl` is available as part of the `bash` installation, so no further actions needed.
 
-### `jfrog.exe` tool (optional and not part of the exercises)
-* Download: It can be download from [here](https://jfrog.com/getcli/)
-* Help: `jfrog.exe help` or https://www.jfrog.com/confluence/display/CLI/JFrog+CLI and https://www.jfrog.com/confluence/display/CLI/CLI+for+JFrog+Artifactory -> "Searching Files"
-* NOTE: There is a difference between `jfrog.exe` and `REST API(curl)` in the way items are queried and different abilities in output etc.
-
 ### AQL reference
 Link to JFrogs own AQL documentation can be found [here](https://www.jfrog.com/confluence/display/RTF/Artifactory+Query+Language#ArtifactoryQueryLanguage-Usage)
 
@@ -23,8 +18,10 @@ Link to JFrogs own AQL documentation can be found [here](https://www.jfrog.com/c
 https://www.jfrog.com/confluence/display/CLI/CLI+for+JFrog+Artifactory#CLIforJFrogArtifactory-UsingFileSpecs
 
 These are the two models that can be used:<br>
-1. Full JSON (both `REST API(curl)` and `jfrog.exe`):<br>
-```
+1. Full JSON (both `REST API(curl)` and `jfrog.exe`):
+
+```json
+
 {
   "files": [
     {
@@ -36,15 +33,19 @@ These are the two models that can be used:<br>
     }
   ]
 }
+
 ```
+
 2. AQL with json (_only_ `REST API(curl)`)
-```
+
+```json
 items.find(
     {
         "repo": "<my_repo>"
     }
 )
 ```
+
 3. Search path (_only_ `jfrog.exe`)
 It is a search option for `jfrog.exe` tool. Example: `jfrog rt s "frog-repo/rabbit/*.zip"`. For details
 https://www.jfrog.com/confluence/display/CLI/CLI+for+JFrog+Artifactory#CLIforJFrogArtifactory-SearchingFiles

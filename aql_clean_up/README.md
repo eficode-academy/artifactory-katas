@@ -32,6 +32,28 @@ Take the following command as an example:
 * `s` stand for search
 * `--spec=` defines where the filespec is located.
 
+### File Spec reference
+https://www.jfrog.com/confluence/display/CLI/CLI+for+JFrog+Artifactory#CLIforJFrogArtifactory-UsingFileSpecs
+
+These are the two models that can be used:<br>
+1. Full JSON (both `REST API(curl)` and `jfrog.exe`):
+
+```json
+
+{
+  "files": [
+    {
+      "aql": {
+        "items.find": {
+                "repo": "<my_repo>"
+        }
+      }
+    }
+  ]
+}
+
+```
+
 ## Tasks
 
 > **Note:** Remember to limit your AQL's to your repositories only. Refer back to [aql_search](../aql_search/README.md) for info on how to do that.
@@ -50,4 +72,7 @@ Now you are ready to get to work with the CLI:
   * Does not have the `keep` property set to `true`
 * Execute with with a normal curl REST call, and examine how many artifacts you get back.
 * Convert it to a `filespec` file
-* 
+* Run `./jfrog rt s --spec=filespec.json`
+* Look at the result and compare the number to your original search
+* Then finally, issue a delete command `./jfrog rt del --spec=filespec.json` to delete the files
+* Look into artifactory to make sure they are downloaded.
