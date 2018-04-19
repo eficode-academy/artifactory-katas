@@ -2,6 +2,7 @@
 
 CONFIG=$(pwd)/$(dirname $BASH_SOURCE)"/config.txt"
 LOGFILE=$(pwd)/$(dirname $BASH_SOURCE)"/log.txt"
+rm -f $LOGFILE
 
 DUCK_PATH=$(pwd)/$(dirname $BASH_SOURCE)"/Duck.jpg"
 DUCK2_PATH=$(pwd)/$(dirname $BASH_SOURCE)"/Duck2.jpg"
@@ -229,11 +230,12 @@ rest_add_artifact_properties(){
 #$1 is the number of times it should be downloaded
 #$2 is the url path of the file
 download_artifact(){
-
 COUNTER=0
 echo "downloading $ARTIFACTORY_URL/$2 $1 times"
 while [  $COUNTER -lt $1 ]; do
-    curl $ARTIFACTORY_URL$2 > /dev/null 2>&1
+    rm -f ./test.jpg
+    curl -o ./test.jpg $ARTIFACTORY_URL$2
+    rm -f ./test.jpg
     let COUNTER=COUNTER+1 
 done
 }
