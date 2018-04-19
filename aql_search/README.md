@@ -108,8 +108,8 @@ For the next exercises, we need to limit our searches to your own repositories. 
 
 ### Tasks continued
 
-* Get all files in your repositories. The result should be 6 artifacts.
-* Get all files that have been downloaded more than 3 times. The result should be 4 artifacts.
-* Get all files where the property `os` has the value `linux`. The result should be 2 artifacts.
-* Get all files that are over 1 megabyte (in bytes) large. The result should be 2 artifacts.
-* Get instances of an artifact that is uploaded later than X days. (this one we have no answer to, because all artifacts have been uploaded within the past minute or two. But have a look at the specification [here](https://www.jfrog.com/confluence/display/RTF/Artifactory+Query+Language#ArtifactoryQueryLanguage-DateandTimeFormat))
+* Get a list of all files in your repositories. The result should be 6 artifacts.
+* Get a list of all files that have been downloaded more than 3 times. The result should be 4 artifacts.
+* Get a list of all files where the property `os` has the value `linux`. The result should be 2 artifacts.
+* Get a list of all files that are over 1 megabyte (in bytes) large. The result should be 2 artifacts.
+* Get a list of instances of an artifact that is uploaded later than X days. (this one we have no answer to, because all artifacts have been uploaded within the past minute or two. But have a look at the specification [here](https://www.jfrog.com/confluence/display/RTF/Artifactory+Query+Language#ArtifactoryQueryLanguage-DateandTimeFormat))
