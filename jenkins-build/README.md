@@ -4,13 +4,13 @@ We want to enable the automatic promotion of artifacts through the maturity repo
 
 Our goal in this exercise is to simulate a normal workflow in your production environment, but leave out all the nitty gritty details that makes learning hard.
 
-The end result should be a fully functioning pipeline that takes advantage of Artifactory to
+The end result should be a fully functioning pipeline that takes advantage of Artifactory to:
 
 * Upload
 * Download
 * Promote throughout the pipeline
 
-Each of the bullets represents is represented by an exercise below.
+Each of the bullets is represented by an exercise below.
 In order to do the exercises, you need to setup a job in Jenkins.
 
 > Hint: The goal of this exercise is not to learn Jenkins pipeline syntax, nor groovy, but understanding the options you get in Jenkins. If you get stuck, please refer to the [reference pipeline](./complete_pipeline.md) for help.
@@ -39,9 +39,9 @@ node {
     }
     stage('Build') {
         // "build" some software
-        writeFile file: 'acme.txt', text: "this is our artifact from 1.${currentBuild.number}"
-        sh "tar -zcvf acme.tgz acme.txt"
-        sh "ls -la"
+        writeFile file: "acme-1.${currentBuild.number}.txt", text: "this is our artifact from 1.${currentBuild.number}"
+        sh "tar -zcvf acme.tgz acme.txt" //Make a package of it
+        sh "ls -la" //List the artifact
         archiveArtifacts '**/*.*'
     }
     stage('Upload') {
@@ -130,7 +130,7 @@ server.publishBuildInfo buildInfo
 * Add the `acme.tgz` in the `uploadSpec` in the `upload` step of your jenkins file, make an upload spec that takes the `acme.txt` and uploads it to the `${KATA_USERNAME}-gradle-sandbox-local` repo under `com/acme/1.${currentBuild.number}/acme-1.${currentBuild.number}.txt`
 * go into artifactory UI and look at the corresponding file being uploaded into the correct repository and directory.
 
-> Note 1: Be aware of the the `${currentBuild.number}` is a Jenkins variable for accessing the build number.
+> **Note 1:** Be aware of the the `${currentBuild.number}` is a Jenkins variable for accessing the build number.
 
 ## Part 2: Download the artifact
 
@@ -155,7 +155,10 @@ When we need to download artifacts, we can use File Specs again:
 
 There are two key differences to notice:
 
-* You can use `aql` to search for artifacts which have usages. Snip:
+* You can use `aql` to search for artifacts like the one below:
+
+> **Note:** If you are running our course, then AQL has not been introduced before. Just keep in mind that this is possible.
+
 ```
 ...
    "aql": {
@@ -165,8 +168,9 @@ There are two key differences to notice:
         }
 ...
 ```
-* You can use `pattern` which target files using <br>
-Hint:
+
+* You can use `pattern` which target files using thier layout like below:
+
 ```
 ...
       "pattern": "<repo>/<module>/<revision>/*.*"
@@ -174,6 +178,8 @@ Hint:
 ```
 
 * The `props` attribute is no longer used for setting properties, but as a filter for only downloading the ones where the given property is set.
+
+Now all you need is downloading it through: `server.download spec: downloadSpec, buildInfo: buildInfo`
 
 ### Tasks
 
@@ -212,7 +218,7 @@ server.promote promotionConfig
 
 ### Tasks
 
-* In the `Automatic Promote` stage of your pipeline, make a promotion config that copies the artifacts from `Maturity level 1 (${KATA_USERNAME}-gradle-sandbox-local)` to `Maturity level 2 ${KATA_USERNAME}-gradle-dev-local)` repository.
+* In the `Automatic Promote` stage of your pipeline, make a promotion config that moves the artifacts from `Maturity level 1 (${KATA_USERNAME}-gradle-sandbox-local)` to `Maturity level 2 ${KATA_USERNAME}-gradle-dev-local)` repository.
 * Execute the pipeline to check that the artifacts gets copied over.
 
 ### Part 4: Interactive promotion
@@ -230,6 +236,6 @@ As we saw in part 3, we can promote artifacts automatically during the build exe
 * Q: I have multiple stages that I want to upload artifacts from, but I can only do one upload per build.
   * A: You have two options: make several builds and loose traceability between them, or wait with uploading till all artifacts have been produced limiting the measurement of maturity progression.
 * Q: Should I move or copy my artifacts when i promote?
-  * A: Artifactory prefer to make virtual repositories spanning several local ones to copy. Remember that if you copy, then the properties are not propagated to the other instances of the same artifact.
+  * A: Artifactory prefer move and then make virtual repositories spanning several local ones, than to copy. Remember that if you copy, then the properties are not propagated to the other instances of the same artifact.
 * Q: while promoting the build, I want to append new properties to the artifacts.
   * A: Unfortunately you cannot do that via the plugin. The rest API on the other hand have that capability, so please look at our [curl promotion](.promote_curl.md)
