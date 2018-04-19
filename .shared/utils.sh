@@ -186,6 +186,18 @@ rest_create_remote_repository() {
     "$ARTIFACTORY_URL/api/repositories/$1"
 }
 
+rest_create_user(){
+    curl -i -X PUT \
+     -H "Content-Type:application/json" \
+        -H "$AUTH_HEADER" \
+        -d \
+    "{ \
+      \"email\" : \"$2\", \
+    \"password\": \"$1\" \
+    }" \
+    "$ARTIFACTORY_URL/api/security/users/$1"
+}
+
 #Deletes a repository
 #$1 repository name
 rest_delete_repository() {
