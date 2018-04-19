@@ -24,7 +24,7 @@ Everything in this exercise is well documented on [the Gradle Artifactory Plugin
     **Hint:** Properties for specific groups of artifacts are made with a closure in `build.gradle` under `artifactory -> publish -> defaults`:
     ```groovy 
     properties {
-        publicationName 'propertyKey1':'propertyValue1', 'propertyKey2':'propertyValue2'
+        publicationName '*:*:*:*@*','propertyKey1':'propertyValue1', 'propertyKey2':'propertyValue2'
     }
     ```
 - Run `gradle artifactoryPublish` and check that your newly published artifacts have the new property.
