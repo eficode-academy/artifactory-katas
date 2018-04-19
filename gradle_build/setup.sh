@@ -6,9 +6,10 @@ initkata
 gradle -q init
 
 rest_create_remote_repository $REMOTE_REPO "gradle" "maven-2-default" "https://jcenter.bintray.com" &>> $LOGFILE
-rest_create_repository $GRADLE_REPO1 "gradle"  &>> $LOGFILE
-rest_deploy_artifact "/$GRADLE_REPO1/DuckCorp/Duck/1.0.0/Duck-1.0.0.jpg" "$DUCK_PATH"  &>> $LOGFILE
-rest_deploy_artifact "/$GRADLE_REPO1/MooseCorp/Moose/1.0.0/Moose-1.0.0.jpg" "$MOOSE_PATH"  &>> $LOGFILE
+rest_create_repository $MATURITY_2_REPO "gradle" &>> $LOGFILE
+rest_create_repository $MATURITY_4_REPO "gradle" &>> $LOGFILE
+rest_deploy_artifact "/$MATURITY_2_REPO/DuckCorp/Duck/1.0.0/Duck-1.0.0.jpg" "$DUCK_PATH" &>> $LOGFILE
+rest_deploy_artifact "/$MATURITY_2_REPO/MooseCorp/Moose/1.0.0/Moose-1.0.0.jpg" "$MOOSE_PATH" &>> $LOGFILE
 
 read -d '' CONTENTS_GRADLE_PROPERTIES <<EOF
 artifactory_user=$ARTIFACTORY_USERNAME
@@ -37,19 +38,24 @@ artifactory {
     contextUrl = "\${artifactory_contextUrl}"   //The base Artifactory URL if not overridden by the publisher/resolver
     publish {
         repository {
-            repoKey = '$GRADLE_REPO1'
+            repoKey = '$MATURITY_2_REPO'
             username = "\${artifactory_user}"
             password = "\${artifactory_password}"
             maven = true
             
         }
-                defaults {
-            publications ('duckPublication','moosePublication')
+            defaults {
+                publications ('duckPublication','moosePublication')
+
+                // This is where you can add default properties that will apply to all artifacts
+
+                // This is also where you can add a properties{} closure that sets properties on specific artifacts
+
         }
     }
     resolve {
         repository {
-            repoKey = '$GRADLE_REPO1'
+            repoKey = '$MATURITY_2_REPO'
             username = "\${artifactory_user}"
             password = "\${artifactory_password}"
             maven = true
@@ -102,13 +108,46 @@ publishing.publications {
         version     '1.0.0'
     }
 }
+
+import groovy.json.JsonSlurper
+task('PromoteBuild', type: Exec) {
+    String username = "\${artifactory_user}"
+    String password = "\${artifactory_password}"
+    def creds = "\$username:\$password".bytes.encodeBase64()
+    def authHeader = "Authorization: Basic \$creds"
+
+    def myBuildName = "yourBuildName" //Enter your build name here
+    def myBuildNumber = "yourBuildNumber" //Enter your build number here
+
+    workingDir '.'
+    commandLine 'curl', '-s', '-X', 'POST', '-H', "\\\\"Content-Type:application/json\\\\"", "-H", "\\\\"\$authHeader\\\\"", "-d", "\\\\"@promote_build_query.json\\\\"", "\\\\"\${artifactory_contextUrl}/api/build/promote/\$myBuildName/\$myBuildNumber\\\\""
+
+    standardOutput = new ByteArrayOutputStream()
+    doLast {
+        def json = new JsonSlurper().parseText(standardOutput.toString())
+        if ( json?.errors?.status ) {
+            println "HTTP error when trying to promote build. Dumping full JSON response:"
+            println standardOutput.toString()
+            throw new GradleException("HTTP error when trying to promote build")
+        }
+    }
+}
 EOF
 
 echo "$CONTENTS" >> build.gradle
 
+read -d '' CONTENTS_PROMOTE_BUILD <<EOF
+{
+    \"status\" : \"Released\",
+    \"sourceRepo\" : \"$MATURITY_2_REPO\",
+    \"targetRepo\" : \"$MATURITY_4_REPO\"
+}
+EOF
+echo "$CONTENTS_PROMOTE_BUILD" >> promote_build_query.json
+
 echo ""
 echo "This is the Gradle repository that has been set up:"
-echo "$GRADLE_REPO1"
+echo "$MATURITY_2_REPO"
 echo "Visit it in the UI:"
-echo "$ARTIFACTORY_URL/webapp/#/artifacts/browse/tree/General/$GRADLE_REPO1"
+echo "$ARTIFACTORY_URL/webapp/#/artifacts/browse/tree/General/$MATURITY_2_REPO"
 echo ""
