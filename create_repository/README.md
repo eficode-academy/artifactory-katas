@@ -14,7 +14,7 @@ Run `setup.sh` and note the names of the repositories. These are the names you s
 
 ## Upload some files through the UI
 
-1. Upload `Duck.jpg` to the first repository and `Fox.jpg` to the 2nd. Remember to tick the `Deploy According To Layout` box and input the mandatory information for the gradle layout. (EXAMPLE: `org: volvo, module:Duck, baseRev: 1.0.0, ext: jpg`)
+1. Upload `duck.jpg` to the first repository and `Fox.jpg` to the 2nd. Remember to tick the `Deploy According To Layout` box and input the mandatory information for the gradle layout. (EXAMPLE: `org: volvo, module:duck, baseRev: 1.0.0, ext: jpg`)
 
 ## Look at them through the Native browser
 
@@ -22,4 +22,4 @@ The native browser lets you browse the contents of a repository outside of the A
 
 It provides a highly responsive, read-only view and is similar to a directory listing provided by HTTP servers.
 
-1. Locate the `$KATA_USERNAME-generic-simple-1` repository in artifactory UI, and right click --> `native browser` to see `Duck.jpg` in the path.
+1. Locate the `$KATA_USERNAME-generic-simple-1` repository in artifactory UI, and right click --> `native browser` to see `duck.jpg` in the path.

@@ -11,7 +11,7 @@ Exercises made for Praqma's one day [introduction to Artifactory](https://www.pr
 - [gradle_build](./gradle_build/README.md)
 - [jenkins_build](./jenkins_build/README.md)
 - [aql_search](./aql_search/README.md)
-- [aql_cleanup](./aql_cleanup/README.md)
+- [aql_cleanup](./aql_clean_up/README.md)
 
 **Links:**
 

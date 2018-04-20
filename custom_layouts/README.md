@@ -73,4 +73,4 @@ Type:
     **Info:** When you paste your repository name into `build.gradle`, notice the `ivy` section. This is normally something you would have to write yourself when resolving custom repositories, as Artifactory cannot automatically translate the default maven paths that Gradle automatically uses. This workaround allows Gradle to search the custom layout.
 
 * Execute `gradle copyDeps`
-* Look into the `output` folder to see that the artifacts have been downloaded as they should.
+* Look into the `build/output` folder to see that the artifacts have been downloaded as they should.

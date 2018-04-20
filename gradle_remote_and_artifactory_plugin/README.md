@@ -15,7 +15,7 @@ The goal of the exercise is to configure the Artifactory Plugin for Gradle to re
     - Once you've pasted in the configuration, be sure to change `jcenter()` under `buildscripts`->`repositories` to your own remote repo:
 
         ```groovy
-         maven { url "http:/${artifactory_contextUrl}/$USERNAME-jcenter-remote" }
+         maven { url "${artifactory_contextUrl}/$USERNAME-jcenter-remote" }
         ```
 
     - In the Artifactory configuration, change the `repoKey` under both `resolve` -> `repository` and `resolve` -> `repository` to your own repository, `$USERNAME-generic-gradle-1`

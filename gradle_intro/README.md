@@ -14,7 +14,7 @@ The goal of this exercise is to successfully download the latest version of a de
 
     ```groovy
     repositories {
-        maven { url "http://ArtifactoryUrl.com:8081/artifactory/$KATA_USERNAME-generic-gradle-1" }
+        maven { url "http://ArtifactoryUrl.com/artifactory/$KATA_USERNAME-generic-gradle-1" }
     }
     ```
 1. Visit Artifactory and find `Duck.jpg` in your repository. Modify your `build.gradle` so that the file is added as a dependency.
