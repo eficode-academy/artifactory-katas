@@ -45,7 +45,7 @@ Everything in this exercise is well documented on [the Gradle Artifactory Plugin
 
     **Hint:** Use the `PromoteBuild` task at the bottom of `build.gradle`. You will need to fill out `myBuildName` and `myBuildNumber` with the names you decided in the previous step. Then you can call `gradle PromoteBuild` in your commandline
 
-    **Info:** If you have done the `promote_curl` exercise, you can take a look at `promote_build_query.json` in the exercise folder. This is the query we send to Artifactory in order to do the promotion, and it follows the same spec discussed in the previous exercise.
+    **Info:** If you want to know more about the payload data we send to Artifactory to make a promotion, have a look at [the official documentation](https://www.jfrog.com/confluence/display/RTF/Artifactory+REST+API#ArtifactoryRESTAPI-BuildPromotion). The JSON spec shows how it is possible to promote without moving artifacts, and how it can also be used just to add properties to files in a build.
 
     **Info:** In a real setup, you should use an http library to create your queries instead of relying on external tools like curl, but since this is not a Groovy course, we do not want to spend any time pulling in 3rd party libraries and learning different syntax.
 - Go to the Artifactory UI, find `$KATA_USERNAME-gradle-release-local` and check that the files have been copied over.

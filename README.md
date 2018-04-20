@@ -2,6 +2,17 @@
 
 Exercises made for Praqma's one day [introduction to Artifactory](https://www.praqma.com/training/artifactory-intro/)
 
+## Katas
+- [create_repository](./create_repository/README.md)
+- [gradle_intro](./gradle_intro/README.md)
+- [custom_layouts](./custom_layouts/README.md)
+- [gradle_remote_and_artifactory_plugin](./gradle_remote_and_artifactory_plugin/README.md)
+- [virtual_repositories](./virtual_repositories/README.md)
+- [gradle_build](./gradle_build/README.md)
+- [jenkins_build](./jenkins_build/README.md)
+- [aql_search](./aql_search/README.md)
+- [aql_cleanup](./aql_cleanup/README.md)
+
 **Links:**
 
 * [General Artifactory documentation](https://www.jfrog.com/confluence/pages/viewpage.action?pageId=46107472)
