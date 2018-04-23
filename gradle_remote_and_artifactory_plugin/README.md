@@ -3,7 +3,7 @@ In order to start uploading artifacts via Gradle, we need to get access to the A
 
 When we have our remote repository ready, we'll be able to use it in `build.gradle` to find the Artifactory plugin for Gradle. We can then configure what repository to resolve from, and what repository to publish to.
 
-The goal of the exercise is to configure the Artifactory Plugin for Gradle to resolve dependencies from a local gradle repository, use a dependency from this repository to create our own `Duck.zip` artifact and finally publish this artifact via Gradle.
+The goal of the exercise is to configure the Artifactory Plugin for Gradle to resolve dependencies from a local gradle repository, use a dependency from this repository to create our own `duck.zip` artifact and finally publish this artifact via Gradle.
 
 ## Exercise
 
@@ -30,8 +30,8 @@ The goal of the exercise is to configure the Artifactory Plugin for Gradle to re
 
     - Remember to also create `gradle.properties` for saving your login credentials. It can be downloaded from the `Set Me Up` page, by clicking `Download gradle.properties`
 
-The setup script have already inserted our `Duck-1.0.0.jpg` dependency in `build.gradle`, so the next exercises have something to handle:
+The setup script have already inserted our `duck-1.0.0.jpg` dependency in `build.gradle`, so the next exercises have something to handle:
 
 1. Run `gradle dependencies` to verify that everything resolves as it should. 
-1. Run `gradle productZip`. As you can see from `build.gradle` this task downloads our dependency and zips it up. Verify that `Duck.zip` is created.
-1. Run `gradle artifactoryPublish` and check that your zipped artifact `DuckZip-1.0.0.zip` was uploaded in your own repository.
+1. Run `gradle productZip`. As you can see from `build.gradle` this task downloads our dependency and zips it up. Verify that `duck.zip` is created.
+1. Run `gradle artifactoryPublish` and check that your zipped artifact `duckzip-1.0.0.zip` was uploaded in your own repository.

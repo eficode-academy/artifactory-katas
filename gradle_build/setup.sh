@@ -8,8 +8,8 @@ gradle -q init
 rest_create_remote_repository $REMOTE_REPO "gradle" "maven-2-default" "https://jcenter.bintray.com" &>> $LOGFILE
 rest_create_repository $MATURITY_2_REPO "gradle" &>> $LOGFILE
 rest_create_repository $MATURITY_4_REPO "gradle" &>> $LOGFILE
-rest_deploy_artifact "/$MATURITY_2_REPO/DuckCorp/Duck/1.0.0/Duck-1.0.0.jpg" "$DUCK_PATH" &>> $LOGFILE
-rest_deploy_artifact "/$MATURITY_2_REPO/MooseCorp/Moose/1.0.0/Moose-1.0.0.jpg" "$MOOSE_PATH" &>> $LOGFILE
+rest_deploy_artifact "/$MATURITY_2_REPO/duckcorp/duck/1.0.0/duck-1.0.0.jpg" "$DUCK_PATH" &>> $LOGFILE
+rest_deploy_artifact "/$MATURITY_2_REPO/moosecorp/moose/1.0.0/moose-1.0.0.jpg" "$MOOSE_PATH" &>> $LOGFILE
 
 read -d '' CONTENTS_GRADLE_PROPERTIES <<EOF
 artifactory_user=$ARTIFACTORY_USERNAME
@@ -70,8 +70,8 @@ configurations{
     MooseFiles
 }
 dependencies {
-    DuckFiles(group: 'DuckCorp', name: 'Duck', version: '1.0.+', ext: 'jpg')
-    MooseFiles(group: 'MooseCorp', name: 'Moose', version: '1.0.+', ext: 'jpg')
+    DuckFiles(group: 'duckcorp', name: 'duck', version: '1.0.+', ext: 'jpg')
+    MooseFiles(group: 'moosecorp', name: 'moose', version: '1.0.+', ext: 'jpg')
 }
 
 task('DuckZip', type: Zip) {
@@ -81,7 +81,7 @@ task('DuckZip', type: Zip) {
     from {
         configurations.DuckFiles
     }
-    archiveName "Duck.zip"
+    archiveName "duck.zip"
 }
 
 task('MooseZip', type: Zip) {
@@ -91,20 +91,20 @@ task('MooseZip', type: Zip) {
     from {
         configurations.MooseFiles
     }
-    archiveName "Moose.zip"
+    archiveName "moose.zip"
 }
 
 publishing.publications {
     duckPublication(MavenPublication) {
         artifact    tasks.getByName('DuckZip')
-        groupId     'DuckCorp'
-        artifactId  'DuckZip'
+        groupId     'duckcorp'
+        artifactId  'duckzip'
         version     '1.0.0'
     }
     moosePublication(MavenPublication) {
         artifact    tasks.getByName('MooseZip')
-        groupId     'MooseCorp'
-        artifactId  'MooseZip'
+        groupId     'moosecorp'
+        artifactId  'moosezip'
         version     '1.0.0'
     }
 }

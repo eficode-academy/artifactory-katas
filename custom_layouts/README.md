@@ -63,7 +63,7 @@ Type:
 * Go to the repository browser, click on the repository and click deploy
 * Upload both duck and fox images with the "deploy according to layout" option. You will have to upload them 1 at a time to deploy according to layout.
 
-    Fill in the info: `org: Acme, baseRev: 1.0.0, module: duck or fox`
+    Fill in the info: `org: acme, baseRev: 1.0.0, module: duck or fox`
 * Check that they get the `Dependency Declaration` section in the UI when selecting them.
 
 **Add the dependencies**

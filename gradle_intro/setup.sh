@@ -6,8 +6,8 @@ initkata
 gradle -q init
 
 rest_create_repository $GRADLE_REPO1 "gradle"  &>> $LOGFILE
-rest_deploy_artifact "/$GRADLE_REPO1/DuckCorp/Duck/1.0.0/Duck-1.0.0.jpg" "$DUCK_PATH"  &>> $LOGFILE
-rest_deploy_artifact "/$GRADLE_REPO1/DuckCorp/Duck/1.0.1/Duck-1.0.1.jpg" "$DUCK2_PATH"  &>> $LOGFILE
+rest_deploy_artifact "/$GRADLE_REPO1/duckcorp/duck/1.0.0/duck-1.0.0.jpg" "$DUCK_PATH"  &>> $LOGFILE
+rest_deploy_artifact "/$GRADLE_REPO1/duckcorp/duck/1.0.1/duck-1.0.1.jpg" "$DUCK2_PATH"  &>> $LOGFILE
 
 read -d '' CONTENTS << EOF
 repositories {
@@ -27,7 +27,7 @@ task('productZip', type: Zip) {
     from {
         configurations.compile
     }
-    archiveName "Duck.zip"
+    archiveName "duck.zip"
 }
 EOF
 

@@ -3,27 +3,14 @@
 source ../.shared/utils.sh
 initkata
 
-cp $DUCK_PATH ./
-cp $FOX_PATH ./
-cp $FROG_PATH ./
-cp $MOOSE_PATH ./
-cp $SQUIRREL_PATH ./
+cp $DUCK_PATH ./duck-$KATA_USERNAME.jpg
+cp $FOX_PATH ./fox-$KATA_USERNAME.jpg
+cp $FROG_PATH ./frog-$KATA_USERNAME.jpg
+cp $MOOSE_PATH ./moose-$KATA_USERNAME.jpg
+cp $SQUIRREL_PATH ./squirrel-$KATA_USERNAME.jpg
 
 echo ""
 echo "These are the names you should use for your gradle repositories:"
 echo "1: $GRADLE_REPO1"
 echo "2: $GRADLE_REPO2"
-echo ""
-
-echo "This is the name you should use for your custom layout:"
-echo "$KATA_USERNAME-layout"
-echo ""
-
-echo "This is the name you should use for your custom repository:"
-echo "3: $CUSTOM_REPO1"
-echo ""
-
-echo "These are the names you should use for your virtual repositories:"
-echo "4: $VIRTUAL_REPO1"
-echo "5: $VIRTUAL_REPO2"
 echo ""

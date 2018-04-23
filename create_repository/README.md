@@ -14,7 +14,7 @@ Run `setup.sh` and note the names of the repositories. These are the names you s
 
 ## Upload some files through the UI
 
-1. Upload `duck.jpg` to the first repository and `Fox.jpg` to the 2nd. Remember to tick the `Deploy According To Layout` box and input the mandatory information for the gradle layout. (EXAMPLE: `org: volvo, module:duck, baseRev: 1.0.0, ext: jpg`)
+1. Upload `duck.jpg` to the first repository and `fox.jpg` to the 2nd. Remember to tick the `Deploy According To Layout` box and input the mandatory information for the gradle layout. (EXAMPLE: `org: volvo, module:duck, baseRev: 1.0.0, ext: jpg`)
 
 ## Look at them through the Native browser
 

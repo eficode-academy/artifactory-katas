@@ -7,8 +7,8 @@ gradle -q init
 
 rest_create_repository $GRADLE_REPO1 "gradle"  &>> $LOGFILE
 
-cp $DUCK_PATH ./
-cp $FOX_PATH ./
+cp $DUCK_PATH ./duck-$KATA_USERNAME.jpg
+cp $FOX_PATH ./fox-$KATA_USERNAME.jpg
 
 rest_deploy_artifact "/$GRADLE_REPO1/acme/duck/1.0.0/duck-1.0.0.jpg" "$DUCK_PATH"  &>> $LOGFILE
 rest_deploy_artifact "/$GRADLE_REPO1/acme/fox/1.0.0/fox-1.0.0.jpg" "$FOX_PATH"  &>> $LOGFILE
@@ -29,8 +29,8 @@ configurations {
     deps
 }
   dependencies {
-    deps (group: 'Acme', name: 'duck', version: '1.0.0', ext: 'jpg')
-    deps (group: 'Acme', name: 'fox', version: '1.0.0', ext: 'jpg')
+    deps (group: 'acme', name: 'duck', version: '1.0.0', ext: 'jpg')
+    deps (group: 'acme', name: 'fox', version: '1.0.0', ext: 'jpg')
 }
   task copyDeps(type: Copy) {
     from configurations.deps

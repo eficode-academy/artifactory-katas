@@ -10,8 +10,8 @@ rest_create_repository $MATURITY_2_REPO "gradle" &>> $LOGFILE
 rest_create_repository $MATURITY_3_REPO "gradle" &>> $LOGFILE
 rest_create_repository $MATURITY_4_REPO "gradle" &>> $LOGFILE
 
-cp $DUCK_PATH ./
-cp $FOX_PATH ./
+cp $DUCK_PATH ./duck-$KATA_USERNAME.jpg
+cp $FOX_PATH ./fox-$KATA_USERNAME.jpg
 
 rest_deploy_artifact "/$MATURITY_1_REPO/acme/duck/1.0.0/duck-1.0.0.jpg" "$DUCK_PATH"  &>> $LOGFILE
 rest_deploy_artifact "/$MATURITY_3_REPO/acme/duck/1.3.0/duck-1.3.0.jpg" "$DUCK_PATH"  &>> $LOGFILE

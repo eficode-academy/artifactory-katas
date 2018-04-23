@@ -2,7 +2,7 @@
 
 The Artifactory plugin for Gradle allows you to create builds as part of the upload process.
 
-The `exercise` folder has been set up to mimick the end state of the `gradle_remote_and_artifactory_plugin` exercise, with an additional file added. It contains a filled out `build.gradle` with artifactory publishing configured. Currently if you call `gradle artifactoryPublish`, `Duck.jpg` and `Moose.jpg` will be downloaded as dependencies and turned into the artifacts `Duck.zip` and `Moose.zip`. These artifacts will then be published to Artifactory, to the `$KATA_USER-gradle-dev-local` repository.
+The `exercise` folder has been set up to mimick the end state of the `gradle_remote_and_artifactory_plugin` exercise, with an additional file added. It contains a filled out `build.gradle` with artifactory publishing configured. Currently if you call `gradle artifactoryPublish`, `duck.jpg` and `moose.jpg` will be downloaded as dependencies and turned into the artifacts `duck.zip` and `moose.zip`. These artifacts will then be published to Artifactory, to the `$KATA_USER-gradle-dev-local` repository.
 
 The Artifactory plugin for Gradle automatically creates a build, but it is lacking some information.
 
