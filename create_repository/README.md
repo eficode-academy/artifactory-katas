@@ -10,9 +10,11 @@ Run `setup.sh` and note the names of the repositories. These are the names you s
 ### Create generic repository
 
 1. Navigate to `Admin`-> "Repositories" -> `local`
+
 ![](../.shared/img/1.1.png)
 ![](../.shared/img/1.2.png)
-1. Make two repositories. These should have the Package Type `Generic` and Repository Layout `simple-default`. Name them according to the names you get when you ran `setup.sh`
+
+2. Make two repositories. These should have the Package Type `Generic` and Repository Layout `simple-default`. Name them according to the names you get when you ran `setup.sh`
 
 ## Upload some files through the UI
 
