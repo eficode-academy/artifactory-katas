@@ -16,7 +16,7 @@ Run `setup.sh` and note the names of the repositories. These are the names you s
 
 ## Upload some files through the UI
 
-1. Upload `duck.jpg` to the first repository and `fox.jpg` to the 2nd. Remember to tick the `Deploy According To Layout` box and input the mandatory information for the gradle layout. (EXAMPLE: `org: acme, module:duck, baseRev: 1.0.0, ext: jpg`)
+1. Upload the `duck-$KATA_USERNAME.jpg` to the first repository and `fox-$KATA_USERNAME.jpg` to the 2nd. Remember to tick the `Deploy According To Layout` box and input the mandatory information for the gradle layout. (EXAMPLE: `org: acme, module:duck, baseRev: 1.0.0, ext: jpg`)
 
 ![](../.shared/img/1.3.png)
 ![](../.shared/img/1.4.png)
