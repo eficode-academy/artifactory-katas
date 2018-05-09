@@ -29,6 +29,8 @@ initkata() {
     rm -rf exercise/
 
     echo "[KATA] Cleaning up old repositories on Artifactory..."
+    rest_delete_repository $GENERIC_REPO1 &>> $LOGFILE
+    rest_delete_repository $GENERIC_REPO2 &>> $LOGFILE
     rest_delete_repository $GRADLE_REPO1 &>> $LOGFILE
     rest_delete_repository $GRADLE_REPO2 &>> $LOGFILE
     rest_delete_repository $GRADLE_REPO3 &>> $LOGFILE
@@ -63,6 +65,8 @@ read_config_variables() {
         source $CONFIG
     fi
 
+    GENERIC_REPO1="$KATA_USERNAME-generic-1"
+    GENERIC_REPO2="$KATA_USERNAME-generic-2"
     GRADLE_REPO1="$KATA_USERNAME-generic-gradle-1"
     GRADLE_REPO2="$KATA_USERNAME-generic-gradle-2"
     GRADLE_REPO3="$KATA_USERNAME-generic-gradle-3"
