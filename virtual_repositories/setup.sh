@@ -33,3 +33,4 @@ EOF
 echo "$CONTENTS" >> build.gradle
 
 echo "Setup done. The duck and fox images are in the exercise folder for use in the exercise."
+echo "Remember to navigate to the exercises folder created."

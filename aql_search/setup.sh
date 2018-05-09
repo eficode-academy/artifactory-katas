@@ -15,3 +15,4 @@ echo_variable_array ${arr[@]}
 echo 'To use your aql, make a json file and use curl like the example below:'
 echo 'curl -i -X POST -H "${AUTH_HEADER}"  -H "Content-Type:text/plain" "${ARTIFACTORY_URL}/api/search/aql" -T payload.json'
 echo "Setup done."
+echo "Remember to navigate to the exercises folder created."
