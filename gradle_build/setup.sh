@@ -120,7 +120,7 @@ task('PromoteBuild', type: Exec) {
     def myBuildNumber = "yourBuildNumber" //Enter your build number here
 
     workingDir '.'
-    commandLine 'curl', '-s', '-X', 'POST', '-H', "\\\\"Content-Type:application/json\\\\"", "-H", "\\\\"\$authHeader\\\\"", "-d", "\\\\"@promote_build_query.json\\\\"", "\\\\"\${artifactory_contextUrl}/api/build/promote/\$myBuildName/\$myBuildNumber\\\\""
+    commandLine 'curl', '-s', '-X', 'POST', '-H', 'Content-Type:application/json', '-H', "\\\\"\$authHeader\\\\"", "-d", '@promote_build_query.json', "\${artifactory_contextUrl}/api/build/promote/\$myBuildName/\$myBuildNumber"
 
     standardOutput = new ByteArrayOutputStream()
     doLast {
