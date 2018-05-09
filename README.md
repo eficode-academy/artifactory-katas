@@ -13,7 +13,17 @@ Exercises made for Praqma's one day [introduction to Artifactory](https://www.pr
 - [aql_search](./aql_search/README.md)
 - [aql_cleanup](./aql_clean_up/README.md)
 
-**Links:**
+## Setup requirements
+
+If you want to be able to run every exercise in this repository you need:
+
+* An Artifactory Pro or Enterprise server
+* A Jenkins server
+* Gradle and JDK installed
+* Git bash
+* JFrog CLI
+
+## Links:
 
 * [General Artifactory documentation](https://www.jfrog.com/confluence/pages/viewpage.action?pageId=46107472)
 * [REST API](https://www.jfrog.com/confluence/display/RTF/Artifactory+REST+API)
