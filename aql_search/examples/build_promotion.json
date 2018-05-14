@@ -1,0 +1,6 @@
+builds.find(
+{
+    "name":"exercise",
+    "promotion.status":"Released"
+}
+).include("module.dependency.item")
