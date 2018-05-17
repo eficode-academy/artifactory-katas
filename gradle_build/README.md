@@ -2,7 +2,7 @@
 
 The Artifactory plugin for Gradle allows you to create builds as part of the upload process.
 
-The `exercise` folder has been set up to mimick the end state of the `gradle_remote_and_artifactory_plugin` exercise, with an additional file added. It contains a filled out `build.gradle` with artifactory publishing configured. Currently if you call `gradle artifactoryPublish`, `duck.jpg` and `moose.jpg` will be downloaded as dependencies and turned into the artifacts `duck.zip` and `moose.zip`. These artifacts will then be published to Artifactory, to the `$KATA_USER-gradle-dev-local` repository.
+The `exercise` folder has been set up to use the Artifactory Plugin. It contains a filled out `build.gradle` with the Artifactory Plugin configured. Currently if you call `gradle artifactoryPublish`, `duck.jpg` and `moose.jpg` will be downloaded as dependencies and turned into the artifacts `duck.zip` and `moose.zip`. These artifacts will then be published to Artifactory, to the `$KATA_USER-gradle-dev-local` repository.
 
 The Artifactory plugin for Gradle automatically creates a build, but it is lacking some information.
 
@@ -12,6 +12,13 @@ Everything in this exercise is well documented on [the Gradle Artifactory Plugin
 
 ## Exercise
 
+- If you haven't previously made a remote repository, follow this step and make one now:
+    - Create a remote repository with the Artifactory UI. Name it `$USERNAME-jcenter-remote` so it's unique to you. It should be of package type `Gradle` and should proxy `https://jcenter.bintray.com`
+- Run `gradle dependencies` to verify that everything resolves as it should. 
+- Run `gradle duckZip`. As you can see from `build.gradle` this task downloads our duck dependency and zips it up. Verify that `duck.zip` is created.
+- Run `gradle artifactoryPublish` and check that your zipped artifacts `duckzip-1.0.0.zip` and `moosezip-1.0.0.zip` were uploaded in your own repository.
+
+Now that we have confirmed that dependencies are downloaded, zip tasks are working and that files can be published, it's time to add properties and create named builds:
 - Add a property `'animalType':'land_animal'` to artifacts in the build
 
     **Hint:** Properties for all artifacts are added in `build.gradle` under `artifactory -> publish -> defaults`, and is formatted like this: 
@@ -50,4 +57,4 @@ Everything in this exercise is well documented on [the Gradle Artifactory Plugin
     **Info:** In a real setup, you should use an http library to create your queries instead of relying on external tools like curl, but since this is not a Groovy course, we do not want to spend any time pulling in 3rd party libraries and learning different syntax.
 - Go to the Artifactory UI, find `$KATA_USERNAME-gradle-release-local` and check that the files have been copied over.
 
-You have now added properties, set name/number of your build and succesfully promoted the files to a different maturity level. 
+You have now downloaded dependencies, turned them into zip files, added properties, set name/number of your build and succesfully promoted the files to a different maturity level. 

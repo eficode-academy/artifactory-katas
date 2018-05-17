@@ -41,7 +41,7 @@ initkata() {
     rest_delete_repository $MATURITY_2_REPO &>> $LOGFILE
     rest_delete_repository $MATURITY_3_REPO &>> $LOGFILE
     rest_delete_repository $MATURITY_4_REPO &>> $LOGFILE
-    rest_delete_repository $REMOTE_REPO &>> $LOGFILE
+    #rest_delete_repository $REMOTE_REPO &>> $LOGFILE #We no longer delete the remote repo due to proxy issues.
 
     echo "[KATA] Initializing new exercise folder..."
     mkdir exercise
