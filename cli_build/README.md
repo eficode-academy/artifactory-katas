@@ -39,7 +39,7 @@ The way to do it is
 
 * Upload files with the `--build-name` and `--build-number` arguments added.
 * (optional) upload the environment variables with the `bce` command. `bce` stands for build-collect-env.
-* publish the build to Artifactory with the `pb` command
+* publish the build to Artifactory with the `bp` command
 
 ## Task
 

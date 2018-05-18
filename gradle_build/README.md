@@ -19,7 +19,7 @@ Everything in this exercise is well documented on [the Gradle Artifactory Plugin
 - Run `gradle artifactoryPublish` and check that your zipped artifacts `duckzip-1.0.0.zip` and `moosezip-1.0.0.zip` were uploaded in your own repository.
 
 Now that we have confirmed that dependencies are downloaded, zip tasks are working and that files can be published, it's time to add properties and create named builds:
-- Add a property `'animalType':'land_animal'` to artifacts in the build
+- Add a property `'artifactType':'animal'` to artifacts in the build
 
     **Hint:** Properties for all artifacts are added in `build.gradle` under `artifactory -> publish -> defaults`, and is formatted like this: 
     ```groovy
