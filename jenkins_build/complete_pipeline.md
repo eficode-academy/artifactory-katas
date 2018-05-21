@@ -26,11 +26,11 @@ node {
   "files": [
        {
       "pattern": "acme-1.${currentBuild.number}.txt",
-      "target": "sal-gradle-dev-local/com/acme/1.${currentBuild.number}/acme-1.${currentBuild.number}.txt"
+      "target": "sal-gradle-sandbox-local/com/acme/1.${currentBuild.number}/acme-1.${currentBuild.number}.txt"
     },
     {
       "pattern": "acme-1.${currentBuild.number}.tgz",
-      "target": "sal-gradle-dev-local/com/acme/1.${currentBuild.number}/acme-1.${currentBuild.number}.tgz"
+      "target": "sal-gradle-sandbox-local/com/acme/1.${currentBuild.number}/acme-1.${currentBuild.number}.tgz"
     }
   ]
 }"""
@@ -43,7 +43,7 @@ server.publishBuildInfo buildInfo
         def downloadSpecPattern = """{
   "files": [
     {
-      "pattern": "sal-gradle-dev-local/com/acme/1.${currentBuild.number}/*.*",
+      "pattern": "sal-gradle-sandbox-local/com/acme/1.${currentBuild.number}/*.*",
       "flat": true
     }
   ]
@@ -56,7 +56,7 @@ server.download spec: downloadSpecPattern, buildInfo: buildInfo
     // Mandatory parameters
     'buildName'          : buildInfo.name,
     'buildNumber'        : buildInfo.number,
-    'targetRepo'         : 'sal-gradle-release-local', //name of the repo to promote the artifacts to
+    'targetRepo'         : 'sal-gradle-dev-local', //name of the repo to promote the artifacts to
     'status'             : 'Promoted', //Denotion of maturity level for the build.
     'copy'               : false, // Should the artifacts be moved or copied when promoting from one repo to another.
 
