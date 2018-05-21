@@ -81,7 +81,7 @@ After executing the setup script, you will see four local repositories, each wit
 
 * `${KATA_USERNAME}-gradle-sandbox-local`
 * `${KATA_USERNAME}-gradle-dev-local`
-* `${KATA_USERNAME}-gradle-v3-local`
+* `${KATA_USERNAME}-gradle-regtest-local`
 * `${KATA_USERNAME}-gradle-release-local`
 
 ## Task

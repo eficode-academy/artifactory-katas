@@ -72,7 +72,7 @@ read_config_variables() {
     GRADLE_REPO3="$KATA_USERNAME-generic-gradle-3"
     MATURITY_1_REPO="$KATA_USERNAME-gradle-sandbox-local"
     MATURITY_2_REPO="$KATA_USERNAME-gradle-dev-local"
-    MATURITY_3_REPO="$KATA_USERNAME-gradle-v3-local"
+    MATURITY_3_REPO="$KATA_USERNAME-gradle-regtest-local"
     MATURITY_4_REPO="$KATA_USERNAME-gradle-release-local"
     CUSTOM_REPO1="$KATA_USERNAME-custom-layout-repo"
     VIRTUAL_REPO1="$KATA_USERNAME-virtual-1"

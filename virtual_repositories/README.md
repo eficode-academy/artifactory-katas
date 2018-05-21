@@ -7,7 +7,7 @@ After executing the setup script, you will see four local repositories, each wit
 
 * USERNAME-gradle-sandbox-local
 * USERNAME-gradle-dev-local
-* USERNAME-gradle-v3-local
+* USERNAME-gradle-regtest-local
 * USERNAME-gradle-release-local
 
 What we need now is a remote repository and a virtual spanning them all, making sure that all artifacts published to the virtual goes in the sandbox repository.

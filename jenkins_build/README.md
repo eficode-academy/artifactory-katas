@@ -225,11 +225,11 @@ server.promote promotionConfig
 As we saw in part 3, we can promote artifacts automatically during the build execution. It is also possible to make a decision later and do the promotion interactively - even when the build has completed.
 
 ### Tasks
-* In that stage `Interactive promote` make a promotionConfig that promotes the artifacts from `Maturity level 2 (${KATA_USERNAME}-gradle-dev-local)` to `Maturity level 3 (${KATA_USERNAME}-gradle-v3-local)` repository.
+* In that stage `Interactive promote` make a promotionConfig that promotes the artifacts from `Maturity level 2 (${KATA_USERNAME}-gradle-dev-local)` to `Maturity level 3 (${KATA_USERNAME}-gradle-regtest-local)` repository.
 * Instead of making an automated promotion using `server.promote promotionConfig`, we now want use `Artifactory.addInteractivePromotion server: server, promotionConfig: promotionConfig` to make an interactive promotion.
-* Observe in Artifactory that `Maturity level 2 (${KATA_USERNAME}-gradle-dev-local)` has the artifact, and `Maturity level 3 (${KATA_USERNAME}-gradle-v3-local)` does not yet have them.
+* Observe in Artifactory that `Maturity level 2 (${KATA_USERNAME}-gradle-dev-local)` has the artifact, and `Maturity level 3 (${KATA_USERNAME}-gradle-regtest-local)` does not yet have them.
 * Go back into the jenkins Ui and click "promote" to promote the artifact.
-* Observe in Artifactory that `Maturity level 3 (${KATA_USERNAME}-gradle-v3-local)` has the artifact now as well.
+* Observe in Artifactory that `Maturity level 3 (${KATA_USERNAME}-gradle-regtest-local)` has the artifact now as well.
 
 ## FAQ
 

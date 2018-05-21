@@ -70,7 +70,7 @@ server.promote promotionConfig
     // Mandatory parameters
     'buildName'          : buildInfo.name,
     'buildNumber'        : buildInfo.number,
-    'targetRepo'         : 'sal-gradle-v3-local', //name of the repo to promote the artifacts to
+    'targetRepo'         : 'sal-gradle-regtest-local', //name of the repo to promote the artifacts to
     'status'             : 'Promoted', //Denotion of maturity level for the build.
     'copy'               : false, // Should the artifacts be moved or copied when promoting from one repo to another.
 
