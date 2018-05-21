@@ -46,12 +46,30 @@ node {
     }
     stage('Upload') {
         // PART 1 - Add upload spec here and upload "build.txt" to Artifactory
+        def uploadSpec = """{
+  "files": [
+    {
+      "pattern": "putYourPatternHere",
+      "target": "putYourTargetHere"
+    }
+  ]
+}"""
+server.upload spec: uploadSpec, buildInfo: buildInfo
+server.publishBuildInfo buildInfo
     }
     stage('Download') {
         deleteDir() //Deletes the entire workspace, so we rely 100% on Artifactory
         // PART 2 - Add download spec here and download "acme.txt" and "acme.tgz" from Artifactory
+        def downloadSpec = """{
+  "files": [
+    {
+      "pattern": "putYourPatternHere",
+      "target": "putYourTargetHere"
+    }
+  ]
+}"""
+server.download spec: downloadSpec, buildInfo: buildInfo
 
-        archiveArtifacts '**/*.*'
     }
     stage ('Automatic Promote'){
         // PART 3 - Promote the build to the next level
