@@ -3,7 +3,6 @@
 source ../.shared/utils.sh
 initkata
 
-rest_create_remote_repository $REMOTE_REPO "gradle" "maven-2-default" "https://jcenter.bintray.com" &>> $LOGFILE
 rest_create_repository $MATURITY_2_REPO "gradle" &>> $LOGFILE
 rest_create_repository $MATURITY_4_REPO "gradle" &>> $LOGFILE
 

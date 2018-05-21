@@ -5,6 +5,8 @@ If your favorite build framework or server does not have a plugin to upload and 
 In order to use these exercises, you need the jfrog CLI. All examples and exercises here utilizes the CLI.
 It will be downloaded using the setup script, but if something goes wrong, it can be downloaded [here](https://jfrog.com/getcli/).
 
+> Info: If you had problems running the setup script needs to manually setup CLI configuration, running the following command: `./jfrog rt config --url $ARTIFACTORY_URL --user $ARTIFACTORY_USERNAME --password $ARTIFACTORY_PASSWORD --interactive=false`
+
 If you at any point need to look at the documentation, then here is the [link](https://www.jfrog.com/confluence/display/CLI/CLI+for+JFrog+Artifactory).
 
 ## Using the CLI
