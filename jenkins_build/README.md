@@ -40,22 +40,21 @@ node {
     stage('Build') {
         // "build" some software
         writeFile file: "acme-1.${currentBuild.number}.txt", text: "this is our artifact from 1.${currentBuild.number}"
-        sh "tar -zcvf acme.tgz acme.txt" //Make a package of it
         sh "ls -la" //List the artifact
-        archiveArtifacts '**/*.*'
-    }
+        }
+        
     stage('Upload') {
         // PART 1 - Add upload spec here and upload "build.txt" to Artifactory
         def uploadSpec = """{
-  "files": [
-    {
-      "pattern": "putYourPatternHere",
-      "target": "putYourTargetHere"
-    }
-  ]
-}"""
-server.upload spec: uploadSpec, buildInfo: buildInfo
-server.publishBuildInfo buildInfo
+            "files": [
+            {
+              "pattern": "putYourPatternHere",
+              "target": "putYourTargetHere"
+            }
+            ]
+        }"""
+    server.upload spec: uploadSpec, buildInfo: buildInfo
+    server.publishBuildInfo buildInfo
     }
     stage('Download') {
         deleteDir() //Deletes the entire workspace, so we rely 100% on Artifactory
