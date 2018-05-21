@@ -22,16 +22,8 @@ You have a team that wants to have all ducks and fox artifacts with the same ver
 
 > **NOTE:** Artifactory does not translate across layouts when copying or moving. Therefore, try to use the same layouts across any given artifacts lifecycle.
 
-## High level task
 
-* Make a custom layout that satisfies the requirements of the team. Remember to call the layout by your initials, so you can find it again.
-* Make a local gradle repository with the new layout
-* Upload through the UI the duck and fox images
-* Add the new repository URL for resolving dependencies to your `build.gradle` file.
-* Add both images to your gradle dependencies in your `build.gradle`.
-* See that they get downloaded with the same dependency declaration no matter what layout artifactory has.
-
-## Detailed task
+## Tasks
 
 **Make the layout and repository**
 
