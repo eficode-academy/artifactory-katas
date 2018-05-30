@@ -210,6 +210,19 @@ rest_delete_repository() {
         -H "$AUTH_HEADER" \
     "$ARTIFACTORY_URL/api/repositories/$1"
 }
+rest_list_repository() {
+    curl -s \
+        -H "$AUTH_HEADER" \
+    "$ARTIFACTORY_URL/api/repositories"
+}
+
+delete_all_repositories(){
+REPOS=($(rest_list_repository | jq -r '.[].key'))
+for i in "${REPOS[@]}"
+do
+rest_delete_repository $i
+done
+}
 
 #Uploads an artifact
 #$1 upload path (repository/path/you/want/file.txt)
