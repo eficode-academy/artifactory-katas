@@ -5,7 +5,7 @@ initkata
 
 gradle -q init
 
-rest_create_remote_repository $REMOTE_REPO "gradle" "maven-2-default" "https://jcenter.bintray.com" &>> $LOGFILE
+#rest_create_remote_repository $REMOTE_REPO "gradle" "maven-2-default" "https://jcenter.bintray.com" &>> $LOGFILE # User creates remote repo themselves https://github.com/praqma-training/artifactory-katas/issues/45
 rest_create_repository $MATURITY_2_REPO "gradle" &>> $LOGFILE
 rest_create_repository $MATURITY_4_REPO "gradle" &>> $LOGFILE
 rest_deploy_artifact "/$MATURITY_2_REPO/duckcorp/duck/1.0.0/duck-1.0.0.jpg" "$DUCK_PATH" &>> $LOGFILE
