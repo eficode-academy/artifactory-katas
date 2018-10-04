@@ -12,7 +12,11 @@ rest_create_repository $MATURITY_4_REPO "gradle" >> $LOGFILE 2>&1
 populate_maturity_repos
 cp ../../.shared/aql/payload.json .
 arr=( "ARTIFACTORY_URL" "AUTH_HEADER")
+echo " "
+echo " "
 echo_variable_array ${arr[@]}
+echo " "
+echo " "
 echo 'To use your aql, make a json file and use curl like the example below:'
 echo 'curl -i -X POST -H "${AUTH_HEADER}"  -H "Content-Type:text/plain" "${ARTIFACTORY_URL}/api/search/aql" -T payload.json'
 curl -fL https://getcli.jfrog.io | sh

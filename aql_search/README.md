@@ -86,6 +86,15 @@ After executing the setup script, you will see four local repositories, each wit
 
 ## Task
 
+**NOTE: the `./setup` will output two environment variables you should export before starting the exercise.**
+```
+[KATA] Paste this into your terminal for easy access to the variables:
+-------------------------------------------------------------------------------
+export ARTIFACTORY_URL="http://18.185.125.253/artifactory"
+export AUTH_HEADER="Authorization: Basic YWRtaW46cHJhcW1h"
+-------------------------------------------------------------------------------
+```
+
 Make queries that does the following:
 
 * Get all artifacts in the Artifactory instance
