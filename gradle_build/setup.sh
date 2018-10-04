@@ -124,12 +124,19 @@ task('PromoteBuild', type: Exec) {
 
     standardOutput = new ByteArrayOutputStream()
     doLast {
-        def json = new JsonSlurper().parseText(standardOutput.toString())
-        if ( json?.errors?.status ) {
-            println "HTTP error when trying to promote build. Dumping full JSON response:"
-            println standardOutput.toString()
-            throw new GradleException("HTTP error when trying to promote build")
-        }
+        println "This is the curl that will be attempted:"
+        println "curl -s -X POST -H Content-Type:application/json -H \"$authHeader\" -d @promote_build_query.json ${artifactory_contextUrl}/api/build/promote/$myBuildName/$myBuildNumber"
+
+        if (isFamily(FAMILY_MAC) || isFamily(FAMILY_UNIX)) {
+            println "Since you are on a UNIX machine, this hacky groovy task cannot execute the curl for you. You will have to copy and paste it yourself."
+        } else {
+            def json = new JsonSlurper().parseText(standardOutput.toString())
+            if ( json?.errors?.status ) {
+                println "HTTP error when trying to promote build. Dumping full JSON response:"
+                println standardOutput.toString()
+                throw new GradleException("HTTP error when trying to promote build")
+            }
+        }  
     }
 }
 EOF
