@@ -18,7 +18,7 @@ What we need now is a remote repository and a virtual spanning them all, making 
     * Create a remote repository with the Artifactory UI. Name it `$USERNAME-jcenter-remote` so it's unique to you. It should be of package type `Gradle` and should proxy `https://jcenter.bintray.com`
 * Create a Gradle typed virtual repository that spans all four local and the remote repository
 * Set Default Deployment Repository to your sandbox repository to make you able to upload artifacts to the repository.
-* Upload `duck.jpg` and `fox.jpg` through the UI to the virutal repository you just created, following the repository layout.
+* Upload `duck.jpg` and `fox.jpg` through the UI to the virtual repository you just created, following the repository layout.
 * Add the new repository URL for resolving dependencies to your `build.gradle` file.
 * Add both images to your gradle dependencies in your `build.gradle`.
 
