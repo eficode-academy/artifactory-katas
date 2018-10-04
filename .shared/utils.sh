@@ -29,19 +29,19 @@ initkata() {
     rm -rf exercise/
 
     echo "[KATA] Cleaning up old repositories on Artifactory..."
-    rest_delete_repository $GENERIC_REPO1 &>> $LOGFILE
-    rest_delete_repository $GENERIC_REPO2 &>> $LOGFILE
-    rest_delete_repository $GRADLE_REPO1 &>> $LOGFILE
-    rest_delete_repository $GRADLE_REPO2 &>> $LOGFILE
-    rest_delete_repository $GRADLE_REPO3 &>> $LOGFILE
-    rest_delete_repository $CUSTOM_REPO1 &>> $LOGFILE
-    rest_delete_repository $VIRTUAL_REPO1 &>> $LOGFILE
-    rest_delete_repository $VIRTUAL_REPO2 &>> $LOGFILE
-    rest_delete_repository $MATURITY_1_REPO &>> $LOGFILE
-    rest_delete_repository $MATURITY_2_REPO &>> $LOGFILE
-    rest_delete_repository $MATURITY_3_REPO &>> $LOGFILE
-    rest_delete_repository $MATURITY_4_REPO &>> $LOGFILE
-    #rest_delete_repository $REMOTE_REPO &>> $LOGFILE #We no longer delete the remote repo due to proxy issues.
+    rest_delete_repository $GENERIC_REPO1 >> $LOGFILE 2>&1
+    rest_delete_repository $GENERIC_REPO2 >> $LOGFILE 2>&1
+    rest_delete_repository $GRADLE_REPO1 >> $LOGFILE 2>&1
+    rest_delete_repository $GRADLE_REPO2 >> $LOGFILE 2>&1
+    rest_delete_repository $GRADLE_REPO3 >> $LOGFILE 2>&1
+    rest_delete_repository $CUSTOM_REPO1 >> $LOGFILE 2>&1
+    rest_delete_repository $VIRTUAL_REPO1 >> $LOGFILE 2>&1
+    rest_delete_repository $VIRTUAL_REPO2 >> $LOGFILE 2>&1
+    rest_delete_repository $MATURITY_1_REPO >> $LOGFILE 2>&1
+    rest_delete_repository $MATURITY_2_REPO >> $LOGFILE 2>&1
+    rest_delete_repository $MATURITY_3_REPO >> $LOGFILE 2>&1
+    rest_delete_repository $MATURITY_4_REPO >> $LOGFILE 2>&1
+    #rest_delete_repository $REMOTE_REPO >> $LOGFILE 2>&1 #We no longer delete the remote repo due to proxy issues.
 
     echo "[KATA] Initializing new exercise folder..."
     mkdir exercise
@@ -102,6 +102,8 @@ ping_artifactory() {
 }
 
 create_config() {
+    echo "[KATA] I am about to create a new config file for you. Press ENTER to proceed, or ctrl+c to abort"
+    read DUMMY_VARIABLE
     rm -f $CONFIG
 
     echo "[KATA] Your Artifactory URL should look like 'http://serverAddress.com/artifactory' - note that there is no trailing '/' at the end."
@@ -268,12 +270,12 @@ for i in "${versions[@]}"
 do
     for((o=0;o<${#names[@]};o++))
     do
-        echo "deploying version $i of ${names[$o]}" &>> $LOGFILE
+        echo "deploying version $i of ${names[$o]}" >> $LOGFILE 2>&1
         URL="/$GRADLE_REPO1/acme/${names[$o]}/$i/${names[$o]}-$i.jpg"
-        rest_deploy_artifact "$URL" "${paths[$o]}" &>> $LOGFILE
+        rest_deploy_artifact "$URL" "${paths[$o]}" >> $LOGFILE 2>&1
         if (( RANDOM % 2 )); 
         then
-            download_artifact $((RANDOM%10)) "$URL" &>> $LOGFILE
+            download_artifact $((RANDOM%10)) "$URL" >> $LOGFILE 2>&1
         fi
     done
 done
@@ -283,25 +285,25 @@ echo "population done"
 populate_maturity_repos(){
 # deploy the artifacts
 echo "[KATA] Deploying artifacts to Artifactory ...."
-rest_deploy_artifact "/$MATURITY_1_REPO/acme/duck/1.0.0/duck-1.0.0.jpg" "$DUCK_PATH" &>> $LOGFILE
-rest_deploy_artifact "/$MATURITY_3_REPO/acme/duck/1.3.0/duck-1.3.0.jpg" "$DUCK_PATH" &>> $LOGFILE
-rest_deploy_artifact "/$MATURITY_2_REPO/acme/fox/2.3.0/fox-2.3.0.jpg" "$FOX_PATH"  &>> $LOGFILE
-rest_deploy_artifact "/$MATURITY_4_REPO/acme/fox/1.5.3/fox-1.5.3.jpg" "$FOX_PATH"  &>> $LOGFILE
-rest_deploy_artifact "/$MATURITY_2_REPO/acme/frog/1.5.3/frog-1.5.3.jpg" "$FROG_PATH"  &>> $LOGFILE
-rest_deploy_artifact "/$MATURITY_1_REPO/acme/frog/2.0.0/frog-2.0.0.jpg" "$FROG_PATH"  &>> $LOGFILE
+rest_deploy_artifact "/$MATURITY_1_REPO/acme/duck/1.0.0/duck-1.0.0.jpg" "$DUCK_PATH" >> $LOGFILE 2>&1
+rest_deploy_artifact "/$MATURITY_3_REPO/acme/duck/1.3.0/duck-1.3.0.jpg" "$DUCK_PATH" >> $LOGFILE 2>&1
+rest_deploy_artifact "/$MATURITY_2_REPO/acme/fox/2.3.0/fox-2.3.0.jpg" "$FOX_PATH"  >> $LOGFILE 2>&1
+rest_deploy_artifact "/$MATURITY_4_REPO/acme/fox/1.5.3/fox-1.5.3.jpg" "$FOX_PATH"  >> $LOGFILE 2>&1
+rest_deploy_artifact "/$MATURITY_2_REPO/acme/frog/1.5.3/frog-1.5.3.jpg" "$FROG_PATH"  >> $LOGFILE 2>&1
+rest_deploy_artifact "/$MATURITY_1_REPO/acme/frog/2.0.0/frog-2.0.0.jpg" "$FROG_PATH"  >> $LOGFILE 2>&1
 # download artifacts
 echo "[KATA] Simulating download of the artifacts, please wait ....."
-download_artifact 2 "/$MATURITY_1_REPO/acme/duck/1.0.0/duck-1.0.0.jpg" &>> $LOGFILE
-download_artifact 3 "/$MATURITY_3_REPO/acme/duck/1.3.0/duck-1.3.0.jpg" &>> $LOGFILE
-download_artifact 4 "/$MATURITY_2_REPO/acme/fox/2.3.0/fox-2.3.0.jpg" &>> $LOGFILE
-download_artifact 5 "/$MATURITY_4_REPO/acme/fox/1.5.3/fox-1.5.3.jpg" &>> $LOGFILE
-download_artifact 6 "/$MATURITY_2_REPO/acme/frog/1.5.3/frog-1.5.3.jpg" &>> $LOGFILE
-download_artifact 9 "/$MATURITY_1_REPO/acme/frog/2.0.0/frog-2.0.0.jpg" &>> $LOGFILE
+download_artifact 2 "/$MATURITY_1_REPO/acme/duck/1.0.0/duck-1.0.0.jpg" >> $LOGFILE 2>&1
+download_artifact 3 "/$MATURITY_3_REPO/acme/duck/1.3.0/duck-1.3.0.jpg" >> $LOGFILE 2>&1
+download_artifact 4 "/$MATURITY_2_REPO/acme/fox/2.3.0/fox-2.3.0.jpg" >> $LOGFILE 2>&1
+download_artifact 5 "/$MATURITY_4_REPO/acme/fox/1.5.3/fox-1.5.3.jpg" >> $LOGFILE 2>&1
+download_artifact 6 "/$MATURITY_2_REPO/acme/frog/1.5.3/frog-1.5.3.jpg" >> $LOGFILE 2>&1
+download_artifact 9 "/$MATURITY_1_REPO/acme/frog/2.0.0/frog-2.0.0.jpg" >> $LOGFILE 2>&1
 
 #set some properties on the files
-rest_add_artifact_properties "/$MATURITY_1_REPO/acme/duck/1.0.0/duck-1.0.0.jpg" "os=linux" &>> $LOGFILE
-rest_add_artifact_properties "/$MATURITY_3_REPO/acme/duck/1.3.0/duck-1.3.0.jpg" "os=linux;unit_test=sucess;integration_test=success" &>> $LOGFILE
-rest_add_artifact_properties "/$MATURITY_2_REPO/acme/fox/2.3.0/fox-2.3.0.jpg" "os=windows;unit_test=sucess" &>> $LOGFILE
-rest_add_artifact_properties "/$MATURITY_1_REPO/acme/frog/2.0.0/frog-2.0.0.jpg" "keep=true" &>> $LOGFILE
+rest_add_artifact_properties "/$MATURITY_1_REPO/acme/duck/1.0.0/duck-1.0.0.jpg" "os=linux" >> $LOGFILE 2>&1
+rest_add_artifact_properties "/$MATURITY_3_REPO/acme/duck/1.3.0/duck-1.3.0.jpg" "os=linux;unit_test=sucess;integration_test=success" >> $LOGFILE 2>&1
+rest_add_artifact_properties "/$MATURITY_2_REPO/acme/fox/2.3.0/fox-2.3.0.jpg" "os=windows;unit_test=sucess" >> $LOGFILE 2>&1
+rest_add_artifact_properties "/$MATURITY_1_REPO/acme/frog/2.0.0/frog-2.0.0.jpg" "keep=true" >> $LOGFILE 2>&1
 #rest_add_artifact_properties
 }

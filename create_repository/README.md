@@ -14,11 +14,11 @@ Run `setup.sh` and note the names of the repositories. These are the names you s
 ![](../.shared/img/1.1.png)
 ![](../.shared/img/1.2.png)
 
-2. Make two repositories. These should have the Package Type `Generic` and Repository Layout `simple-default`. Name them according to the names you get when you ran `setup.sh`
+2. Make two repositories. These should have the Package Type `Generic` and Repository Layout `simple-default`. Name them according to the names you got when you ran `setup.sh`
 
 ## Upload some files through the UI
 
-1. Upload the `duck-$KATA_USERNAME.jpg` to the first repository and `fox-$KATA_USERNAME.jpg` to the 2nd. Remember to tick the `Deploy According To Layout` box and input the mandatory information for the gradle layout. (EXAMPLE: `org: acme, module:duck, baseRev: 1.0.0, ext: jpg`)
+1. Upload the `duck-$KATA_USERNAME.jpg` file from the exercise folder to the first repository, and `fox-$KATA_USERNAME.jpg` to the 2nd. Remember to tick the `Deploy According To Layout` box and input the mandatory information for the gradle layout. (EXAMPLE: `org: acme, module:duck, baseRev: 1.0.0, ext: jpg`)
 
 ![](../.shared/img/1.3.png)
 ![](../.shared/img/1.4.png)

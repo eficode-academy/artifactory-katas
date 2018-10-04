@@ -5,19 +5,19 @@ initkata
 
 gradle -q init
 
-rest_create_repository $GRADLE_REPO1 "gradle"  &>> $LOGFILE
+rest_create_repository $GRADLE_REPO1 "gradle"  >> $LOGFILE 2>&1
 
 cp $DUCK_PATH ./duck-$KATA_USERNAME.jpg
 cp $FOX_PATH ./fox-$KATA_USERNAME.jpg
 
-rest_deploy_artifact "/$GRADLE_REPO1/acme/duck/1.0.0/duck-1.0.0.jpg" "$DUCK_PATH"  &>> $LOGFILE
-rest_deploy_artifact "/$GRADLE_REPO1/acme/fox/1.0.0/fox-1.0.0.jpg" "$FOX_PATH"  &>> $LOGFILE
+rest_deploy_artifact "/$GRADLE_REPO1/acme/duck/1.0.0/duck-1.0.0.jpg" "$DUCK_PATH"  >> $LOGFILE 2>&1
+rest_deploy_artifact "/$GRADLE_REPO1/acme/fox/1.0.0/fox-1.0.0.jpg" "$FOX_PATH"  >> $LOGFILE 2>&1
 
 read -d '' CONTENTS <<EOF
 apply plugin: "java"
 repositories {
     ivy {
-        url "http://${ARTIFACTORY_URL}/YOUR_CUSTOM_REPO_GOES_HERE" //This is where you put your custom repo name
+        url "${ARTIFACTORY_URL}/YOUR_CUSTOM_REPO_GOES_HERE" //This is where you put your custom repo name
 
         layout 'pattern' , {
             artifact '[organization]/[revision]/[artifact]-[revision](.[ext])' //This is your custom layout translated to ivy. This has to be done manually

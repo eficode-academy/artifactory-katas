@@ -3,10 +3,10 @@
 source ../.shared/utils.sh
 initkata
 
-rest_create_repository $MATURITY_1_REPO "gradle" &>> $LOGFILE
-rest_create_repository $MATURITY_2_REPO "gradle" &>> $LOGFILE
-rest_create_repository $MATURITY_3_REPO "gradle" &>> $LOGFILE
-rest_create_repository $MATURITY_4_REPO "gradle" &>> $LOGFILE
+rest_create_repository $MATURITY_1_REPO "gradle" >> $LOGFILE 2>&1
+rest_create_repository $MATURITY_2_REPO "gradle" >> $LOGFILE 2>&1
+rest_create_repository $MATURITY_3_REPO "gradle" >> $LOGFILE 2>&1
+rest_create_repository $MATURITY_4_REPO "gradle" >> $LOGFILE 2>&1
 
 
 echo "Setup done. Your repositories are called the following:"

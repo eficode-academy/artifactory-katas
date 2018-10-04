@@ -4,10 +4,10 @@ source ../.shared/utils.sh
 initkata
 
 rest_delete_repository $REMOTE_REPO
-rest_create_repository $MATURITY_1_REPO "gradle" &>> $LOGFILE
-rest_create_repository $MATURITY_2_REPO "gradle" &>> $LOGFILE
-rest_create_repository $MATURITY_3_REPO "gradle" &>> $LOGFILE
-rest_create_repository $MATURITY_4_REPO "gradle" &>> $LOGFILE
+rest_create_repository $MATURITY_1_REPO "gradle" >> $LOGFILE 2>&1
+rest_create_repository $MATURITY_2_REPO "gradle" >> $LOGFILE 2>&1
+rest_create_repository $MATURITY_3_REPO "gradle" >> $LOGFILE 2>&1
+rest_create_repository $MATURITY_4_REPO "gradle" >> $LOGFILE 2>&1
 
 populate_maturity_repos
 cp ../../.shared/aql/payload.json .

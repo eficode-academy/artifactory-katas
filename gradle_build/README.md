@@ -16,7 +16,7 @@ Everything in this exercise is well documented on [the Gradle Artifactory Plugin
     - Create a remote repository with the Artifactory UI. Name it `$USERNAME-jcenter-remote` so it's unique to you. It should be of package type `Gradle` and should proxy `https://jcenter.bintray.com`
 - Run `gradle dependencies` to verify that everything resolves as it should. 
 - Run `gradle duckZip`. As you can see from `build.gradle` this task downloads our duck dependency and zips it up. Verify that `duck.zip` is created.
-- Run `gradle artifactoryPublish` and check that your zipped artifacts `duckzip-1.0.0.zip` and `moosezip-1.0.0.zip` were uploaded in your own repository.
+- Run `gradle artifactoryPublish` and check that your zipped artifacts `duckzip-1.0.0.zip` and `moosezip-1.0.0.zip` were uploaded in your own local repository.
 
 Now that we have confirmed that dependencies are downloaded, zip tasks are working and that files can be published, it's time to add properties and create named builds:
 - Add a property `'artifactType':'animal'` to artifacts in the build
@@ -50,7 +50,8 @@ Now that we have confirmed that dependencies are downloaded, zip tasks are worki
     ```
 - Promote your build from `$KATA_USER-gradle-dev-local` to `$KATA_USER-gradle-release-local`. 
 
-    **Hint:** Use the `PromoteBuild` task at the bottom of `build.gradle`. You will need to fill out `myBuildName` and `myBuildNumber` with the names you decided in the previous step. Then you can call `gradle PromoteBuild` in your commandline
+    **Hint:** Use the `PromoteBuild` task at the bottom of `build.gradle`. You will need to fill out `myBuildName` and `myBuildNumber` with the names you decided in the previous step. Then you can call `gradle PromoteBuild` in your commandline.
+    This task uses `curl` and the Artifactory REST API to send a promotion query, which has been generated for you in the local file `promote_build_query.json`. In real life, you should use an http library, and not attempt to call `curl` with Groovy. 
 
     **Info:** If you want to know more about the payload data we send to Artifactory to make a promotion, have a look at [the official documentation](https://www.jfrog.com/confluence/display/RTF/Artifactory+REST+API#ArtifactoryRESTAPI-BuildPromotion). The JSON spec shows how it is possible to promote without moving artifacts, and how it can also be used just to add properties to files in a build.
 
