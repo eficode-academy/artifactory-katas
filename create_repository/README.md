@@ -1,4 +1,4 @@
-# Create Artifactory repositories and upload files
+# Create Artifactory repositories and delpoy files
 Run `setup.sh` and note the names of the repositories. These are the names you should use in the exercise.
 
 **The names of your repositories are given when you run `setup.sh`**. _Do not_ invent your own names.
@@ -16,9 +16,9 @@ Run `setup.sh` and note the names of the repositories. These are the names you s
 
 2. Make two repositories. These should have the Package Type `Generic` and Repository Layout `simple-default`. Name them according to the names you got when you ran `setup.sh`
 
-## Upload some files through the UI
+## Deploy some files through the UI
 
-1. Upload the `duck-$KATA_USERNAME.jpg` file from the exercise folder to the first repository, and `fox-$KATA_USERNAME.jpg` to the 2nd. Remember to tick the `Deploy According To Layout` box and input the mandatory information for the gradle layout. (EXAMPLE: `org: acme, module:duck, baseRev: 1.0.0, ext: jpg`)
+1. Deploy the `duck-$KATA_USERNAME.jpg` file from the exercise folder to the first repository, and `fox-$KATA_USERNAME.jpg` to the 2nd. Remember to tick the `Deploy According To Layout` box and input the mandatory information for the gradle layout. (EXAMPLE: `org: acme, module:duck, baseRev: 1.0.0, ext: jpg`)
 
 ![](../.shared/img/1.3.png)
 ![](../.shared/img/1.4.png)
