@@ -46,11 +46,11 @@ initkata() {
     echo "[KATA] Initializing new exercise folder..."
     mkdir exercise
     cd exercise
-    
+
     echo " "
 }
 
-#Sources config file, reads variables, calls create_config if something is missing 
+#Sources config file, reads variables, calls create_config if something is missing
 read_config_variables() {
     if [ ! -f $CONFIG ]; then
         echo "[KATA] Configuration not found. Creating new config file..."
@@ -93,10 +93,12 @@ ping_artifactory() {
         echo "[KATA] HTTP 401: Connection successful but credentials are invalid. Redirecting to new config file creation..."
         create_config
     elif [ "$PING_RESULT" -eq "404" ]; then
-        echo "[KATA] HTTP 404: Page not found. Most likely you have put an '/' at the end of your URL. Your URL should look like 'http://serverAddress.com/artifactory'"
+        echo "[KATA] HTTP 404: Page not found. Most likely you have put an '/' at the end of your URL."
+        echo "[KATA] Your URL should look like 'http://serverAddress.com/artifactory'"
         create_config
     elif [ "$PING_RESULT" -ne "200" ]; then
-        echo "[KATA] Unexpected result when pinging Artifactory. Redoing the command in terminal so someone can debug what is going on..."
+        echo "[KATA] Unexpected result when pinging Artifactory."
+        echo "[KATA] Redoing the command in terminal so someone can debug what is going on..."
         curl -i --max-time 5 -X GET -H "$AUTH_HEADER" "$ARTIFACTORY_URL/api/application.wadl"
     fi
 }
@@ -106,7 +108,8 @@ create_config() {
     read DUMMY_VARIABLE
     rm -f $CONFIG
 
-    echo "[KATA] Your Artifactory URL should look like 'http://serverAddress.com/artifactory' - note that there is no trailing '/' at the end."
+    echo "[KATA] Your Artifactory URL should look like 'http://serverAddress.com/artifactory'"
+    echo "[KATA] - note that there is no trailing '/' at the end."
     echo "[KATA] Please enter your Artifactory URL: "
     read INPUT_ARTIFACTORY_URL
     echo ""
@@ -235,7 +238,7 @@ rest_deploy_artifact() {
         -T "$2" \
     "$ARTIFACTORY_URL$1"
 }
-#Appends properties to a given artifact. 
+#Appends properties to a given artifact.
 #For more info look at: https://www.jfrog.com/confluence/display/RTF/Artifactory+REST+API#ArtifactoryRESTAPI-ItemProperties
 #$1 artifact path (repository/path/you/want/file.txt)
 #$2 the properties, e.g: os=win,linux;qa=finnished;junit test=success
@@ -255,7 +258,7 @@ while [  $COUNTER -lt $1 ]; do
     rm -f ./test.jpg
     curl -o ./test.jpg $ARTIFACTORY_URL$2
     rm -f ./test.jpg
-    let COUNTER=COUNTER+1 
+    let COUNTER=COUNTER+1
 done
 }
 
@@ -273,7 +276,7 @@ do
         echo "deploying version $i of ${names[$o]}" >> $LOGFILE 2>&1
         URL="/$GRADLE_REPO1/acme/${names[$o]}/$i/${names[$o]}-$i.jpg"
         rest_deploy_artifact "$URL" "${paths[$o]}" >> $LOGFILE 2>&1
-        if (( RANDOM % 2 )); 
+        if (( RANDOM % 2 ));
         then
             download_artifact $((RANDOM%10)) "$URL" >> $LOGFILE 2>&1
         fi
