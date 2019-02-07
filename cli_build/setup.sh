@@ -10,7 +10,12 @@ cp $MOOSE_PATH .
 cp $SQUIRREL_PATH .
 cp $FOX_PATH .
 curl -fL https://getcli.jfrog.io | sh
-./jfrog rt config --url $ARTIFACTORY_URL --user $ARTIFACTORY_USERNAME --password $ARTIFACTORY_PASSWORD --interactive=false
+
+if [[ -z "$ARTIFACTORY_APIKEY" ]]; then
+    ./jfrog rt config --url $ARTIFACTORY_URL --user $ARTIFACTORY_USERNAME --password $ARTIFACTORY_PASSWORD --interactive=false
+else
+    ./jfrog rt config --url $ARTIFACTORY_URL --apikey $ARTIFACTORY_APIKEY --interactive=false
+fi
 
 echo ""
 echo "This is the Gradle repository that has been set up:"
