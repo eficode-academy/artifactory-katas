@@ -58,7 +58,14 @@ read_config_variables() {
         create_config
     fi
     source $CONFIG
-    if [ -z "$KATA_USERNAME" ] || [ -z "$ARTIFACTORY_URL" ] || [ -z "$ARTIFACTORY_USERNAME" ] || [ -z "$ARTIFACTORY_PASSWORD" ]; then
+
+    # recreate config if kata username is missing, or..
+    #   if artifactory url is missing, or..
+    #   if username and password is missing, and apikey is not set
+    if [ -z "$KATA_USERNAME" ] || [ -z "$ARTIFACTORY_URL" ] \
+        || ( ( [ -z "$ARTIFACTORY_USERNAME" ] || [ -z "$ARTIFACTORY_PASSWORD" ] ) \
+            && [ -z "$ARTIFACTORY_APIKEY" ] )
+    then
         echo "[KATA] Configuration corrupt. Creating new config file..."
         echo ""
         create_config
@@ -79,8 +86,13 @@ read_config_variables() {
     VIRTUAL_REPO2="$KATA_USERNAME-virtual-2"
     REMOTE_REPO="$KATA_USERNAME-jcenter-remote"
 
-    BASE64=$(echo -n "$ARTIFACTORY_USERNAME:$ARTIFACTORY_PASSWORD" | base64)
-    AUTH_HEADER="Authorization: Basic $BASE64"
+    if [ -z "$ARTIFACTORY_APIKEY" ]; then
+        BASE64=$(echo -n "$ARTIFACTORY_USERNAME:$ARTIFACTORY_PASSWORD" | base64)
+        AUTH_HEADER="Authorization: Basic $BASE64"
+    else
+        AUTH_HEADER="X-JFrog-Art-Api:$ARTIFACTORY_APIKEY"
+    fi
+
 }
 
 #Checks that artifactory URL and credentials are correct by requesting the application.wadl file. If something isn't right, calls create_config.
@@ -104,6 +116,7 @@ ping_artifactory() {
 }
 
 create_config() {
+    # Print information and read input from user
     echo "[KATA] I am about to create a new config file for you. Press ENTER to proceed, or ctrl+c to abort"
     read DUMMY_VARIABLE
     rm -f $CONFIG
@@ -115,20 +128,33 @@ create_config() {
     echo ""
 
     echo "[KATA] Please enter your Artifactory username (for authentication): "
+    echo "[KATA] - press ENTER to authenticate with API KEY instead"
     read INPUT_ARTIFACTORY_USERNAME
     echo ""
 
-    echo "[KATA] Please enter your Artifactory password (for authentication): "
-    read -s INPUT_ARTIFACTORY_PASSWORD
-    echo ""
+    if [ "$INPUT_ARTIFACTORY_USERNAME" = "" ]; then
+        echo "[KATA] Empty username detected, please enter API KEY "
+        read INPUT_ARTIFACTORY_APIKEY
+        echo ""
+    else
+        echo "[KATA] Please enter your Artifactory password (for authentication): "
+        read -s INPUT_ARTIFACTORY_PASSWORD
+        echo ""
+    fi
 
     echo "[KATA] Please enter your unique kata username (used for naming your repositories): "
     read INPUT_KATA_USERNAME
     echo ""
 
+    # Write input from user to config file
     echo "ARTIFACTORY_URL=$INPUT_ARTIFACTORY_URL" >> $CONFIG
-    echo "ARTIFACTORY_USERNAME=$INPUT_ARTIFACTORY_USERNAME" >> $CONFIG
-    echo "ARTIFACTORY_PASSWORD=$INPUT_ARTIFACTORY_PASSWORD" >> $CONFIG
+
+    if [ "$INPUT_ARTIFACTORY_USERNAME" != "" ]; then
+        echo "ARTIFACTORY_USERNAME=$INPUT_ARTIFACTORY_USERNAME" >> $CONFIG
+        echo "ARTIFACTORY_PASSWORD=$INPUT_ARTIFACTORY_PASSWORD" >> $CONFIG
+    fi
+
+    echo "ARTIFACTORY_APIKEY=$INPUT_ARTIFACTORY_APIKEY" >> $CONFIG
     echo "KATA_USERNAME=$INPUT_KATA_USERNAME" >> $CONFIG
 
     read_config_variables
