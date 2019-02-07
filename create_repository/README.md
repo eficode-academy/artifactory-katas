@@ -1,4 +1,5 @@
 # Create Artifactory repositories and delpoy files
+
 Run `setup.sh` and note the names of the repositories. These are the names you should use in the exercise.
 
 **The names of your repositories are given when you run `setup.sh`**. _Do not_ invent your own names.
