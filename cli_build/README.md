@@ -5,7 +5,10 @@ If your favorite build framework or server does not have a plugin to upload and 
 In order to use these exercises, you need the jfrog CLI. All examples and exercises here utilizes the CLI.
 It will be downloaded using the setup script, but if something goes wrong, it can be downloaded [here](https://jfrog.com/getcli/).
 
-> Info: If you had problems running the setup script needs to manually setup CLI configuration, running the following command: `./jfrog rt config --url $ARTIFACTORY_URL --user $ARTIFACTORY_USERNAME --password $ARTIFACTORY_PASSWORD --interactive=false`
+> Info: If you had problems running the setup script and needed to manually setup CLI configuration,
+> you need to run one of the following commands:
+> - using username and password: `./jfrog rt config --url $ARTIFACTORY_URL --user $ARTIFACTORY_USERNAME --password $ARTIFACTORY_PASSWORD --interactive=false`
+> - using apikey: `./jfrog rt config --url $ARTIFACTORY_URL --apikey $ARTIFACTORY_APIKEY --interactive=false`
 
 If you at any point need to look at the documentation, then here is the [link](https://www.jfrog.com/confluence/display/CLI/CLI+for+JFrog+Artifactory).
 
@@ -49,7 +52,7 @@ The way to do it is
 * Upload the `moose.jpg` and `squirrel.jpg` image both with version 2.2.0 and under the `acme` organisation in the `${KATA_USERNAME}-gradle-dev-local` repo. Remember to add the build name and number to the uploads.
 * Include environment variables to the build.
 * Publish your build through the CLI.
-* Promote your build from `${KATA_USERNAME}-gradle-dev-local` to `${KATA_USERNAME}-gradle-release-local`. 
+* Promote your build from `${KATA_USERNAME}-gradle-dev-local` to `${KATA_USERNAME}-gradle-release-local`.
 * Go to the Artifactory UI, find `${KATA_USERNAME}-gradle-release-local` and check that the files have been copied over.
 
 You have now added properties, set name/number of your build and succesfully promoted the files to a different maturity level through the CLI.
