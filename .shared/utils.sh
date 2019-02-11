@@ -149,12 +149,13 @@ create_config() {
     # Write input from user to config file
     echo "ARTIFACTORY_URL=$INPUT_ARTIFACTORY_URL" >> $CONFIG
 
-    if [ "$INPUT_ARTIFACTORY_USERNAME" != "" ]; then
+    if [ "$INPUT_ARTIFACTORY_APIKEY" != "" ]; then
+        echo "ARTIFACTORY_APIKEY=$INPUT_ARTIFACTORY_APIKEY" >> $CONFIG
+    else
         echo "ARTIFACTORY_USERNAME=$INPUT_ARTIFACTORY_USERNAME" >> $CONFIG
         echo "ARTIFACTORY_PASSWORD=$INPUT_ARTIFACTORY_PASSWORD" >> $CONFIG
     fi
 
-    echo "ARTIFACTORY_APIKEY=$INPUT_ARTIFACTORY_APIKEY" >> $CONFIG
     echo "KATA_USERNAME=$INPUT_KATA_USERNAME" >> $CONFIG
 
     read_config_variables
