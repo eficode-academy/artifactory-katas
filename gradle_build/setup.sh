@@ -22,7 +22,7 @@ read -d '' CONTENTS << EOF
 buildscript {
     repositories {
         maven { url "\${artifactory_contextUrl}/$REMOTE_REPO" }
-        
+
     }
     dependencies {
         classpath "org.jfrog.buildinfo:build-info-extractor-gradle:4+"
@@ -42,7 +42,7 @@ artifactory {
             username = "\${artifactory_user}"
             password = "\${artifactory_password}"
             maven = true
-            
+
         }
             defaults {
                 publications ('duckPublication','moosePublication')
@@ -59,7 +59,7 @@ artifactory {
             username = "\${artifactory_user}"
             password = "\${artifactory_password}"
             maven = true
-            
+
         }
     }
 }
@@ -136,7 +136,7 @@ task('PromoteBuild', type: Exec) {
                 println standardOutput.toString()
                 throw new GradleException("HTTP error when trying to promote build")
             }
-        }  
+        }
     }
 }
 EOF

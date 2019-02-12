@@ -23,7 +23,7 @@ repositories {
             artifact '[organization]/[revision]/[artifact]-[revision](.[ext])' //This is your custom layout translated to ivy. This has to be done manually
             ivy '[module]/[revision]/ivy.xml'
         }
-    } 
+    }
 }
 configurations {
     deps
