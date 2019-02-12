@@ -38,7 +38,7 @@ These are the two models that can be used:<br>
 
 2. AQL with json (_only_ `REST API(curl)`)
 
-```json
+```aql
 items.find(
     {
         "repo": "<my_repo>"
@@ -62,7 +62,7 @@ So e.g. if you want to query a specific property of an item, you have to go thro
 
 example:
 
-```json
+```aql
 items.find(
     {
     "type":"file",
@@ -75,7 +75,7 @@ items.find(
 
 When using AQL from curl, the query itself is best stored in a plaintext document on the side and used like the command below:
 
-```curl -i -X POST -H "$AUTH_HEADER"  -H "Content-Type:text/plain" $ARTIFACTORY_URL/api/search/aql -T payload.json```
+```curl -i -X POST -H "$AUTH_HEADER"  -H "Content-Type:text/plain" $ARTIFACTORY_URL/api/search/aql -T payload.aql```
 
 After executing the setup script, you will see four local repositories, each with different maturity denoted:
 
@@ -103,13 +103,13 @@ For the next exercises, we need to limit our searches to your own repositories. 
 
 * By using the `$match` keyword to enable wildcards:
 
-```Json
+```aql
 "repo":{"$match":"<KATA_USERNAME>-*"}
 ```
 
 * By listing all the repositories that needs to be searched with the `$or` keyword:
 
-```Json
+```aql
 "$or":[
     {"repo":"<KATA_USERNAME>-gradle-sandbox-local"},
     {"repo":"<KATA_USERNAME>-gradle-dev-local"}

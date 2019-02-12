@@ -18,7 +18,7 @@ echo_variable_array ${arr[@]}
 echo " "
 echo " "
 echo 'To use your aql, make a json file and use curl like the example below:'
-echo 'curl -i -X POST -H "${AUTH_HEADER}"  -H "Content-Type:text/plain" "${ARTIFACTORY_URL}/api/search/aql" -T payload.json'
+echo 'curl -i -X POST -H "${AUTH_HEADER}"  -H "Content-Type:text/plain" "${ARTIFACTORY_URL}/api/search/aql" -T payload.aql'
 curl -fL https://getcli.jfrog.io | sh
 ./jfrog rt config --url $ARTIFACTORY_URL --user $ARTIFACTORY_USERNAME --password $ARTIFACTORY_PASSWORD --interactive=false
 echo "Setup done."
