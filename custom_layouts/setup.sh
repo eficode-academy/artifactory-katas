@@ -5,7 +5,7 @@ initkata
 
 gradle -q init
 
-rest_create_repository $GRADLE_REPO1 "gradle"  >> $LOGFILE 2>&1
+rest_create_repository $GRADLE_REPO1 "gradle"
 
 cp $DUCK_PATH ./duck-$KATA_USERNAME.jpg
 cp $FOX_PATH ./fox-$KATA_USERNAME.jpg

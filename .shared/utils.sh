@@ -191,7 +191,7 @@ rest_create_repository() {
     \"rclass\": \"local\", \
     \"packageType\" : \"$2\"
     }" \
-    "$ARTIFACTORY_URL/api/repositories/$1"
+    "$ARTIFACTORY_URL/api/repositories/$1" >> "$LOGFILE" 2>&1
 }
 
 #Creates a remote repo

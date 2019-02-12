@@ -5,7 +5,7 @@ initkata
 
 gradle -q init
 
-rest_create_repository $GRADLE_REPO1 "gradle"  >> $LOGFILE 2>&1
+rest_create_repository $GRADLE_REPO1 "gradle"
 rest_deploy_artifact "/$GRADLE_REPO1/duckcorp/duck/1.0.0/duck-1.0.0.jpg" "$DUCK_PATH"  >> $LOGFILE 2>&1
 rest_deploy_artifact "/$GRADLE_REPO1/duckcorp/duck/1.0.1/duck-1.0.1.jpg" "$DUCK2_PATH"  >> $LOGFILE 2>&1
 

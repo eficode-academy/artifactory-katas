@@ -3,8 +3,8 @@
 source ../.shared/utils.sh
 initkata
 
-rest_create_repository $MATURITY_2_REPO "gradle" >> $LOGFILE 2>&1
-rest_create_repository $MATURITY_4_REPO "gradle" >> $LOGFILE 2>&1
+rest_create_repository $MATURITY_2_REPO "gradle"
+rest_create_repository $MATURITY_4_REPO "gradle"
 
 cp $MOOSE_PATH .
 cp $SQUIRREL_PATH .
