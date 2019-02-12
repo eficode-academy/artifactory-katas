@@ -52,12 +52,12 @@ initkata() {
 
 #Sources config file, reads variables, calls create_config if something is missing
 read_config_variables() {
-    if [ ! -f $CONFIG ]; then
+    if [ ! -f "$CONFIG" ]; then
         echo "[KATA] Configuration not found. Creating new config file..."
         echo ""
         create_config
     fi
-    source $CONFIG
+    source "$CONFIG"
     if [ -z "$KATA_USERNAME" ] || [ -z "$ARTIFACTORY_URL" ] || [ -z "$ARTIFACTORY_USERNAME" ] || [ -z "$ARTIFACTORY_PASSWORD" ]; then
         echo "[KATA] Configuration corrupt. Creating new config file..."
         echo ""
@@ -104,6 +104,23 @@ ping_artifactory() {
 }
 
 create_config() {
+
+    PWD="$(pwd)"
+
+    # A regex pattern to match for spaces
+    PATTERN=" "
+
+    # Check whether path contains spaces
+    if [[ "$PWD" =~ "$PATTERN" ]]; then
+        echo "[KATA] ERROR: Current path contains spaces:"
+        echo "[KATA] \"$PWD\""
+        echo "[KATA] Some of the startup scripts will not work."
+        echo "[KATA] Please move the Artifactory Katas folder to a path without spaces."
+        echo ""
+        echo "[KATA] Aborting setup."
+        exit
+    fi
+
     echo "[KATA] I am about to create a new config file for you. Press ENTER to proceed, or ctrl+c to abort"
     read DUMMY_VARIABLE
     rm -f $CONFIG
