@@ -1,4 +1,4 @@
-# Create Artifactory repositories and delpoy files
+# Create Artifactory repositories and deploy files
 
 Run `setup.sh` and note the Repository Keys. These are the keys you should use in the exercise.
 
