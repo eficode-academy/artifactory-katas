@@ -1,6 +1,6 @@
 #!/bin/bash
 
-CONFIG=$(pwd)/$(dirname $BASH_SOURCE)"/config.txt"
+CONFIG="$(pwd)/$(dirname $BASH_SOURCE)/config.txt"
 LOGFILE=$(pwd)/$(dirname $BASH_SOURCE)"/log.txt"
 rm -f $LOGFILE
 
@@ -14,7 +14,7 @@ SQUIRREL_PATH=$(pwd)/$(dirname $BASH_SOURCE)"/squirrel.jpg"
 initkata() {
     echo "[KATA] Reading config file..."
     read_config_variables
-    echo "[KATA] Pinging Artifactory..."
+
     ping_artifactory
 
     echo "[KATA] Which gradle are you using:"
@@ -50,20 +50,36 @@ initkata() {
     echo " "
 }
 
+is_config_valid() {
+
+    if [ ! -f "$CONFIG" ]; then
+        false
+    else
+        source "$CONFIG"
+        if [ -z "$KATA_USERNAME" ] || [ -z "$ARTIFACTORY_URL" ] || [ -z "$ARTIFACTORY_USERNAME" ] || [ -z "$ARTIFACTORY_PASSWORD" ]; then
+            # config is invalid
+            false
+        else
+            # config is valid
+            true
+        fi
+    fi
+
+}
+
 #Sources config file, reads variables, calls create_config if something is missing
 read_config_variables() {
     if [ ! -f "$CONFIG" ]; then
-        echo "[KATA] Configuration not found. Creating new config file..."
+        echo "[KATA] Configuration not found. Creating a new config file..."
+        echo ""
+        create_config
+    elif ! $(is_config_valid); then
+        echo "[KATA] Configuration corrupt. Creating a new config file..."
         echo ""
         create_config
     fi
+
     source "$CONFIG"
-    if [ -z "$KATA_USERNAME" ] || [ -z "$ARTIFACTORY_URL" ] || [ -z "$ARTIFACTORY_USERNAME" ] || [ -z "$ARTIFACTORY_PASSWORD" ]; then
-        echo "[KATA] Configuration corrupt. Creating new config file..."
-        echo ""
-        create_config
-        source $CONFIG
-    fi
 
     GENERIC_REPO1="$KATA_USERNAME-generic-1"
     GENERIC_REPO2="$KATA_USERNAME-generic-2"
@@ -85,22 +101,31 @@ read_config_variables() {
 
 #Checks that artifactory URL and credentials are correct by requesting the application.wadl file. If something isn't right, calls create_config.
 ping_artifactory() {
+    echo "[KATA] Pinging Artifactory..."
+
     PING_RESULT=$(curl -s --max-time 10 -o /dev/null -w "%{http_code}" -X GET -H "$AUTH_HEADER" "$ARTIFACTORY_URL/api/application.wadl")
     if [ "$PING_RESULT" -eq "000" ]; then
         echo "[KATA] HTTP 000: Failed to connect to $ARTIFACTORY_URL. Redirecting to new config file creation..."
-        create_config
+        ping_artifactory_remake_config
     elif [ "$PING_RESULT" -eq "401" ]; then
         echo "[KATA] HTTP 401: Connection successful but credentials are invalid. Redirecting to new config file creation..."
-        create_config
+        ping_artifactory_remake_config
     elif [ "$PING_RESULT" -eq "404" ]; then
         echo "[KATA] HTTP 404: Page not found. Most likely you have put an '/' at the end of your URL."
         echo "[KATA] Your URL should look like 'http://serverAddress.com/artifactory'"
-        create_config
+        ping_artifactory_remake_config
     elif [ "$PING_RESULT" -ne "200" ]; then
         echo "[KATA] Unexpected result when pinging Artifactory."
         echo "[KATA] Redoing the command in terminal so someone can debug what is going on..."
         curl -i --max-time 5 -X GET -H "$AUTH_HEADER" "$ARTIFACTORY_URL/api/application.wadl"
     fi
+}
+
+ping_artifactory_remake_config(){
+    create_config
+    read_config_variables
+    echo "[KATA] Test connection with new config..."
+    ping_artifactory # ping again to make sure config was properly created
 }
 
 create_config() {
@@ -121,35 +146,44 @@ create_config() {
         exit
     fi
 
-    echo "[KATA] I am about to create a new config file for you. Press ENTER to proceed, or ctrl+c to abort"
-    read DUMMY_VARIABLE
-    rm -f $CONFIG
+    echo "[KATA] Started creation of a new config file."
+    rm -f "$CONFIG"
 
-    echo "[KATA] Your Artifactory URL should look like 'http://serverAddress.com/artifactory'"
-    echo "[KATA] - note that there is no trailing '/' at the end."
-    echo "[KATA] Please enter your Artifactory URL: "
-    read INPUT_ARTIFACTORY_URL
-    echo ""
+    while ! $(is_config_valid); do
 
-    echo "[KATA] Please enter your Artifactory username (for authentication): "
-    read INPUT_ARTIFACTORY_USERNAME
-    echo ""
+        echo "[KATA] I am about to create a new config file for you. Press ENTER to proceed, or ctrl+c to abort"
+        read DUMMY_VARIABLE
+        rm -f "$CONFIG"
 
-    echo "[KATA] Please enter your Artifactory password (for authentication): "
-    read -s INPUT_ARTIFACTORY_PASSWORD
-    echo ""
+        echo "[KATA] Your Artifactory URL should look like 'http://serverAddress.com/artifactory'"
+        echo "[KATA] - note that there is no trailing '/' at the end."
+        echo "[KATA] Please enter your Artifactory URL: "
+        read INPUT_ARTIFACTORY_URL
 
-    echo "[KATA] Please enter your unique kata username (used for naming your repositories): "
-    read INPUT_KATA_USERNAME
-    echo ""
+        echo "[KATA] Please enter your Artifactory username (for authentication): "
+        read INPUT_ARTIFACTORY_USERNAME
 
-    echo "ARTIFACTORY_URL=$INPUT_ARTIFACTORY_URL" >> $CONFIG
-    echo "ARTIFACTORY_USERNAME=$INPUT_ARTIFACTORY_USERNAME" >> $CONFIG
-    echo "ARTIFACTORY_PASSWORD=$INPUT_ARTIFACTORY_PASSWORD" >> $CONFIG
-    echo "KATA_USERNAME=$INPUT_KATA_USERNAME" >> $CONFIG
+        echo "[KATA] Please enter your Artifactory password (for authentication): "
+        read -s INPUT_ARTIFACTORY_PASSWORD
+        echo "" # input is hidden, so insert a newline
 
-    read_config_variables
-    ping_artifactory
+        echo "[KATA] Please enter your unique kata username (used for naming your repositories): "
+        read INPUT_KATA_USERNAME
+
+        echo "ARTIFACTORY_URL=$INPUT_ARTIFACTORY_URL" >> "$CONFIG"
+        echo "ARTIFACTORY_USERNAME=$INPUT_ARTIFACTORY_USERNAME" >> "$CONFIG"
+        echo "ARTIFACTORY_PASSWORD=$INPUT_ARTIFACTORY_PASSWORD" >> "$CONFIG"
+        echo "KATA_USERNAME=$INPUT_KATA_USERNAME" >> "$CONFIG"
+
+        if ! $(is_config_valid); then
+            echo "[KATA] Configuration corrupt. Creating a new config file..."
+            echo "---------------------------------------------------------"
+        fi
+
+    done
+
+    echo "[KATA] Successfully created a new config file."
+
 }
 
 #Echoes a copy-pastable blob of text to export variables to user terminal
