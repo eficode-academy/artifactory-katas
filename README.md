@@ -23,6 +23,20 @@ If you want to be able to run every exercise in this repository you need:
 - Git bash
 - JFrog CLI
 
+## Authenticating towards Artifactory
+
+You will need to authenticate to Artifactory either by a username/password
+ combination or an API Key. If you use a username/password combination, please
+ don't use your "plain password" but instead use the "Encrypted Password" for
+ your Artifactory user.
+
+You will find both the `API Key` and your `Encrypted Password` Under
+ "Welcome, \<user\>" and "Edit Profile" in the Artifactory UI.
+ Unlock with your password and look under "Authentication Settings".
+ Read more: [Using Your Secure Password](https://www.jfrog.com/confluence/display/RTF/Centrally+Secure+Passwords).
+
+NB: It's not currently possible to do the Gradle exercises using an `API Key`.
+
 ## Links
 
 - [General Artifactory documentation](https://www.jfrog.com/confluence/pages/viewpage.action?pageId=46107472)
