@@ -128,6 +128,6 @@ When we're using the default layout, we don't need the custom `ivy` layout patte
     }
     ```
 
-* Run the `gradle copyDeps` task again, what happens?
+* Run the `./gradlew copyDeps` task again, what happens?
   * Why can/can't it locate the `duck-1.0.0.jpg` artifact?
   * Why can/can't it locate the `fox-1.0.0.jpg` artifact?
