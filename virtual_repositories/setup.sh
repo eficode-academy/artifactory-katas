@@ -20,13 +20,17 @@ rest_deploy_artifact "/$MATURITY_4_REPO/acme/fox/1.5.3/fox-1.5.3.jpg" "$FOX_PATH
 
 read -d '' CONTENTS << EOF
 repositories {
-    maven { url "$ARTIFACTORY_URL/your_repo_goes_here" }  //Fill in your virtual repository here
+    maven { url "$ARTIFACTORY_URL/$MATURITY_1_REPO" }  // Fill in your virtual repository here
 }
 
 configurations { compile }
 
 dependencies {
+
+    compile(group: 'acme', name: 'duck', version: '1.0.0', ext: 'jpg')
+
     // Add your dependencies here
+
 }
 
 EOF
