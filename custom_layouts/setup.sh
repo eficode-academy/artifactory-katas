@@ -17,10 +17,10 @@ read -d '' CONTENTS <<EOF
 apply plugin: "java"
 repositories {
     ivy {
-        url "${ARTIFACTORY_URL}/YOUR_CUSTOM_REPO_GOES_HERE" //This is where you put your custom repo name
+        url "${ARTIFACTORY_URL}/YOUR_CUSTOM_REPO_GOES_HERE" // This is where you put your custom repo name
 
         layout 'pattern' , {
-            artifact '[organization]/[revision]/[artifact]-[revision](.[ext])' //This is your custom layout translated to ivy. This has to be done manually
+            artifact '[organization]/[revision]/[artifact]-[revision](.[ext])' // This is your custom layout translated to ivy. This has to be done manually
             ivy '[module]/[revision]/ivy.xml'
         }
     }
@@ -42,6 +42,8 @@ echo "$CONTENTS" >> build.gradle
 echo "Setup complete."
 echo "Follow the instructions in the readme file."
 echo "Your repo for this exercise is: $ARTIFACTORY_URL/webapp/#/artifacts/browse/tree/General/$GRADLE_REPO1"
+arr=("KATA_USERNAME")
+echo_variable_array ${arr[@]}
 echo ""
 echo "The duck and fox images are in the exercise folder for use in the exercise."
 echo "Remember to navigate to the exercises folder created."
