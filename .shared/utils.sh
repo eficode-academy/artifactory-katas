@@ -12,7 +12,7 @@ MOOSE_PATH=$(pwd)/$(dirname $BASH_SOURCE)"/moose.jpg"
 SQUIRREL_PATH=$(pwd)/$(dirname $BASH_SOURCE)"/squirrel.jpg"
 
 initkata() {
-    echo "[KATA] Reading config file..."
+    echo "[KATA] Reading config file .shared/config.txt..."
     read_config_variables
     echo "[KATA] Pinging Artifactory..."
     ping_artifactory
@@ -143,6 +143,7 @@ create_config() {
     read INPUT_KATA_USERNAME
     echo ""
 
+    echo "[KATA] Writing configuration to .shared/config.txt..."
     echo "ARTIFACTORY_URL=$INPUT_ARTIFACTORY_URL" >> $CONFIG
     echo "ARTIFACTORY_USERNAME=$INPUT_ARTIFACTORY_USERNAME" >> $CONFIG
     echo "ARTIFACTORY_PASSWORD=$INPUT_ARTIFACTORY_PASSWORD" >> $CONFIG
