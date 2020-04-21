@@ -1,0 +1,60 @@
+version: '3'
+services:
+  postgres:
+    image: docker.bintray.io/postgres:9.6.11
+    container_name: postgresql
+    environment:
+     - POSTGRES_DB=artifactory
+     - POSTGRES_USER=artifactory
+     - POSTGRES_PASSWORD=password
+    ports:
+      - 5432:5432
+    volumes:
+     - postgresData:/var/lib/postgresql/data
+     - /etc/localtime:/etc/localtime:ro
+    restart: always
+    logging:
+      driver: json-file
+      options:
+        max-size: "50m"
+        max-file: "10"
+    ulimits:
+      nproc: 65535
+      nofile:
+        soft: 32000
+        hard: 40000
+  artifactory:
+    image: docker.bintray.io/jfrog/artifactory-pro:7.4.1
+    container_name: artifactory
+    volumes:
+     - artifactoryVar:/var/opt/jfrog/artifactory
+     - /etc/localtime:/etc/localtime:ro
+    restart: always
+    depends_on:
+    - postgres
+    ulimits:
+      nproc: 65535
+      nofile:
+        soft: 32000
+        hard: 40000
+    environment:
+     - JF_ROUTER_ENTRYPOINTS_EXTERNALPORT=8082
+    ports:
+      - 8082:8082 # for router communication
+      - 8081:8081 # for artifactory communication
+    logging:
+      driver: json-file
+      options:
+        max-size: "50m"
+        max-file: "10"
+  jenkins:
+    image: jenkins/jenkins:lts
+    container_name: jenkins
+    ports:
+      - 8080:8080
+    volumes:
+      - jenkins_artifactory:/var/jenkins_home
+volumes:
+  artifactoryVar:
+  postgresData:
+  jenkins_artifactory:
