@@ -55,11 +55,10 @@ Type:
 ### Upload the files
 
 * Go to the repository browser, select the repository you just created and click Deploy.
-* Upload both duck and fox images to this repository.
-  * You need to upload them one at a time.
+* Upload the fox images to this repository.
   * Check the "Deploy According To Layout" option. (Only available for single uploads.)
 
-    Fill in the info: `org: acme`, `baseRev: 1.0.0` and `module: duck or fox`
+    Fill in the info: `org: acme`, `baseRev: 1.0.0` and `module: fox`
   * Click Deploy.
 * Check that both uploads have the "Dependency Declaration"
     section in the UI when selecting them.
