@@ -1,6 +1,6 @@
 # Artifactory kata
 
-Exercises made for Praqma's one day [introduction to Artifactory](https://www.praqma.com/training/artifactory-intro/)
+Exercises made for Eficode's one day [introduction to Artifactory](https://www.eficode.com/academy/introduction-artifactory)
 
 ## Katas
 
