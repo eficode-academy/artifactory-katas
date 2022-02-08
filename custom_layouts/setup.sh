@@ -18,10 +18,16 @@ apply plugin: "java"
 repositories {
     ivy {
         url "${ARTIFACTORY_URL}/YOUR_CUSTOM_REPO_GOES_HERE" // This is where you put your custom repo name
-
-        layout 'pattern' , {
+        credentials {
+            username = "${artifactory_user}" // The publisher user name
+            password = "${artifactory_password}" // The publisher password
+        }
+        patternLayout {
             artifact '[organization]/[revision]/[artifact]-[revision](.[ext])' // This is your custom layout translated to ivy. This has to be done manually
             ivy '[module]/[revision]/ivy.xml'
+        }
+        metadataSources {
+            artifact()
         }
     }
 }

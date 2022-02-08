@@ -4,7 +4,7 @@ Run `setup.sh` and notice you have one gradle repository, `$KATA_USERNAME-generi
 The standard layout for such a repository is the following:
 
 ```
-[org]/[module]/[baseRev](-[folderItegRev])/[module]-[baseRev](-[fileItegRev])(-[classifier]).[ext]
+[orgPath]/[module]/[baseRev](-[folderItegRev])/[module]-[baseRev](-[fileItegRev])(-[classifier]).[ext]
 ```
 
 If you look into the repository, you see that you have two artifacts: `duck-1.0.0.jpg` and `fox-1.0.0.jpg`, both in the `acme/<artifact_name>/<artifact_version>/` folder.
@@ -26,7 +26,8 @@ You have a team that wants to have all ducks and fox artifacts with the same ver
 
 ### Make the layout and repository
 
-* First we will need to create a layout. In Artifactory, got to [Admin] —> [Repositories] —> [Layouts], then click on "Duplicate" from the gradle layout.
+* First we will need to create a layout. In Artifactory, got to [Admin] —> [Repositories] —> [Layouts], then click on "Duplicate" from the layout used in the gradle project.
+Jfrog has deprecated 'gradle' layout a while ago and is using 'maven-2-default' layout for gradle repositories
 * For Layout Name use `$KATA_USERNAME-layout`, so it's unique.
 * In the "Artifact Path Pattern", delete the first `/[module]` that represents a folder structure.
 * Test that the layout works as intended. In "Test Artifacts Path Resolution", fill in the following: `acme/1.0.0/fox-1.0.0.jpg`
@@ -47,19 +48,20 @@ Type:
 
 ### Create a new repository using the custom layout
 
-* Now we need to make a repository. Go to [Admin] —> [Repositories] —> [Local], then click "New" -> choose the Gradle icon.
+* Now we need to make a repository. Go to [Admin] —> [Repositories] —> [Local], then click "Add repositories" -> choose the Gradle icon.
 * As Repository Key use `$KATA_USERNAME-gradlecustom-dev`.
 * From the "Repository Layout" dropdown list choose your recently created custom layout.
-* Leave the rest of the windows as is, and then hit "Save & Finish" button.
+* Leave the rest of the windows as is, and then hit "Create local repository" button.
 
 ### Upload the files
 
 * Go to the repository browser, select the repository you just created and click Deploy.
-* Upload the fox images to this repository.
+* Upload the fox and duck images to this repository.
   * Check the "Deploy According To Layout" option. (Only available for single uploads.)
 
-    Fill in the info: `org: acme`, `baseRev: 1.0.0` and `module: fox`
+    Fill in the info: `orgPath: acme`, `baseRev: 1.0.0` and `module: fox`
   * Click Deploy.
+  * Repeat for duck.jpg
 * Check that both uploads have the "Dependency Declaration"
     section in the UI when selecting them.
 
@@ -88,10 +90,10 @@ Copying an artifact from one layout to another:
 * Right click, choose "Copy" and choose your `$KATA_USERNAME-gradlecustom-dev`
     as the Target Repository and click "Copy". Don't select "Copy to a Custom Path".
 * Locate the artifact in your `$KATA_USERNAME-gradlecustom-dev` repository,
-    notice how there's no "Dependency Declaration".
+    ~~notice how there's no "Dependency Declaration".
     > We reused the original path of the artifact in our new repository,
     > but Artifactory doesn't know how to
-    > parse this into `groupId`, `artifactId` or `version`.
+    > parse this into `groupId`, `artifactId` or `version`.~~ 
 
 Now, let's try changing the path when we copy the artifact:
 
