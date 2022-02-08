@@ -90,10 +90,10 @@ Copying an artifact from one layout to another:
 * Right click, choose "Copy" and choose your `$KATA_USERNAME-gradlecustom-dev`
     as the Target Repository and click "Copy". Don't select "Copy to a Custom Path".
 * Locate the artifact in your `$KATA_USERNAME-gradlecustom-dev` repository,
-    ~~notice how there's no "Dependency Declaration".
+    notice how there's no "Dependency Declaration".
     > We reused the original path of the artifact in our new repository,
     > but Artifactory doesn't know how to
-    > parse this into `groupId`, `artifactId` or `version`.~~ 
+    > parse this into `groupId`, `artifactId` or `version`.
 
 Now, let's try changing the path when we copy the artifact:
 

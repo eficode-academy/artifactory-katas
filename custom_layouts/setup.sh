@@ -24,11 +24,11 @@ repositories {
         }
         patternLayout {
             artifact '[organization]/[revision]/[artifact]-[revision](.[ext])' // This is your custom layout translated to ivy. This has to be done manually
-            ivy '[module]/[revision]/ivy.xml'
+            ivy '[module]/[revision]/ivy.xml'  // maybe needed
         }
-        metadataSources {
-            artifact()
-        }
+        //metadataSources {       // could not get the patternLayout ivy.xml to work, this one worked every time
+        //    artifact()
+        //}
     }
 }
 configurations {
