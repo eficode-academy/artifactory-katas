@@ -19,8 +19,8 @@ repositories {
     ivy {
         url "${ARTIFACTORY_URL}/YOUR_CUSTOM_REPO_GOES_HERE" // This is where you put your custom repo name
         credentials {
-            username = "${artifactory_user}" // The publisher user name
-            password = "${artifactory_password}" // The publisher password
+            username = "\${artifactory_user}" // The publisher user name
+            password = "\${artifactory_password}" // The publisher password
         }
         patternLayout {
             artifact '[organization]/[revision]/[artifact]-[revision](.[ext])' // This is your custom layout translated to ivy. This has to be done manually
@@ -39,11 +39,22 @@ configurations {
     deps (group: 'acme', name: 'fox', version: '1.0.0', ext: 'jpg')
 }
   task copyDeps(type: Copy) {
-    from configurations.deps
+    group "Publish"
+    description "Pulls the dependencies from artifactory to project \\$buildDir/output/"
+    from {
+        configurations.deps
+    }
     into "\$buildDir/output"
 }
 EOF
 echo "$CONTENTS" >> build.gradle
+
+read -d '' PROPERTIES << EOF
+artifactory_user=$ARTIFACTORY_USERNAME
+artifactory_password=$ARTIFACTORY_PASSWORD
+artifactory_contextUrl=$ARTIFACTORY_URL
+EOF
+echo "$PROPERTIES" >> gradle.properties
 
 echo "Setup complete."
 echo "Follow the instructions in the readme file."
