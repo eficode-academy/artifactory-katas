@@ -20,7 +20,16 @@ rest_deploy_artifact "/$MATURITY_4_REPO/acme/fox/1.5.3/fox-1.5.3.jpg" "$FOX_PATH
 
 read -d '' CONTENTS << EOF
 repositories {
-    maven { url "$ARTIFACTORY_URL/$MATURITY_1_REPO" }  // Fill in your virtual repository here
+    maven {
+        url "$ARTIFACTORY_URL/$MATURITY_1_REPO"
+        credentials {
+            username = "\${artifactory_user}" // The publisher user name
+            password = "\${artifactory_password}" // The publisher password
+        }
+        metadataSources {
+            artifact()
+        }
+    }  // Fill in your virtual repository here
 }
 
 configurations { compile }
@@ -35,6 +44,13 @@ dependencies {
 
 EOF
 echo "$CONTENTS" >> build.gradle
+
+read -d '' PROPERTIES << EOF
+artifactory_user=$ARTIFACTORY_USERNAME
+artifactory_password=$ARTIFACTORY_PASSWORD
+artifactory_contextUrl=$ARTIFACTORY_URL
+EOF
+echo "$PROPERTIES" >> gradle.properties
 
 echo "Setup done. The duck and fox images are in the exercise folder for use in the exercise."
 echo "Remember to navigate to the exercises folder created."
