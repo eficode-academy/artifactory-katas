@@ -9,7 +9,9 @@ gradle -q init
 rest_create_repository $MATURITY_2_REPO "gradle"
 rest_create_repository $MATURITY_4_REPO "gradle"
 rest_deploy_artifact "/$MATURITY_2_REPO/duckcorp/duck/1.0.0/duck-1.0.0.jpg" "$DUCK_PATH" >> $LOGFILE 2>&1
+rest_deploy_artifact "/$MATURITY_2_REPO/duckcorp/duck/1.0.0/duck-1.0.0.pom" "$DUCK_POM" >> $LOGFILE 2>&1
 rest_deploy_artifact "/$MATURITY_2_REPO/moosecorp/moose/1.0.0/moose-1.0.0.jpg" "$MOOSE_PATH" >> $LOGFILE 2>&1
+rest_deploy_artifact "/$MATURITY_2_REPO/moosecorp/moose/1.0.0/moose-1.0.0.pom" "$MOOSE_POM" >> $LOGFILE 2>&1
 
 read -d '' CONTENTS_GRADLE_PROPERTIES <<EOF
 artifactory_user=$ARTIFACTORY_USERNAME
@@ -21,7 +23,13 @@ echo "$CONTENTS_GRADLE_PROPERTIES" >> gradle.properties
 read -d '' CONTENTS << EOF
 buildscript {
     repositories {
-        maven { url "\${artifactory_contextUrl}/$REMOTE_REPO" }
+        maven {
+            url "\${artifactory_contextUrl}/$REMOTE_REPO"
+            credentials {
+                username = "\${artifactory_user}" // The publisher user name
+                password = "\${artifactory_password}" // The publisher password
+            }
+        }
 
     }
     dependencies {
@@ -81,7 +89,7 @@ task('DuckZip', type: Zip) {
     from {
         configurations.DuckFiles
     }
-    archiveName "duck.zip"
+    setArchiveFileName "duck.zip"
 }
 
 task('MooseZip', type: Zip) {
