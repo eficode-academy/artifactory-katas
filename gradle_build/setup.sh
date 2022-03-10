@@ -21,6 +21,7 @@ EOF
 echo "$CONTENTS_GRADLE_PROPERTIES" >> gradle.properties
 
 read -d '' CONTENTS << EOF
+import org.apache.tools.ant.taskdefs.condition.Os
 buildscript {
     repositories {
         maven {
@@ -73,6 +74,7 @@ artifactory {
 }
 
 apply plugin: 'maven-publish'
+apply plugin: 'java'
 configurations{
     DuckFiles
     MooseFiles
@@ -99,7 +101,7 @@ task('MooseZip', type: Zip) {
     from {
         configurations.MooseFiles
     }
-    archiveName "moose.zip"
+    setArchiveFileName "moose.zip"
 }
 
 publishing.publications {
@@ -133,9 +135,9 @@ task('PromoteBuild', type: Exec) {
     standardOutput = new ByteArrayOutputStream()
     doLast {
         println "This is the curl that will be attempted:"
-        println "curl -s -X POST -H Content-Type:application/json -H \"$authHeader\" -d @promote_build_query.json ${artifactory_contextUrl}/api/build/promote/$myBuildName/$myBuildNumber"
+        println "\$commandLine"
 
-        if (isFamily(FAMILY_MAC) || isFamily(FAMILY_UNIX)) {
+        if (Os.isFamily(Os.FAMILY_MAC) || Os.isFamily(Os.FAMILY_UNIX)) {
             println "Since you are on a UNIX machine, this hacky groovy task cannot execute the curl for you. You will have to copy and paste it yourself."
         } else {
             def json = new JsonSlurper().parseText(standardOutput.toString())
