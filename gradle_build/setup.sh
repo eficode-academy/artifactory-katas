@@ -9,7 +9,9 @@ gradle -q init
 rest_create_repository $MATURITY_2_REPO "gradle"
 rest_create_repository $MATURITY_4_REPO "gradle"
 rest_deploy_artifact "/$MATURITY_2_REPO/duckcorp/duck/1.0.0/duck-1.0.0.jpg" "$DUCK_PATH" >> $LOGFILE 2>&1
+rest_deploy_artifact "/$MATURITY_2_REPO/duckcorp/duck/1.0.0/duck-1.0.0.pom" "$DUCK_POM" >> $LOGFILE 2>&1
 rest_deploy_artifact "/$MATURITY_2_REPO/moosecorp/moose/1.0.0/moose-1.0.0.jpg" "$MOOSE_PATH" >> $LOGFILE 2>&1
+rest_deploy_artifact "/$MATURITY_2_REPO/moosecorp/moose/1.0.0/moose-1.0.0.pom" "$MOOSE_POM" >> $LOGFILE 2>&1
 
 read -d '' CONTENTS_GRADLE_PROPERTIES <<EOF
 artifactory_user=$ARTIFACTORY_USERNAME
@@ -19,9 +21,16 @@ EOF
 echo "$CONTENTS_GRADLE_PROPERTIES" >> gradle.properties
 
 read -d '' CONTENTS << EOF
+import org.apache.tools.ant.taskdefs.condition.Os
 buildscript {
     repositories {
-        maven { url "\${artifactory_contextUrl}/$REMOTE_REPO" }
+        maven {
+            url "\${artifactory_contextUrl}/$REMOTE_REPO"
+            credentials {
+                username = "\${artifactory_user}" // The publisher user name
+                password = "\${artifactory_password}" // The publisher password
+            }
+        }
 
     }
     dependencies {
@@ -65,6 +74,7 @@ artifactory {
 }
 
 apply plugin: 'maven-publish'
+apply plugin: 'java'
 configurations{
     DuckFiles
     MooseFiles
@@ -81,7 +91,7 @@ task('DuckZip', type: Zip) {
     from {
         configurations.DuckFiles
     }
-    archiveName "duck.zip"
+    setArchiveFileName "duck.zip"
 }
 
 task('MooseZip', type: Zip) {
@@ -91,7 +101,7 @@ task('MooseZip', type: Zip) {
     from {
         configurations.MooseFiles
     }
-    archiveName "moose.zip"
+    setArchiveFileName "moose.zip"
 }
 
 publishing.publications {
@@ -125,9 +135,9 @@ task('PromoteBuild', type: Exec) {
     standardOutput = new ByteArrayOutputStream()
     doLast {
         println "This is the curl that will be attempted:"
-        println "curl -s -X POST -H Content-Type:application/json -H \"$authHeader\" -d @promote_build_query.json ${artifactory_contextUrl}/api/build/promote/$myBuildName/$myBuildNumber"
+        println "\$commandLine"
 
-        if (isFamily(FAMILY_MAC) || isFamily(FAMILY_UNIX)) {
+        if (Os.isFamily(Os.FAMILY_MAC) || Os.isFamily(Os.FAMILY_UNIX)) {
             println "Since you are on a UNIX machine, this hacky groovy task cannot execute the curl for you. You will have to copy and paste it yourself."
         } else {
             def json = new JsonSlurper().parseText(standardOutput.toString())
