@@ -7,6 +7,7 @@ rm -f $LOGFILE
 DUCK_PATH=$(pwd)/$(dirname $BASH_SOURCE)"/duck.jpg"
 DUCK_POM=$(pwd)/$(dirname $BASH_SOURCE)"/duck.pom"
 DUCK2_PATH=$(pwd)/$(dirname $BASH_SOURCE)"/duck2.jpg"
+POM2_PATH=$(pwd)/$(dirname $BASH_SOURCE)"/duck2.pom"
 FOX_PATH=$(pwd)/$(dirname $BASH_SOURCE)"/fox.jpg"
 FROG_PATH=$(pwd)/$(dirname $BASH_SOURCE)"/frog.jpg"
 MOOSE_PATH=$(pwd)/$(dirname $BASH_SOURCE)"/moose.jpg"
