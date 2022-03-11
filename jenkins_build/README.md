@@ -23,10 +23,10 @@ In order to do the exercises, you need to setup a job in Jenkins.
 
 This will create the following repositories (and maturity levels):
 
-level 1: `${KATA_USERNAME}-gradle-sandbox-local`
-level 2: `${KATA_USERNAME}-gradle-dev-local`
-level 3: `${KATA_USERNAME}-gradle-regtest-local`
-level 4: `${KATA_USERNAME}-gradle-release-local`
+level 1: `${KATA_USERNAME}-gradle-sandbox-local`  
+level 2: `${KATA_USERNAME}-gradle-dev-local`  
+level 3: `${KATA_USERNAME}-gradle-regtest-local`  
+level 4: `${KATA_USERNAME}-gradle-release-local`  
 
 ## Initial setup of Jenkins
 
