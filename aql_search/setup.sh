@@ -10,7 +10,7 @@ rest_create_repository $MATURITY_3_REPO "gradle"
 rest_create_repository $MATURITY_4_REPO "gradle"
 
 populate_maturity_repos
-cp ../../.shared/aql/payload.json .
+cp ../../.shared/aql/payload.aql .
 arr=( "ARTIFACTORY_URL" "AUTH_HEADER")
 echo " "
 echo " "
@@ -19,7 +19,8 @@ echo " "
 echo " "
 echo 'To use your aql, make a json file and use curl like the example below:'
 echo 'curl -i -X POST -H "${AUTH_HEADER}"  -H "Content-Type:text/plain" "${ARTIFACTORY_URL}/api/search/aql" -T payload.aql'
-curl -fL https://getcli.jfrog.io | sh
-./jfrog rt config --url $ARTIFACTORY_URL --user $ARTIFACTORY_USERNAME --password $ARTIFACTORY_PASSWORD --interactive=false
+
+get_and_config_jfrog_cli
+
 echo "Setup done."
 echo "Remember to navigate to the exercises folder created."

@@ -53,6 +53,21 @@ initkata() {
     echo " "
 }
 
+#download and configure jfrog cli
+get_and_config_jfrog_cli(){
+echo " Getting the jfrog CLI "
+curl -fL https://getcli.jfrog.io | sh >> $LOGFILE 2>&1
+echo " Configuring the jfrog CLI "
+./jfrog config add --artifactory-url $ARTIFACTORY_URL --user $ARTIFACTORY_USERNAME --password $ARTIFACTORY_PASSWORD --interactive=false
+PING_RESULT=$(./jfrog rt p)
+if [ "$PING_RESULT" == "OK" ]; 
+then
+echo "jfrog config OK"
+else 
+echo "Error: $PING_RESULT"
+fi
+}
+
 #Sources config file, reads variables, calls create_config if something is missing
 read_config_variables() {
     if [ ! -f "$CONFIG" ]; then
@@ -274,10 +289,10 @@ rest_add_artifact_properties(){
 #$2 is the url path of the file
 download_artifact(){
 COUNTER=0
-echo "downloading $ARTIFACTORY_URL/$2 $1 times"
+echo "downloading $ARTIFACTORY_URL$2 $1 times"
 while [  $COUNTER -lt $1 ]; do
     rm -f ./test.jpg
-    curl -o ./test.jpg $ARTIFACTORY_URL$2
+    curl --user $ARTIFACTORY_USERNAME:$ARTIFACTORY_PASSWORD -o ./test.jpg $ARTIFACTORY_URL$2
     rm -f ./test.jpg
     let COUNTER=COUNTER+1
 done
@@ -323,7 +338,7 @@ download_artifact 4 "/$MATURITY_2_REPO/acme/fox/2.3.0/fox-2.3.0.jpg" >> $LOGFILE
 download_artifact 5 "/$MATURITY_4_REPO/acme/fox/1.5.3/fox-1.5.3.jpg" >> $LOGFILE 2>&1
 download_artifact 6 "/$MATURITY_2_REPO/acme/frog/1.5.3/frog-1.5.3.jpg" >> $LOGFILE 2>&1
 download_artifact 9 "/$MATURITY_1_REPO/acme/frog/2.0.0/frog-2.0.0.jpg" >> $LOGFILE 2>&1
-
+echo "[KATA] Setting properties" >> $LOGFILE 2>&1
 #set some properties on the files
 rest_add_artifact_properties "/$MATURITY_1_REPO/acme/duck/1.0.0/duck-1.0.0.jpg" "os=linux" >> $LOGFILE 2>&1
 rest_add_artifact_properties "/$MATURITY_3_REPO/acme/duck/1.3.0/duck-1.3.0.jpg" "os=linux;unit_test=sucess;integration_test=success" >> $LOGFILE 2>&1

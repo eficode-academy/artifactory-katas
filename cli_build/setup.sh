@@ -9,8 +9,7 @@ rest_create_repository $MATURITY_4_REPO "gradle"
 cp $MOOSE_PATH .
 cp $SQUIRREL_PATH .
 cp $FOX_PATH .
-curl -fL https://getcli.jfrog.io | sh
-./jfrog rt config --url $ARTIFACTORY_URL --user $ARTIFACTORY_USERNAME --password $ARTIFACTORY_PASSWORD --interactive=false
+get_and_config_jfrog_cli
 
 echo ""
 echo "This is the Gradle repository that has been set up:"
