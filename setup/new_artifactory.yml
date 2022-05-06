@@ -24,7 +24,7 @@ services:
         soft: 32000
         hard: 40000
   artifactory:
-    image: docker.bintray.io/jfrog/artifactory-pro:7.4.1
+    image: docker.bintray.io/jfrog/artifactory-pro:7.37.15
     container_name: artifactory
     volumes:
      - artifactoryVar:/var/opt/jfrog/artifactory
@@ -47,14 +47,6 @@ services:
       options:
         max-size: "50m"
         max-file: "10"
-  jenkins:
-    image: jenkins/jenkins:lts
-    container_name: jenkins
-    ports:
-      - 8080:8080
-    volumes:
-      - jenkins_artifactory:/var/jenkins_home
 volumes:
   artifactoryVar:
   postgresData:
-  jenkins_artifactory:
