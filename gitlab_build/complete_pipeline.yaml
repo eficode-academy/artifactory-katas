@@ -1,0 +1,48 @@
+before_script:
+  # Install JFrog CLI
+  -  curl -fL https://getcli.jfrog.io | sh
+  # Configure Artifactory instance with JFrog CLI
+  - ./jfrog config add --artifactory-url=$ARTIFACTORY_URL --user=$ARTIFACTORY_USER --password=$ARTIFACTORY_PASS
+  - ./jfrog c show
+  - ./jfrog rt ping
+stages:          # List of stages for jobs, and their order of execution
+  - build
+  - test
+  - promotion
+
+build-upload-job:       # This job runs in the build stage, which runs first.
+  stage: build
+  script:
+    - echo "this is our artifact from 1.${CI_PIPELINE_IID}" > "artifact-1.${CI_PIPELINE_IID}.txt"
+    - |
+     echo "{
+      \"files\": [
+      {
+      \"pattern\": \"artifact-1.${CI_PIPELINE_IID}.txt\",
+      \"target\": \"sal-gradle-sandbox-local/acme/artifact/1.${CI_PIPELINE_IID}/artifact-1.${CI_PIPELINE_IID}.txt\"
+            }
+            ]
+        }" > uploadspec.json
+    - ls -la #List the artifacts in the log to see if the file is present
+    - ./jfrog rt u --spec uploadspec.json  --build-name ${CI_PROJECT_TITLE} --build-number ${CI_PIPELINE_IID}
+    # Collect the environment variables
+    - ./jfrog rt bce ${CI_PROJECT_TITLE} $CI_PIPELINE_IID
+    # Pass the build information to Artifactory
+    - ./jfrog rt bp ${CI_PROJECT_TITLE} $CI_PIPELINE_IID    
+
+download-job:   # This job runs in the test stage.
+  stage: test    # It only starts when the job in the build stage completes successfully.
+  script:
+    - ./jfrog rt download --build ${CI_PROJECT_TITLE}/$CI_PIPELINE_IID
+    - ls -la
+    - ls -la acme
+    - ls -la acme/artifact
+
+
+build-promotion:   # This job also runs in the test stage.
+  stage: promotion    # It can run at the same time as unit-test-job (in parallel).
+  script:
+    - echo "Linting code... This will take about 10 seconds."
+    #- sleep 10
+    - ./jfrog rt bpr ${CI_PROJECT_TITLE} $CI_PIPELINE_IID sal-gradle-dev-local --status promoted-to-dev
+
