@@ -64,7 +64,7 @@ If we're making a Java application, we will want to test it.
 
 ### Creating a Remote Repository
 
-* Create a `Remote` Repository with the Artifactory UI. Name it `$USERNAME-jcenter-remote` so it's unique to you. It should be of package type `Gradle` and should proxy `https://jcenter.bintray.com`
+* Create a `Remote` Repository with the Artifactory UI. Name it `$USERNAME-maven-remote` so it's unique to you. It should be of package type `Gradle` and should proxy `https://mvnrepository.com`
 * Edit your virtual repository so it also includes the remote one.
 * Run `gradle dependencies --refresh-dependencies` and verify that all artifacts resolve.
 
