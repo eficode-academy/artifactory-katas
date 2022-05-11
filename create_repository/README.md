@@ -1,8 +1,22 @@
 # Create Artifactory repositories and deploy files
 
+## Prerequisites
+
+In order for you to start working on the katas here, you need to configure the setup.
+It happens the first time you try to execure one of the katas. The information you need is the following:
+
+* `ARTIFACTORY_URL` The URL to artifactory. If you are in a course, this will be provided by the trainer
+* `ARTIFACTORY_USERNAME` The username to access artifactory, like `admin`. If you are in a course, this will be provided by the trainer
+* `ARTIFACTORY_PASSWORD` The password to said user. If you are in a course, this will be provided by the trainer
+* `KATA_USERNAME` a unique username to you. All repositories will be prepended that, so make it short and unique.
+
+When you know the four pices of information you can move forward with the exercise.
+
+## Setup
+
 Run `setup.sh` and note the Repository Keys. These are the keys you should use in the exercise.
 
-> _Do not_ invent your own Repository Keys.
+> :bulb: _Do not_ invent your own Repository Keys. It will make it harder for everyone to identify problems, and our scripts will not be able to clean up the repositories for you.
 
 ## Task
 
