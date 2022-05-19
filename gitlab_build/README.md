@@ -43,6 +43,8 @@ level 4: `${KATA_USERNAME}-gradle-release-local`
 * Paste the following pipeline in as your starter pipeline
 
 ```yaml
+image:
+  name: ruby:3.0
 before_script:
   # Install JFrog CLI
   -  curl -fL https://getcli.jfrog.io | sh

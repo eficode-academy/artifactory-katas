@@ -1,3 +1,5 @@
+image:
+  name: ruby:3.0
 before_script:
   # Install JFrog CLI
   -  curl -fL https://getcli.jfrog.io | sh
