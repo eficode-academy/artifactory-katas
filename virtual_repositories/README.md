@@ -74,7 +74,7 @@ In most organzations it will make sense to have multiple virtual repositories th
     different combinations of repositories depending on the needs of your application.
     The ones below are just provided as examples.
 
-* A "sandbox, development and JCenter-remote" repository, for sandbox testing your application.
+* A "sandbox, development and mvnrepository-remote" repository, for sandbox testing your application.
 * A "Quality Assurance and Release" repostory, for doing a functional test,
     specifying dependency to an explicit artifact in the QA-repository and using the rest from
     the release repository.
