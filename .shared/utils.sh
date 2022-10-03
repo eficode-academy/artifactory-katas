@@ -103,7 +103,7 @@ read_config_variables() {
 
 #Checks that artifactory URL and credentials are correct by requesting the application.wadl file. If something isn't right, calls create_config.
 ping_artifactory() {
-    PING_RESULT=$(curl -s --max-time 10 -o /dev/null -w "%{http_code}" -X GET -H "$AUTH_HEADER" "$ARTIFACTORY_URL/api/system/configuration")
+    PING_RESULT=$(curl -L -s --max-time 10 -o /dev/null -w "%{http_code}" -X GET -H "$AUTH_HEADER" "$ARTIFACTORY_URL/api/system/configuration")
     if [ "$PING_RESULT" -eq "000" ]; then
         echo "[KATA] HTTP 000: Failed to connect to $ARTIFACTORY_URL. Redirecting to new config file creation..."
         create_config
