@@ -20,4 +20,4 @@ echo 'curl -i -X POST -H "$AUTH_HEADER"  -H "Content-Type:text/plain" "$ARTIFACT
 get_and_config_jfrog_cli
 
 echo "Setup done."
-echo "Remember to navigate to the exercises folder created."
+echo "Remember to navigate to the created exercise folder."
