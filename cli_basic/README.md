@@ -18,14 +18,14 @@ For help during the exercise, consult the [JFrog CLI documentation](https://www.
 The CLI can interact with all JFrog products, therefore you'll need to specify which you'll interact with.
 Take the following command as an example:
 
-`jfrog rt u <artifact> <path>`
+`jf rt u <artifact> <path>`
 
 * `rt` stands for _Artifactory_
 * `u` stands for _upload_
 * `<artifact>` is the local path of the artifact you'd like to upload
 * `<path>` is the path on Artifactory to upload the artifact to
 
-e.g.: `jfrog rt up poem.txt poetry-grade-dev-local/acme/poem/1.0.0/poem-1.0.0.txt`.
+e.g.: `jf rt up poem.txt poetry-grade-dev-local/acme/poem/1.0.0/poem-1.0.0.txt`.
 
 ## Tasks
 

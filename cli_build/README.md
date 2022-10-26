@@ -17,11 +17,11 @@ For help during the exercise, consult the [JFrog CLI documentation](https://www.
 
 To link artifacts to a build, upload them with `--build-name` and `--build-number` arguments added.
 
-To include environment information, run `jfrog rt bce` (or `jfrog rt build-collect-env`), supplying the relevant build name and number.
+To include environment information, run `jf rt bce` (or `jf rt build-collect-env`), supplying the relevant build name and number.
 
-To publish a build to Artifactory, run `jfrog rt bp` (or `jfrog rt build-publish`), supplying the relevant build name and number.
+To publish a build to Artifactory, run `jf rt bp` (or `jf rt build-publish`), supplying the relevant build name and number.
 
-To promote a build, run `jfrog rt bpr` (or `jfrog rt build-promote`), supplying the relevant build name, number and target repository.
+To promote a build, run `jf rt bpr` (or `jf rt build-promote`), supplying the relevant build name, number and target repository.
 
 ## Task
 

@@ -1,13 +1,14 @@
 {
     "files": [
-          {
-           "aql": {
-              "items.find":{
-                      "type": "file",
-                      "stat.downloads":
-                      {"$eq":null}
-                      }
-          }
-         }
-        ]
-    }
+        {
+            "aql": {
+                "items.find": {
+                    "type": "file",
+                    "stat.downloads": {
+                        "$eq": null
+                    }
+                }
+            }
+        }
+    ]
+}
