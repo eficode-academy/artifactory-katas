@@ -53,7 +53,7 @@ Open the Artificatory URL in your favorite browser and log in.
 
 ### Download a file through the UI
 
-- Navigate: _Application panel_ ➡ _Artifactory_➡ _Artifacts_
+- Navigate: _Application panel_ ➡ _Artifactory_ ➡ _Artifacts_
 
 - Find the duck image you uploaded to your first repository.
 
