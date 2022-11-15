@@ -50,12 +50,3 @@ Open the Artificatory URL in your favorite browser and log in.
 - Do the same for the `fox-$KATA_USERNAME.jpg` file, but deploy it to your second repository instead.
 
 ![Deploy button in the deploy dialog](../.shared/img/1.4.png)
-
-### Look at them through the Native browser
-
-> The native browser lets you browse the contents of a repository outside of the Artifactory UI.
-It provides a highly responsive, read-only view and is similar to a directory listing provided by HTTP servers.
-
-Locate the first repository in Artifactory UI, and right click --> `native browser` to see your duck image in the path.
-
-![Index of Artifactory Repository](../.shared/img/1.5.png)
