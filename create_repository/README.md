@@ -50,3 +50,13 @@ Open the Artificatory URL in your favorite browser and log in.
 - Do the same for the `fox-$KATA_USERNAME.jpg` file, but deploy it to your second repository instead.
 
 ![Deploy button in the deploy dialog](../.shared/img/1.4.png)
+
+### Download a file through the UI
+
+- Navigate: _Application panel_ ➡ _Artifactory_➡ _Artifacts_
+
+- Find the duck image you uploaded to your first repository.
+
+- Download it through the UI.
+
+- Confirm the duck is stunningly beautiful.
