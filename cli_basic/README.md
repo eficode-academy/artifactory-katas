@@ -25,7 +25,7 @@ Take the following command as an example:
 * `<artifact>` is the local path of the artifact you'd like to upload
 * `<path>` is the path on Artifactory to upload the artifact to
 
-e.g.: `jf rt up poem.txt poetry-grade-dev-local/acme/poem/1.0.0/poem-1.0.0.txt`.
+e.g.: `jf rt u poem.txt poetry-grade-dev-local/org/acme/poem/1.0.0/poem-1.0.0.txt`.
 
 ## Tasks
 
