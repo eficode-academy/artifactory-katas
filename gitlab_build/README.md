@@ -114,7 +114,7 @@ This is our baseline.
 
 In order for you to upload/download artifacts through the cli, you have two options:
 
-* Via CLI with two arguments: `source` and `target` like `jfrog rt u "build/*.zip" my-local-repo/zipFiles/`
+* Via CLI with two arguments: `source` and `target` like `jf rt u "build/*.zip" my-local-repo/zipFiles/`
 * Via a `File Spec`.
 
 File Specs are JSON objects that are used to specify the details of the files you want to upload or download. File Specs are prefered over CLI in terms of readability when you are appending more and more arugments to your upload.

@@ -13,4 +13,4 @@ rest_deploy_artifact "/$GRADLE_REPO1/duck.jpg" "$DUCK_PATH"
 arr=( "ARTIFACTORY_URL" "ARTIFACTORY_USERNAME" "ARTIFACTORY_PASSWORD" "KATA_USERNAME" "AUTH_HEADER" "DUCK_PATH" "FOX_PATH" "FROG_PATH" "MOOSE_PATH" "SQUIRREL_PATH" )
 echo_variable_array ${arr[@]}
 
-echo "Remember to navigate to the exercises folder created."
+echo "Remember to navigate to the created exercise folder."

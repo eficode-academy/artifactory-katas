@@ -1,24 +1,31 @@
 # AQL searches
 
-Keeping track on a tens of thousands of artifacts is not easy, and even if you got some different search functionalities in the UI, you will need to search programmatically as well.
+Tracking thousands of artifacts can be a challenge, especially in the UI. To help, JFrog provides the Artifactory Query Language (AQL), giving you a way of searching for artifacts based on meta-data.
 
-For that, JFrog provides their Artifactory Query Language, AQL. It gives you a way of searching for artifacts based upon meta-data as well as the directory structure.
+In order to run these exercises, you'll need the JFrog CLI or use the REST API.
 
-In order to use these exercises, you either need the jfrog CLI, or use the REST API. All examples here utilizes the REST API.
 
 ## Resources
 
-### `curl` and https://www.jfrog.com/confluence/display/RTF/Artifactory+REST+API
-`curl` is available as part of the `bash` installation, so no further actions needed.
+The following will come in handy during the exercises:
 
-### AQL reference
-Link to JFrogs own AQL documentation can be found [here](https://www.jfrog.com/confluence/display/RTF/Artifactory+Query+Language#ArtifactoryQueryLanguage-Usage)
+- `curl` is available from `bash` and can be used to make calls to the REST API.
+- The [Artifactory REST API docs](https://www.jfrog.com/confluence/display/RTF/Artifactory+REST+API)
+- The [AQL docs](https://www.jfrog.com/confluence/display/RTF/Artifactory+Query+Language)
+- The [Filespec reference](https://www.jfrog.com/confluence/display/CLI/CLI+for+JFrog+Artifactory#CLIforJFrogArtifactory-UsingFileSpecs), when using the JFrog CLI
+- The [JFrog CLI docs](https://www.jfrog.com/confluence/display/CLI/CLI+for+JFrog+Artifactory)
 
-### File Spec reference
-https://www.jfrog.com/confluence/display/CLI/CLI+for+JFrog+Artifactory#CLIforJFrogArtifactory-UsingFileSpecs
+You can use pure AQL when calling the REST API, for example:
 
-These are the two models that can be used:<br>
-1. Full JSON (both `REST API(curl)` and `jfrog.exe`):
+```json
+items.find(
+    {
+      "repo": "bobofo-generic-local"
+    }
+)
+```
+
+You can wrap AQL in a Filespec when using the JFrog CLI, for example:
 
 ```json
 
@@ -27,7 +34,7 @@ These are the two models that can be used:<br>
     {
       "aql": {
         "items.find": {
-                "repo": "<my_repo>"
+          "repo": "fofobo-generic-local"
         }
       }
     }
@@ -36,46 +43,8 @@ These are the two models that can be used:<br>
 
 ```
 
-2. AQL with json (_only_ `REST API(curl)`)
 
-```aql
-items.find(
-    {
-        "repo": "<my_repo>"
-    }
-)
-```
-
-3. Search path (_only_ `jfrog.exe`)
-It is a search option for `jfrog.exe` tool. Example: `jfrog rt s "frog-repo/rabbit/*.zip"`. For details
-https://www.jfrog.com/confluence/display/CLI/CLI+for+JFrog+Artifactory#CLIforJFrogArtifactory-SearchingFiles
-
-## Domain model
-
-The AQL domain model is comprised of several entry entities in green, and their corresponding relational entities.
-
-![Aql domain model](./AQLDomains.png)
-
-Entry entities are the ones you can base your AQL upon.
-
-So e.g. if you want to query a specific property of an item, you have to go through `item` and then `property` (the `@` notation) to find it.
-
-example:
-
-```aql
-items.find(
-    {
-    "type":"file",
-    "@os":"windows"
-    }
-)
-```
-
-> **Note:** Users without admin privileges can only issue searches through **item** and must have the following fields included in the search: `name`,`repo`, and `path`.
-
-When using AQL from curl, the query itself is best stored in a plaintext document on the side and used like the command below:
-
-```curl -i -X POST -H "$AUTH_HEADER"  -H "Content-Type:text/plain" $ARTIFACTORY_URL/api/search/aql -T payload.aql```
+## Setup
 
 After executing the setup script, you will see four local repositories, each with different maturity denoted:
 
@@ -84,9 +53,8 @@ After executing the setup script, you will see four local repositories, each wit
 * `${KATA_USERNAME}-gradle-regtest-local`
 * `${KATA_USERNAME}-gradle-release-local`
 
-## Task
+**NOTE:** The `./setup` script will output two environment variables you should export before starting the exercise, for example:
 
-**NOTE: the `./setup` will output two environment variables you should export before starting the exercise.**
 ```
 [KATA] Paste this into your terminal for easy access to the variables:
 -------------------------------------------------------------------------------
@@ -95,32 +63,17 @@ export AUTH_HEADER="Authorization: Basic YWRtaW46cHJhcW1h"
 -------------------------------------------------------------------------------
 ```
 
-Make queries that does the following:
+When passing AQL to curl, it's easiest to store the query in a separate text document:
 
-* Get all artifacts in the Artifactory instance
+```curl -i -X POST -H "$AUTH_HEADER" -H "Content-Type:text/plain" $ARTIFACTORY_URL/api/search/aql -T payload.aql```
 
-For the next exercises, we need to limit our searches to your own repositories. You can do that in two ways:
 
-* By using the `$match` keyword to enable wildcards:
+## Task
 
-```aql
-"repo":{"$match":"<KATA_USERNAME>-*"}
-```
+Make queries that do the following:
 
-* By listing all the repositories that needs to be searched with the `$or` keyword:
-
-```aql
-"$or":[
-    {"repo":"<KATA_USERNAME>-gradle-sandbox-local"},
-    {"repo":"<KATA_USERNAME>-gradle-dev-local"}
-]
-```
-
-### Tasks continued
-
-* Get a list of all files in your repositories. The result should be 6 artifacts.
-* Get a list of all files that have been downloaded more than 3 times. The result should be 4 artifacts.
-* Get a list of all files where the property `os` has the value `linux`. The result should be 2 artifacts.
-* Get a list of all files that are over 1 megabyte (in bytes) large. The result should be 2 artifacts.
-* Get the latest `build id` from the build named `exercise`. The result is not static.
-* Get a list of instances of an artifact that is uploaded before X days ago. (this one we have no answer to, because all artifacts have been uploaded within the past minute or two. But have a look at the specification [here](https://www.jfrog.com/confluence/display/RTF/Artifactory+Query+Language#ArtifactoryQueryLanguage-DateandTimeFormat))
+* Get a list of artifacts in your repositories. The result should be 6 artifacts.
+* Get a list of artifacts in your repositories that have been downloaded more than 3 times. The result should be 4 artifacts.
+* Get a list of artifacts in your repositories where the property `os` has the value `linux`. The result should be 2 artifacts.
+* Get a list of artifacts in your repositories that are over 1MB in size. The result should be 2 artifacts.
+* Get a list of artifacts that have been uploaded in the past 24 hours.

@@ -56,13 +56,14 @@ initkata() {
 #download and configure jfrog cli
 get_and_config_jfrog_cli(){
 echo " Getting the jfrog CLI "
-curl -fL https://getcli.jfrog.io | sh >> $LOGFILE 2>&1
-echo " Configuring the jfrog CLI "
-./jfrog config add --artifactory-url $ARTIFACTORY_URL --user $ARTIFACTORY_USERNAME --password $ARTIFACTORY_PASSWORD --interactive=false
-PING_RESULT=$(./jfrog rt p)
+curl -fL https://getcli.jfrog.io | sh -s "v2" >> $LOGFILE 2>&1
+mv jfrog.exe jf.exe
+echo " Configuring the JFrog CLI "
+./jf config add --artifactory-url $ARTIFACTORY_URL --user $ARTIFACTORY_USERNAME --password $ARTIFACTORY_PASSWORD --interactive=false
+PING_RESULT=$(./jf rt p)
 if [ "$PING_RESULT" == "OK" ]; 
 then
-echo "jfrog config OK"
+echo "JFrog config OK"
 else 
 echo "Error: $PING_RESULT"
 fi
@@ -103,7 +104,7 @@ read_config_variables() {
 
 #Checks that artifactory URL and credentials are correct by requesting the application.wadl file. If something isn't right, calls create_config.
 ping_artifactory() {
-    PING_RESULT=$(curl -s --max-time 10 -o /dev/null -w "%{http_code}" -X GET -H "$AUTH_HEADER" "$ARTIFACTORY_URL/api/system/configuration")
+    PING_RESULT=$(curl -L -s --max-time 10 -o /dev/null -w "%{http_code}" -X GET -H "$AUTH_HEADER" "$ARTIFACTORY_URL/api/system/configuration")
     if [ "$PING_RESULT" -eq "000" ]; then
         echo "[KATA] HTTP 000: Failed to connect to $ARTIFACTORY_URL. Redirecting to new config file creation..."
         create_config

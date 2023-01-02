@@ -14,4 +14,4 @@ echo "These are the Repository Keys you should use for your generic repositories
 echo "1: $GENERIC_REPO1"
 echo "2: $GENERIC_REPO2"
 echo ""
-echo "Remember to navigate to the exercises folder created."
+echo "Remember to navigate to the created exercise folder."

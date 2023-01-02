@@ -46,4 +46,4 @@ arr=("KATA_USERNAME")
 echo_variable_array ${arr[@]}
 echo ""
 echo "The duck and fox images are in the exercise folder for use in the exercise."
-echo "Remember to navigate to the exercises folder created."
+echo "Remember to navigate to the created exercise folder."
