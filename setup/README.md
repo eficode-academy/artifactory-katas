@@ -7,3 +7,13 @@ https://github.com/foxylion/docker-jenkins
 
 To get a license, use your email address or create one at:
 http://mailnesia.com
+
+https://temp-mail.org/en/
+
+
+```tfvars
+extra_bootstrap_cmds = "sudo -u ubuntu bash -c 'cd /home/ubuntu && git clone https://github.com/eficode-academy/artifactory-katas.git'"
+
+```
+
+And remember to run the `artifactory.sh` script from terraform infrastructure to set up both gradle and java.
