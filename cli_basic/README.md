@@ -29,7 +29,7 @@ e.g.: `jf rt u poem.txt poetry-grade-dev-local/org/acme/poem/1.0.0/poem-1.0.0.tx
 
 ## Tasks
 
-* Run `setup.sh`
+* Run `./setup.sh`
 * Using the JFrog CLI:
     * Upload `moose.jpg` to `${KATA_USERNAME}-grade-dev-local`. Stick to the layout when uploading. Use organisation `acme` and version `1.0.0`.
     * Download the image you just uploaded.

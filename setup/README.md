@@ -17,3 +17,6 @@ extra_bootstrap_cmds = "sudo -u ubuntu bash -c 'cd /home/ubuntu && git clone htt
 ```
 
 And remember to run the `artifactory.sh` script from terraform infrastructure to set up both gradle and java.
+
+
+When you have started artifactory through the docker-compose file, remember to go into admin interface -> security -> allow anonymous access.
