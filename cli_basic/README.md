@@ -25,19 +25,19 @@ Take the following command as an example:
 * `<artifact>` is the local path of the artifact you'd like to upload
 * `<path>` is the path on Artifactory to upload the artifact to
 
-e.g.: `jf rt u poem.txt poetry-grade-dev-local/org/acme/poem/1.0.0/poem-1.0.0.txt`.
+e.g.: `jf rt u poem.txt poetry-gradle-dev-local/org/acme/poem/1.0.0/poem-1.0.0.txt`.
 
 ## Tasks
 
 * Run `./setup.sh`
 * Using the JFrog CLI:
-    * Upload `moose.jpg` to `${KATA_USERNAME}-grade-dev-local`. Stick to the layout when uploading. Use organisation `acme` and version `1.0.0`.
+    * Upload `moose.jpg` to `${KATA_USERNAME}-gradle-dev-local`. Stick to the layout when uploading. Use organisation `acme` and version `1.0.0`.
     * Download the image you just uploaded.
 
 Optional:
 
 * Using the JFrog CLI:
-    * Upload `squirrel.jpg` to `${KATA_USERNAME}-grade-dev-local`. Stick to the layout when uploading.
+    * Upload `squirrel.jpg` to `${KATA_USERNAME}-gradle-dev-local`. Stick to the layout when uploading.
     Use organisation `acme` and version `7.0.0`.
     * Set the property `'animalType':'land_animal'` on the previously uploaded moose artifact.
-    * Download the contents of the `${KATA_USERNAME}-grade-dev-local` repo in one command, without its folder structure.
+    * Download the contents of the `${KATA_USERNAME}-gradle-dev-local` repo in one command, without its folder structure.
