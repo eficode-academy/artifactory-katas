@@ -1,0 +1,10 @@
+items.find({
+    "repo": { "$match" : "*dev*" },
+    "$or" :[
+        {
+            "$and": [
+                { "updated": { "$before": "30d" } }
+            ]
+        }
+    ]
+}).include("repo", "name", "path", "updated", "sha256", "stat.downloads", "stat.downloaded")

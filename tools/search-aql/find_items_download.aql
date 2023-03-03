@@ -1,0 +1,7 @@
+items.find(
+    {   
+        
+        "type":"file",
+        "stat.downloads":"4"
+    }
+).include("*")

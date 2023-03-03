@@ -1,0 +1,7 @@
+items.find(
+    {   
+        
+        "type":"file",
+        "size":{"$gt":"1000"}
+    }
+).include("name", "repo","path", "stat.downloads","size").sort({"$desc" : ["stat.downloads","repo"]})

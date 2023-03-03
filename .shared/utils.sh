@@ -55,9 +55,17 @@ initkata() {
 
 #download and configure jfrog cli
 get_and_config_jfrog_cli(){
-echo " Getting the jfrog CLI "
-curl -fL https://install-cli.jfrog.io | sh
-echo " Configuring the JFrog CLI "
+#check if jfrog cli is installed
+if command -v jf >/dev/null 2>&1; then
+  echo "jf is allready installed."
+
+else
+    echo "jf is not installed."
+    echo " Getting the jfrog CLI "
+    curl -fL https://install-cli.jfrog.io | sh
+    echo " Configuring the JFrog CLI "
+fi
+
 jf config add --artifactory-url $ARTIFACTORY_URL --user $ARTIFACTORY_USERNAME --password $ARTIFACTORY_PASSWORD --interactive=false
 PING_RESULT=$(jf rt p)
 if [ "$PING_RESULT" == "OK" ]; 
