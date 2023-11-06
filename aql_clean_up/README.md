@@ -67,3 +67,10 @@ The following is an example of a JFrog CLI call to delete artifacts matching a g
 * Run a search command using your query and verify the found artifacts match expectations
 * Then finally, issue a delete command using your query
 * Browse Artifactory and confirm the files have been cleaned up
+
+
+### Extra
+
+We in eficode have created a tool that will help you with the Artifact deletions, based on AQL.
+The tools is based in the `tools` [folder]( tools/README.md), where you can find the instructions to use it.
+
