@@ -12,7 +12,6 @@ services:
     volumes:
      - postgresData:/var/lib/postgresql/data
      - /etc/localtime:/etc/localtime:ro
-    restart: always
     logging:
       driver: json-file
       options:
@@ -24,12 +23,11 @@ services:
         soft: 32000
         hard: 40000
   artifactory:
-    image: docker.bintray.io/jfrog/artifactory-pro:7.37.15
+    image: docker.bintray.io/jfrog/artifactory-pro:7.71.3
     container_name: artifactory
     volumes:
      - artifactoryVar:/var/opt/jfrog/artifactory
      - /etc/localtime:/etc/localtime:ro
-    restart: always
     depends_on:
     - postgres
     ulimits:
