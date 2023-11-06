@@ -87,3 +87,6 @@ python cleanup.py --dryrun False
 
 The AQL file defines the artifacts to be deleted. It should contain a valid AQL query with the fields repo, path, and name.
 There are many examples of AQL queries in the [search-aql](search-aql) folder.
+
+More info: https://www.eficode.com/blog/4-practical-tips-to-keep-your-artifactory-clean-and-lean 
+And: https://jfrog.com/help/r/artifactory-how-to-start-using-aql
