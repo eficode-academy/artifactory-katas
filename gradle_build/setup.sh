@@ -30,6 +30,9 @@ buildscript {
                 username = "\${artifactory_user}" // The publisher user name
                 password = "\${artifactory_password}" // The publisher password
             }
+            metadataSources {
+            artifact()
+            }
         }
 
     }
