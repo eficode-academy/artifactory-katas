@@ -15,6 +15,7 @@ What we need now is a virtual repository spanning them all, making sure that all
 ## Tasks
 
 * Run `setup.sh`
+* Hit enter to all the questions.
 * Run `gradle dependencies --refresh-dependencies` and see that the dependencies resolve from the
     USERNAME-gradle-sandbox-local repository.
 * Add the `fox-1.5.3.jpg` artifact from the USERNAME-gradle-release-local as a dependency as well.
