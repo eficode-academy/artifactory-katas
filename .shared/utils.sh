@@ -151,19 +151,23 @@ create_config() {
     read DUMMY_VARIABLE
     rm -f $CONFIG
 
-    echo "[KATA] Your Artifactory URL should look like 'http://serverAddress.com/artifactory'"
-    echo "[KATA] - note that there is no trailing '/' at the end."
-    echo "[KATA] Please enter your Artifactory URL: "
-    read INPUT_ARTIFACTORY_URL
-    echo ""
+    # echo "[KATA] Your Artifactory URL should look like 'http://serverAddress.com/artifactory'"
+    # echo "[KATA] - note that there is no trailing '/' at the end."
+    # echo "[KATA] Please enter your Artifactory URL: "
+    # read INPUT_ARTIFACTORY_URL
+    # echo ""
+    INPUT_ARTIFACTORY_URL="https://learning-artifactory.$TRAINING_NAME.eficode.academy/artifactory"
+    # echo "[KATA] Please enter your Artifactory username (for authentication): "
+    # read INPUT_ARTIFACTORY_USERNAME
+    # echo ""
 
-    echo "[KATA] Please enter your Artifactory username (for authentication): "
-    read INPUT_ARTIFACTORY_USERNAME
-    echo ""
+    INPUT_ARTIFACTORY_USERNAME="admin"
 
-    echo "[KATA] Please enter your Artifactory password (for authentication): "
-    read -s INPUT_ARTIFACTORY_PASSWORD
-    echo ""
+    # echo "[KATA] Please enter your Artifactory password (for authentication): "
+    # read -s INPUT_ARTIFACTORY_PASSWORD
+    # echo ""
+
+    INPUT_ARTIFACTORY_PASSWORD="Artifactory1"
 
     echo "[KATA] Please enter your unique kata username (used for naming your repositories): "
     read INPUT_KATA_USERNAME
