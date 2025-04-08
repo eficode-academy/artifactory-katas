@@ -1,17 +1,19 @@
 # Artifactory builds through the JFrog CLI
 
-The JFrog CLI enables you to manage builds in Artifactory.
+**Introduction:**
 
-You can:
- - Link artifacts to a build
- - Gather and publish build information
- - Promote builds
- - etc.
+Welcome! This exercise will guide you through using the powerful **JFrog CLI** to interact with builds in **Artifactory**. The JFrog CLI is a crucial tool for automating your CI/CD processes.
+
+You'll learn how to:
+
+* Upload a file and link it directly to a specific build.
+* Add important environment details to your build information.
+* Publish your build information so it's visible and trackable in Artifactory.
+* Promote a build from one repository to another, simulating a common step in a release workflow.
+
+We'll be simulating the lifecycle of a simple build. For detailed command options and further exploration, feel free to consult the official [JFrog CLI documentation](https://www.jfrog.com/confluence/display/CLI/CLI+for+JFrog+Artifactory).
 
 In this kata we'll learn a few ways to interact with Artifactory builds.
-
-For help during the exercise, consult the [JFrog CLI documentation](https://www.jfrog.com/confluence/display/CLI/CLI+for+JFrog+Artifactory).
-
 
 ## JFrog CLI usage
 
