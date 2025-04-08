@@ -27,18 +27,40 @@ To promote a build, run `jf rt bpr` (or `jf rt build-promote`), supplying the re
 
 ## Task
 
-We'll be simulating the publishing and promotion of the a build.
+In this task, we are going to upload an artifact, associate it with a build, and then through the build, promote it to another repo.
 
-| Build name | Build Number |
-| -----------|--------------|
-| ${KATA_USERNAME}-fox | 1  |
+1.  **Upload & Link Artifact:**
+    ```bash
+    jf rt upload fox.jpg soal-gradle-dev-local/acme/2.2.0/fox.jpg --build-name="soal-fox" --build-number=1
+    ```
+    *(Upload `fox.jpg` to the dev repo, linking it to build `${KATA_USERNAME}-fox`, number `1`)*
 
+2.  **Capture Environment:**
+    ```bash
+    jf rt bce ${KATA_USERNAME}-fox 1
+    ```
+    *(Collect environment variables for the build)*
 
-* Using the JFrog CLI:
-    * Upload the `fox.jpg` file to the `${KATA_USERNAME}-gradle-dev-local` repo under the `acme` organisation as version `2.2.0`. Remember to supply the build name and number.
-    * Attach environment information to your build.
-    * Publish your build through the CLI.
-* Find your build in the Artifactory web UI, confirm the file and environment info are present.
-* Using the JFrog CLI:
-    * Promote your build from `${KATA_USERNAME}-gradle-dev-local` to `${KATA_USERNAME}-gradle-release-local`. 
-* Find your build in the Artifactory web UI, confirm the file location has changed.
+3.  **Publish Build Info:**
+    ```bash
+    jf rt bp ${KATA_USERNAME}-fox 1
+    ```
+    *(Publish build information to Artifactory)*
+
+4.  **Verify in UI (Part 1):**
+    * In Artifactory UI, navigate to **Builds** > `${KATA_USERNAME}-fox` / `1`.
+    * Check **Published Modules** for `fox.jpg`.
+    * Check **Environment** for captured variables.
+
+5.  **Promote Build:**
+    ```bash
+    jf rt bpr ${KATA_USERNAME}-fox 1 ${KATA_USERNAME}-gradle-release-local
+    ```
+    *(Promote build `${KATA_USERNAME}-fox` / `1` to the release repo)*
+
+6.  **Verify in UI (Part 2):**
+    * In Artifactory UI, revisit build `${KATA_USERNAME}-fox` / `1`.
+    * Confirm `fox.jpg`'s repository in **Published Modules** is now `${KATA_USERNAME}-gradle-release-local`.
+    * Optionally, check the `${KATA_USERNAME}-gradle-release-local` repository in the **Artifacts** browser.
+
+**Success!** You've used the JFrog CLI for artifact upload, build association, publishing, and promotion in Artifactory.
