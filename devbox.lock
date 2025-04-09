@@ -1,0 +1,40 @@
+{
+  "lockfile_version": "1",
+  "packages": {
+    "gradle@5.6.4": {
+      "last_modified": "2020-06-30T02:44:55Z",
+      "plugin_version": "0.0.1",
+      "resolved": "github:NixOS/nixpkgs/e912fb83d2155a393e7146da98cda0e455a80fb6#gradle",
+      "source": "devbox-search",
+      "version": "5.6.4"
+    },
+    "jdk@11": {
+      "last_modified": "2025-03-11T17:52:14Z",
+      "resolved": "github:NixOS/nixpkgs/0d534853a55b5d02a4ababa1d71921ce8f0aee4c#jdk11",
+      "source": "devbox-search",
+      "version": "11.0.24",
+      "systems": {
+        "aarch64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/8aqry2dsyhm5kdrphqmi3ryy6jjfcjy0-zulu-ca-jdk-11.0.24",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/8aqry2dsyhm5kdrphqmi3ryy6jjfcjy0-zulu-ca-jdk-11.0.24"
+        },
+        "x86_64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/v6jypv15cvqr0ng6plsm45zz4wrdxwz3-zulu-ca-jdk-11.0.24",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/v6jypv15cvqr0ng6plsm45zz4wrdxwz3-zulu-ca-jdk-11.0.24"
+        }
+      }
+    }
+  }
+}
